@@ -231,7 +231,7 @@ const Dashboard = ({ navigation }) => {
               />
             </TouchableOpacity>
             <Text className="text-[25px] font-Nunito-Regular text-[#333333]">
-              Hi,
+              Hiiii
               <Text className="font-Nunito-Regular text-[#333333]">
                 {isProfileComplete ? ` ${firstName}` : ' Pet Parent'}
               </Text>
