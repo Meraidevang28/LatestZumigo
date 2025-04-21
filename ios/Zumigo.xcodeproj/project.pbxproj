@@ -1,0 +1,639 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		029BABC8A0354BB7AF0F5586 /* Proxima-Nova-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60BC6EF0D29445C5A56E47E9 /* Proxima-Nova-Bold.otf */; };
+		08781172D94040D8A1180E1F /* Nunito-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = E502FECBE7254710B920272B /* Nunito-ExtraLight.otf */; };
+		0C80B921A6F3F58F76C31292 /* libPods-Zumigo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Zumigo.a */; };
+		0F234EB9955A451CB59204D4 /* Nunito-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8AB7D2F16E264440A7663999 /* Nunito-MediumItalic.otf */; };
+		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		18EA7E22CFC64266914A4845 /* Nunito-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 457C024082574000B7F14A59 /* Nunito-ExtraLightItalic.otf */; };
+		19BF8BB1C90A4C9B9187E40F /* Proxima-Nova-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 24631958023545DF96931A5C /* Proxima-Nova-Light.otf */; };
+		23BB7ED4A0D5405DB67F82E5 /* Nunito-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C04C57D162B34300840F9014 /* Nunito-LightItalic.otf */; };
+		298A13583BC94DCD97CFEA47 /* Proxima-Nova-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D2B4605B2504288BF5367AA /* Proxima-Nova-Medium.ttf */; };
+		2EB9A8A7E4E54B4EB7211A21 /* Nunito-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C3670A8455C34F7CA62D3896 /* Nunito-BlackItalic.otf */; };
+		2F9879913D10440F8951E4CA /* Nunito-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A198D22C6A134B3587E4F9F9 /* Nunito-ExtraBold.otf */; };
+		36A3EAB6B91C40DF98EF4585 /* Nunito-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0D2B89B51324ECDAC0A3CD3 /* Nunito-SemiBoldItalic.otf */; };
+		3D2DB11A341F4C58AD1150F2 /* junegull-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852C916B08174FFB91E4E9EC /* junegull-Regular.otf */; };
+		450AB77FBFBA43E6B5C1A3D6 /* Nunito-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CB5B656694C4746AC2CEB51 /* Nunito-BoldItalic.otf */; };
+		4A27F38A09154EB9B5882A82 /* Nunito-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBC9F8CA58F466AB7D1623E /* Nunito-Light.otf */; };
+		51B47A5646F140C789DA787F /* ProximaNova-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70383E47107B4117A71C0EBB /* ProximaNova-Regular.otf */; };
+		546AB08C299F43C689E64466 /* PTSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41D30C3899494769ACC00167 /* PTSans-BoldItalic.ttf */; };
+		56EBEEC7C18240B2A3C04223 /* Figtree-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91CCBAAB198242CE86FD14E2 /* Figtree-Bold.ttf */; };
+		5C1241079A0E4784B3DE2F97 /* Nunito-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3C79A158E354D37A76E8DF7 /* Nunito-Variable.ttf */; };
+		66B85AFE05CA46D9B7AE6060 /* PTSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF9185BEB9D74608BA561221 /* PTSans-Italic.ttf */; };
+		6BB4DC66E2DF4FBF8C15CE15 /* Figtree-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2128F06E6B634AB8B2D0A559 /* Figtree-SemiBold.ttf */; };
+		745DBE992E9340B7910D2FA9 /* PTSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1F4D9ED63E64FC99BCE6230 /* PTSans-Bold.ttf */; };
+		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		78BFA0CEBA2A4918ADF31AC0 /* Proxima-Nova-Alt-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 85F5317DDF5C4BC9A65A6277 /* Proxima-Nova-Alt-Regular.otf */; };
+		79A13BCCC5034157981412C9 /* Figtree-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8CE7C3C305004F988CF8B5D2 /* Figtree-ExtraBold.ttf */; };
+		79C8785B53B24C14A7630072 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = D9F5F455B951421FBBEDB1CE /* OFL.txt */; };
+		7B789A8DDB414EC4A6160A80 /* Nunito-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2DC6841CA84B989823FCAC /* Nunito-Medium.otf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		847693AA92D04F94A8AB2C08 /* Nunito-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B1E7CA6D5644857A206AD89 /* Nunito-SemiBold.otf */; };
+		9AD9B147AE9D40A9813745B4 /* Figtree-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22608F1A00BC452D810C5A0E /* Figtree-Light.ttf */; };
+		A46854AB9FC542D6B5F127B4 /* Nunito-VariableItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B5DD7454AEA42C88AB72130 /* Nunito-VariableItalic.ttf */; };
+		AA9CB61C888A4CBEBAA1C7CE /* Proxima-Nova-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 50CF7B07B9AE4403B8DDA4C3 /* Proxima-Nova-Semibold.otf */; };
+		B746000C1F62413D8905BDFB /* Nunito-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20D750ACE4CA4B449CF1D792 /* Nunito-Italic.otf */; };
+		B886DB5BC33E06B164FB2B1B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		BD6FAFF28DA94B1DA8E48239 /* Nunito-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 71034C1046364A30BAE74004 /* Nunito-Regular.otf */; };
+		BF2C0013CB444F1AAFC1880D /* Figtree-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD48BCA31811465DAAAD99FA /* Figtree-Regular.ttf */; };
+		C974A0C9280749428C1AD96B /* Nunito-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3CB17A6941D240CA88133C95 /* Nunito-Bold.otf */; };
+		EEE9A8F5E5BF49169619F00F /* Figtree-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA25DBF7151D4E4FBFF09C3B /* Figtree-Medium.ttf */; };
+		EFACA898E06E46EBA3A0FF0A /* Nunito-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B4842176AF3F416FB8045D0B /* Nunito-ExtraBoldItalic.otf */; };
+		F52B86E533644209B10F8157 /* Nunito-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = ECC4E0D0F09B464C84FE2667 /* Nunito-Black.otf */; };
+		F575375ECEA747DFB7D0F94B /* PTSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8EE8F6481D7438F8A997392 /* PTSans-Regular.ttf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		13B07F961A680F5B00A75B9A /* Zumigo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zumigo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Zumigo/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Zumigo/Info.plist; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = Zumigo/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		20D750ACE4CA4B449CF1D792 /* Nunito-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.otf"; path = "../src/assets/fonts/Nunito-Italic.otf"; sourceTree = "<group>"; };
+		2128F06E6B634AB8B2D0A559 /* Figtree-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Figtree-SemiBold.ttf"; path = "../src/assets/fonts/Figtree-SemiBold.ttf"; sourceTree = "<group>"; };
+		22608F1A00BC452D810C5A0E /* Figtree-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Figtree-Light.ttf"; path = "../src/assets/fonts/Figtree-Light.ttf"; sourceTree = "<group>"; };
+		24631958023545DF96931A5C /* Proxima-Nova-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Proxima-Nova-Light.otf"; path = "../src/assets/fonts/Proxima-Nova-Light.otf"; sourceTree = "<group>"; };
+		3B1E7CA6D5644857A206AD89 /* Nunito-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.otf"; path = "../src/assets/fonts/Nunito-SemiBold.otf"; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-Zumigo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zumigo.debug.xcconfig"; path = "Target Support Files/Pods-Zumigo/Pods-Zumigo.debug.xcconfig"; sourceTree = "<group>"; };
+		3CB17A6941D240CA88133C95 /* Nunito-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.otf"; path = "../src/assets/fonts/Nunito-Bold.otf"; sourceTree = "<group>"; };
+		3D2B4605B2504288BF5367AA /* Proxima-Nova-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Proxima-Nova-Medium.ttf"; path = "../src/assets/fonts/Proxima-Nova-Medium.ttf"; sourceTree = "<group>"; };
+		3F2DC6841CA84B989823FCAC /* Nunito-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.otf"; path = "../src/assets/fonts/Nunito-Medium.otf"; sourceTree = "<group>"; };
+		41D30C3899494769ACC00167 /* PTSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-BoldItalic.ttf"; path = "../src/assets/fonts/PTSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		457C024082574000B7F14A59 /* Nunito-ExtraLightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.otf"; path = "../src/assets/fonts/Nunito-ExtraLightItalic.otf"; sourceTree = "<group>"; };
+		50CF7B07B9AE4403B8DDA4C3 /* Proxima-Nova-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Proxima-Nova-Semibold.otf"; path = "../src/assets/fonts/Proxima-Nova-Semibold.otf"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-Zumigo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zumigo.release.xcconfig"; path = "Target Support Files/Pods-Zumigo/Pods-Zumigo.release.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-Zumigo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Zumigo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60BC6EF0D29445C5A56E47E9 /* Proxima-Nova-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Proxima-Nova-Bold.otf"; path = "../src/assets/fonts/Proxima-Nova-Bold.otf"; sourceTree = "<group>"; };
+		70383E47107B4117A71C0EBB /* ProximaNova-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "ProximaNova-Regular.otf"; path = "../src/assets/fonts/ProximaNova-Regular.otf"; sourceTree = "<group>"; };
+		71034C1046364A30BAE74004 /* Nunito-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.otf"; path = "../src/assets/fonts/Nunito-Regular.otf"; sourceTree = "<group>"; };
+		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Zumigo/AppDelegate.swift; sourceTree = "<group>"; };
+		7CB5B656694C4746AC2CEB51 /* Nunito-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.otf"; path = "../src/assets/fonts/Nunito-BoldItalic.otf"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Zumigo/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		852C916B08174FFB91E4E9EC /* junegull-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "junegull-Regular.otf"; path = "../src/assets/fonts/junegull-Regular.otf"; sourceTree = "<group>"; };
+		85F5317DDF5C4BC9A65A6277 /* Proxima-Nova-Alt-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Proxima-Nova-Alt-Regular.otf"; path = "../src/assets/fonts/Proxima-Nova-Alt-Regular.otf"; sourceTree = "<group>"; };
+		8AB7D2F16E264440A7663999 /* Nunito-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-MediumItalic.otf"; path = "../src/assets/fonts/Nunito-MediumItalic.otf"; sourceTree = "<group>"; };
+		8CE7C3C305004F988CF8B5D2 /* Figtree-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Figtree-ExtraBold.ttf"; path = "../src/assets/fonts/Figtree-ExtraBold.ttf"; sourceTree = "<group>"; };
+		8DBC9F8CA58F466AB7D1623E /* Nunito-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.otf"; path = "../src/assets/fonts/Nunito-Light.otf"; sourceTree = "<group>"; };
+		91CCBAAB198242CE86FD14E2 /* Figtree-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Figtree-Bold.ttf"; path = "../src/assets/fonts/Figtree-Bold.ttf"; sourceTree = "<group>"; };
+		9B5DD7454AEA42C88AB72130 /* Nunito-VariableItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-VariableItalic.ttf"; path = "../src/assets/fonts/Nunito-VariableItalic.ttf"; sourceTree = "<group>"; };
+		A198D22C6A134B3587E4F9F9 /* Nunito-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.otf"; path = "../src/assets/fonts/Nunito-ExtraBold.otf"; sourceTree = "<group>"; };
+		A8EE8F6481D7438F8A997392 /* PTSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-Regular.ttf"; path = "../src/assets/fonts/PTSans-Regular.ttf"; sourceTree = "<group>"; };
+		B4842176AF3F416FB8045D0B /* Nunito-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.otf"; path = "../src/assets/fonts/Nunito-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
+		BF9185BEB9D74608BA561221 /* PTSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-Italic.ttf"; path = "../src/assets/fonts/PTSans-Italic.ttf"; sourceTree = "<group>"; };
+		C04C57D162B34300840F9014 /* Nunito-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.otf"; path = "../src/assets/fonts/Nunito-LightItalic.otf"; sourceTree = "<group>"; };
+		C3670A8455C34F7CA62D3896 /* Nunito-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.otf"; path = "../src/assets/fonts/Nunito-BlackItalic.otf"; sourceTree = "<group>"; };
+		CA25DBF7151D4E4FBFF09C3B /* Figtree-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Figtree-Medium.ttf"; path = "../src/assets/fonts/Figtree-Medium.ttf"; sourceTree = "<group>"; };
+		D9F5F455B951421FBBEDB1CE /* OFL.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = OFL.txt; path = ../src/assets/fonts/OFL.txt; sourceTree = "<group>"; };
+		DD48BCA31811465DAAAD99FA /* Figtree-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Figtree-Regular.ttf"; path = "../src/assets/fonts/Figtree-Regular.ttf"; sourceTree = "<group>"; };
+		E1F4D9ED63E64FC99BCE6230 /* PTSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-Bold.ttf"; path = "../src/assets/fonts/PTSans-Bold.ttf"; sourceTree = "<group>"; };
+		E3C79A158E354D37A76E8DF7 /* Nunito-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Variable.ttf"; path = "../src/assets/fonts/Nunito-Variable.ttf"; sourceTree = "<group>"; };
+		E502FECBE7254710B920272B /* Nunito-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.otf"; path = "../src/assets/fonts/Nunito-ExtraLight.otf"; sourceTree = "<group>"; };
+		ECC4E0D0F09B464C84FE2667 /* Nunito-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.otf"; path = "../src/assets/fonts/Nunito-Black.otf"; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F0D2B89B51324ECDAC0A3CD3 /* Nunito-SemiBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.otf"; path = "../src/assets/fonts/Nunito-SemiBoldItalic.otf"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C80B921A6F3F58F76C31292 /* libPods-Zumigo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		13B07FAE1A68108700A75B9A /* Zumigo */ = {
+			isa = PBXGroup;
+			children = (
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				13B07FB61A68108700A75B9A /* Info.plist */,
+				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+			);
+			name = Zumigo;
+			sourceTree = "<group>";
+		};
+		292E3B3D7615455DBF593FC9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				60BC6EF0D29445C5A56E47E9 /* Proxima-Nova-Bold.otf */,
+				24631958023545DF96931A5C /* Proxima-Nova-Light.otf */,
+				50CF7B07B9AE4403B8DDA4C3 /* Proxima-Nova-Semibold.otf */,
+				70383E47107B4117A71C0EBB /* ProximaNova-Regular.otf */,
+				852C916B08174FFB91E4E9EC /* junegull-Regular.otf */,
+				91CCBAAB198242CE86FD14E2 /* Figtree-Bold.ttf */,
+				8CE7C3C305004F988CF8B5D2 /* Figtree-ExtraBold.ttf */,
+				22608F1A00BC452D810C5A0E /* Figtree-Light.ttf */,
+				CA25DBF7151D4E4FBFF09C3B /* Figtree-Medium.ttf */,
+				DD48BCA31811465DAAAD99FA /* Figtree-Regular.ttf */,
+				2128F06E6B634AB8B2D0A559 /* Figtree-SemiBold.ttf */,
+				3D2B4605B2504288BF5367AA /* Proxima-Nova-Medium.ttf */,
+				ECC4E0D0F09B464C84FE2667 /* Nunito-Black.otf */,
+				C3670A8455C34F7CA62D3896 /* Nunito-BlackItalic.otf */,
+				3CB17A6941D240CA88133C95 /* Nunito-Bold.otf */,
+				7CB5B656694C4746AC2CEB51 /* Nunito-BoldItalic.otf */,
+				A198D22C6A134B3587E4F9F9 /* Nunito-ExtraBold.otf */,
+				B4842176AF3F416FB8045D0B /* Nunito-ExtraBoldItalic.otf */,
+				E502FECBE7254710B920272B /* Nunito-ExtraLight.otf */,
+				457C024082574000B7F14A59 /* Nunito-ExtraLightItalic.otf */,
+				20D750ACE4CA4B449CF1D792 /* Nunito-Italic.otf */,
+				8DBC9F8CA58F466AB7D1623E /* Nunito-Light.otf */,
+				C04C57D162B34300840F9014 /* Nunito-LightItalic.otf */,
+				3F2DC6841CA84B989823FCAC /* Nunito-Medium.otf */,
+				8AB7D2F16E264440A7663999 /* Nunito-MediumItalic.otf */,
+				71034C1046364A30BAE74004 /* Nunito-Regular.otf */,
+				3B1E7CA6D5644857A206AD89 /* Nunito-SemiBold.otf */,
+				F0D2B89B51324ECDAC0A3CD3 /* Nunito-SemiBoldItalic.otf */,
+				E3C79A158E354D37A76E8DF7 /* Nunito-Variable.ttf */,
+				9B5DD7454AEA42C88AB72130 /* Nunito-VariableItalic.ttf */,
+				E1F4D9ED63E64FC99BCE6230 /* PTSans-Bold.ttf */,
+				41D30C3899494769ACC00167 /* PTSans-BoldItalic.ttf */,
+				BF9185BEB9D74608BA561221 /* PTSans-Italic.ttf */,
+				A8EE8F6481D7438F8A997392 /* PTSans-Regular.ttf */,
+				D9F5F455B951421FBBEDB1CE /* OFL.txt */,
+				85F5317DDF5C4BC9A65A6277 /* Proxima-Nova-Alt-Regular.otf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
+		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-Zumigo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		83CBB9F61A601CBA00E9B192 = {
+			isa = PBXGroup;
+			children = (
+				13B07FAE1A68108700A75B9A /* Zumigo */,
+				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				83CBBA001A601CBA00E9B192 /* Products */,
+				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				292E3B3D7615455DBF593FC9 /* Resources */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		83CBBA001A601CBA00E9B192 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13B07F961A680F5B00A75B9A /* Zumigo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3B4392A12AC88292D35C810B /* Pods-Zumigo.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-Zumigo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		13B07F861A680F5B00A75B9A /* Zumigo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Zumigo" */;
+			buildPhases = (
+				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				13B07F871A680F5B00A75B9A /* Sources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				13B07F8E1A680F5B00A75B9A /* Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
+				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Zumigo;
+			productName = Zumigo;
+			productReference = 13B07F961A680F5B00A75B9A /* Zumigo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83CBB9F71A601CBA00E9B192 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1120;
+					};
+				};
+			};
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Zumigo" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83CBB9F61A601CBA00E9B192;
+			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				13B07F861A680F5B00A75B9A /* Zumigo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		13B07F8E1A680F5B00A75B9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				029BABC8A0354BB7AF0F5586 /* Proxima-Nova-Bold.otf in Resources */,
+				19BF8BB1C90A4C9B9187E40F /* Proxima-Nova-Light.otf in Resources */,
+				AA9CB61C888A4CBEBAA1C7CE /* Proxima-Nova-Semibold.otf in Resources */,
+				51B47A5646F140C789DA787F /* ProximaNova-Regular.otf in Resources */,
+				3D2DB11A341F4C58AD1150F2 /* junegull-Regular.otf in Resources */,
+				56EBEEC7C18240B2A3C04223 /* Figtree-Bold.ttf in Resources */,
+				79A13BCCC5034157981412C9 /* Figtree-ExtraBold.ttf in Resources */,
+				9AD9B147AE9D40A9813745B4 /* Figtree-Light.ttf in Resources */,
+				EEE9A8F5E5BF49169619F00F /* Figtree-Medium.ttf in Resources */,
+				BF2C0013CB444F1AAFC1880D /* Figtree-Regular.ttf in Resources */,
+				6BB4DC66E2DF4FBF8C15CE15 /* Figtree-SemiBold.ttf in Resources */,
+				298A13583BC94DCD97CFEA47 /* Proxima-Nova-Medium.ttf in Resources */,
+				F52B86E533644209B10F8157 /* Nunito-Black.otf in Resources */,
+				2EB9A8A7E4E54B4EB7211A21 /* Nunito-BlackItalic.otf in Resources */,
+				C974A0C9280749428C1AD96B /* Nunito-Bold.otf in Resources */,
+				450AB77FBFBA43E6B5C1A3D6 /* Nunito-BoldItalic.otf in Resources */,
+				2F9879913D10440F8951E4CA /* Nunito-ExtraBold.otf in Resources */,
+				EFACA898E06E46EBA3A0FF0A /* Nunito-ExtraBoldItalic.otf in Resources */,
+				08781172D94040D8A1180E1F /* Nunito-ExtraLight.otf in Resources */,
+				18EA7E22CFC64266914A4845 /* Nunito-ExtraLightItalic.otf in Resources */,
+				B746000C1F62413D8905BDFB /* Nunito-Italic.otf in Resources */,
+				4A27F38A09154EB9B5882A82 /* Nunito-Light.otf in Resources */,
+				23BB7ED4A0D5405DB67F82E5 /* Nunito-LightItalic.otf in Resources */,
+				7B789A8DDB414EC4A6160A80 /* Nunito-Medium.otf in Resources */,
+				0F234EB9955A451CB59204D4 /* Nunito-MediumItalic.otf in Resources */,
+				BD6FAFF28DA94B1DA8E48239 /* Nunito-Regular.otf in Resources */,
+				847693AA92D04F94A8AB2C08 /* Nunito-SemiBold.otf in Resources */,
+				36A3EAB6B91C40DF98EF4585 /* Nunito-SemiBoldItalic.otf in Resources */,
+				5C1241079A0E4784B3DE2F97 /* Nunito-Variable.ttf in Resources */,
+				A46854AB9FC542D6B5F127B4 /* Nunito-VariableItalic.ttf in Resources */,
+				745DBE992E9340B7910D2FA9 /* PTSans-Bold.ttf in Resources */,
+				546AB08C299F43C689E64466 /* PTSans-BoldItalic.ttf in Resources */,
+				66B85AFE05CA46D9B7AE6060 /* PTSans-Italic.ttf in Resources */,
+				F575375ECEA747DFB7D0F94B /* PTSans-Regular.ttf in Resources */,
+				79C8785B53B24C14A7630072 /* OFL.txt in Resources */,
+				78BFA0CEBA2A4918ADF31AC0 /* Proxima-Nova-Alt-Regular.otf in Resources */,
+				B886DB5BC33E06B164FB2B1B /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
+		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zumigo/Pods-Zumigo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zumigo/Pods-Zumigo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Zumigo/Pods-Zumigo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Zumigo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zumigo/Pods-Zumigo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zumigo/Pods-Zumigo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Zumigo/Pods-Zumigo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		13B07F871A680F5B00A75B9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		13B07F941A680F5B00A75B9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Zumigo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Zumigo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Zumigo;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		13B07F951A680F5B00A75B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Zumigo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Zumigo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Zumigo;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		83CBBA201A601CBA00E9B192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				USE_HERMES = true;
+			};
+			name = Debug;
+		};
+		83CBBA211A601CBA00E9B192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				USE_HERMES = true;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Zumigo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13B07F941A680F5B00A75B9A /* Debug */,
+				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Zumigo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83CBBA201A601CBA00E9B192 /* Debug */,
+				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
+}

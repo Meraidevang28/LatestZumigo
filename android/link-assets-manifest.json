@@ -1,0 +1,149 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Figtree-Bold.ttf",
+      "sha1": "cecefa529b569f52a219027e480da2f5bb16f1e9"
+    },
+    {
+      "path": "src/assets/fonts/Figtree-ExtraBold.ttf",
+      "sha1": "0a3a028068d2ec6e7f979dfd7b85aefe1e4a7bb7"
+    },
+    {
+      "path": "src/assets/fonts/Figtree-Light.ttf",
+      "sha1": "d8012d24bb4a4480049ba0f090bec6f8692b4b1c"
+    },
+    {
+      "path": "src/assets/fonts/Figtree-Medium.ttf",
+      "sha1": "13d49dd783696c8088bd94880655434a59811e05"
+    },
+    {
+      "path": "src/assets/fonts/Figtree-Regular.ttf",
+      "sha1": "e372f2a236e50d570a35b68f9b44432571ef4ab9"
+    },
+    {
+      "path": "src/assets/fonts/Figtree-SemiBold.ttf",
+      "sha1": "2ea7fc1ee37e1dbb3fdd8958849faa68bf243876"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Black.otf",
+      "sha1": "5fdae4057412344fe524b9ce2476abc3df2ae323"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-BlackItalic.otf",
+      "sha1": "6f5c74e3462e2c59bd6096566fcf8ae508ec2dd9"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Bold.otf",
+      "sha1": "3fc3fc1bd150b194e3b2fffbbe5558fd34736f73"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-BoldItalic.otf",
+      "sha1": "f3650f6b10195a09f97902ca26e6776504e5ebc8"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-ExtraBold.otf",
+      "sha1": "c7b48264f4fc4fbe2641ed8ccea34e5cd69ab417"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-ExtraBoldItalic.otf",
+      "sha1": "54f08a82b3bdb34fe4f8d032420bb5c6efd4d739"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-ExtraLight.otf",
+      "sha1": "83a67429fc2e9eaac2a08fec37fbafd3518565c6"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-ExtraLightItalic.otf",
+      "sha1": "3e0491e1a11cf3956df237c885799605431cba09"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Italic.otf",
+      "sha1": "bb2ec5950abf0fac54c61863a10fb515f2d6a75a"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Light.otf",
+      "sha1": "1f29ad66e6fb7e3c537102940a37d7710af61f65"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-LightItalic.otf",
+      "sha1": "7d7fe855d037da6d8bb318236a88bfcbeb8b7f0e"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Medium.otf",
+      "sha1": "b63ed131ce9ab515c0ace6d35b948e8d25950286"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-MediumItalic.otf",
+      "sha1": "46d71d7c1d8890fa893d02dfe55dcf156ce4bedd"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Regular.otf",
+      "sha1": "b6aac3e269e7d9cc9c50862a5faccdfdad5f48f8"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-SemiBold.otf",
+      "sha1": "5b5466a1f9321b2d5de6ee4eac7366fcdca0c96d"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-SemiBoldItalic.otf",
+      "sha1": "bb58ba5bc6bc3bc549ce462c115790c6fb23e9fa"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-Variable.ttf",
+      "sha1": "6ffa20d94a78077ae1989c7c49960ce17742b20d"
+    },
+    {
+      "path": "src/assets/fonts/Nunito-VariableItalic.ttf",
+      "sha1": "eb6cbb8149d8f455342518add53a0220a8e90689"
+    },
+    {
+      "path": "src/assets/fonts/OFL.txt",
+      "sha1": "6bce32b17a61e68e4d016cfd73c063ec62ac030d"
+    },
+    {
+      "path": "src/assets/fonts/PTSans-Bold.ttf",
+      "sha1": "356c8987ef7a8752108cf7b7a86d1f1bf0c60999"
+    },
+    {
+      "path": "src/assets/fonts/PTSans-BoldItalic.ttf",
+      "sha1": "8909d6fd6c65904e10ae48052fb49a29a3294ea3"
+    },
+    {
+      "path": "src/assets/fonts/PTSans-Italic.ttf",
+      "sha1": "fb0639634daaf32b25aa4284fc91256fef10855a"
+    },
+    {
+      "path": "src/assets/fonts/PTSans-Regular.ttf",
+      "sha1": "641626d5d6a625a1e46e09ceb806cf33d1c1867e"
+    },
+    {
+      "path": "src/assets/fonts/Proxima-Nova-Alt-Regular.otf",
+      "sha1": "2f3cc6352584bf384116bf95482e0305b0aa335e"
+    },
+    {
+      "path": "src/assets/fonts/Proxima-Nova-Bold.otf",
+      "sha1": "411bff1d3b8f0144f1685c94a21156a53848d5a6"
+    },
+    {
+      "path": "src/assets/fonts/Proxima-Nova-Light.otf",
+      "sha1": "5debd1c894313cf0cdf079fba8eb5ea1da5f3fc2"
+    },
+    {
+      "path": "src/assets/fonts/Proxima-Nova-Medium.ttf",
+      "sha1": "0450a1e80203521ddb345ff11716b7b7062d2f85"
+    },
+    {
+      "path": "src/assets/fonts/Proxima-Nova-Semibold.otf",
+      "sha1": "74a699b9dd3f05a8e4d21648bc60ef75ed791bd4"
+    },
+    {
+      "path": "src/assets/fonts/ProximaNova-Regular.otf",
+      "sha1": "28d04eb938c05b5158a69a709682d4f0517a59ab"
+    },
+    {
+      "path": "src/assets/fonts/junegull-Regular.otf",
+      "sha1": "5b31aeb7cba6244b8d6f03c0b81f95df3fc3232b"
+    }
+  ]
+}
