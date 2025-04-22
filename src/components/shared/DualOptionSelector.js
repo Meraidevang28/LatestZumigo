@@ -5,7 +5,7 @@ const DualOptionSelector = ({title1, title2, slected, setSelected}) => {
   return (
     <View className=" flex-row gap-[15px]">
       <TouchableOpacity
-        className={` flex-1  py-[19px] rounded-full items-center border ${
+        className={` flex-1  py-[17px] rounded-full items-center border ${
           slected === title1
             ? ' bg-primary border-primary'
             : ' bg-white  border-[#BBBCB7]'
@@ -21,7 +21,7 @@ const DualOptionSelector = ({title1, title2, slected, setSelected}) => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        className={` flex-1  py-[19px] rounded-full items-center border ${
+        className={` flex-1  py-[17px] rounded-full items-center border ${
           slected === title2
             ? ' bg-primary border-primary'
             : ' bg-white  border-[#BBBCB7]'

@@ -17,14 +17,16 @@ const AddSpecialisation = ({navigation}) => {
   const [selectedSpecialisation, setselectedSpecialisation] = useState([]);
 
   const Specialisation = [
-    'Internal Medicine',
-    'Dermatology',
-    'Surgery',
-    'Ophthalmology',
-    'Dentistry',
-    'Anesthesiology',
-    'Radiology',
-    'Emergency and Critical Care',
+    'Ophthalmologist',
+    'Dermatologist',
+    'Oncologist',
+    'Neurologist',
+    'Cardiologist',
+    'Orthopedic',
+    'Soft Tissue Surgeon',
+    'Chronic Ailments & Pain Medicine',
+    'Physiotherapist',
+    'Homeopathy & Alternative Medicine ',
   ];
 
   const toggleSpecialisationSelection = specialisation => {

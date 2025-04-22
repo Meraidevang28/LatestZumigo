@@ -161,7 +161,7 @@ const ScheduleWeek = () => {
   return (
     <>
       <BottomSheetModalProvider>
-        <View className="flex-1 bg-white px-6">
+        <View className="flex-1 bg-white px-4">
           <View className="flex-1">
             <ScrollView>
               <View className="mt-[15px] mb-2 ">

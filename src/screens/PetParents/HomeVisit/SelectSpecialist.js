@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -14,20 +14,21 @@ import FooterBtn from '../../../components/shared/FooterBtn';
 import images from '../../../assets/images';
 import screens from '../../../constants/screens';
 import BottomSheet from '../../../components/shared/BottomSheet';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import {primary} from '../../../assets/theme/colors';
 
 const generalServices = [
   {
     title: 'Sick pet care and Diagnostics',
     data: [
-      { id: '1', name: 'Vet Visit', image: images.vetvisitIcon, price: 1500 },
+      {id: '1', name: 'Vet Visit', image: images.vetvisitIcon, price: 1500},
       {
         id: '2',
         name: 'Lab Diagnostic',
         image: images.labdiagonisticIcon,
         price: 1200,
       },
-      { id: '3', name: 'ECG', image: images.ecgIcon, price: 1500 },
+      {id: '3', name: 'ECG', image: images.ecgIcon, price: 1500},
       {
         id: '4',
         name: 'Radiology',
@@ -77,7 +78,7 @@ const specialistServices = [
         image: images.dermatologistIcon,
         price: 1500,
       },
-      { id: '10', name: 'Oncologist', image: images.oncologistIcon, price: 1500 },
+      {id: '10', name: 'Oncologist', image: images.oncologistIcon, price: 1500},
       {
         id: '11',
         name: 'Neurology',
@@ -163,13 +164,10 @@ const data = [
   },
 ];
 
-const ServiceSelection = ({ navigation, route }) => {
+const ServiceSelection = ({navigation, route}) => {
+  const {params} = route;
 
-  const {
-    params
-  } = route
-
-  console.log(params)
+  console.log(params);
 
   const windowWidth = Dimensions.get('window').width;
 
@@ -207,7 +205,7 @@ const ServiceSelection = ({ navigation, route }) => {
     );
 
     setSelectedGeneralServices(prev => {
-      const newServices = { ...prev };
+      const newServices = {...prev};
       if (totalPrice == 0) {
         delete newServices['6'];
       } else {
@@ -247,11 +245,11 @@ const ServiceSelection = ({ navigation, route }) => {
       }
       setSelectedSpecialistService(null);
       setSelectedGeneralServices(prev => {
-        const newServices = { ...prev };
-        if (newServices[item.id]) {
-          delete newServices[item.id];
+        const newServices = {...prev};
+        if (newServices[item.Id]) {
+          delete newServices[item.Id];
         } else {
-          newServices[item.id] = item;
+          newServices[item.Id] = item;
         }
         return newServices;
       });
@@ -259,7 +257,7 @@ const ServiceSelection = ({ navigation, route }) => {
       setSelectedGeneralServices({});
       setSelectedVaccines([]);
       setSelectedSpecialistService(prev =>
-        prev === item?.id ? null : item?.id,
+        prev === item?.Id ? null : item?.Id,
       );
     }
   };
@@ -286,18 +284,14 @@ const ServiceSelection = ({ navigation, route }) => {
         Select a Specialist
       </Text>
 
-      <FlatList
+      {/* <FlatList
         data={params.scData}
-        renderItem={({
-          index, item
-        }) => (
+        renderItem={({index, item}) => (
           <>
             <View
               key={item.id}
-              style={{ width: (windowWidth - 78) / 3 }}
-              className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}
-            >
-
+              style={{width: (windowWidth - 78) / 3}}
+              className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
               <TouchableOpacity
                 key={item.id}
                 onPress={() => toggleService(item)}
@@ -311,79 +305,126 @@ const ServiceSelection = ({ navigation, route }) => {
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <Text
-
-                className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11px] text-[#838999]"
-              >{item.SCTitle}</Text>
+              <Text className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11px] text-[#838999]">
+                {item.SCTitle}
+              </Text>
             </View>
           </>
         )}
         numColumns={3}
+      /> */}
+      <FlatList
+        data={params.scData}
+        numColumns={3}
+        keyExtractor={(item, index) => item?.Id?.toString() ?? index.toString()}
+        renderItem={({index, item}) => {
+          const isSelected = isGeneral
+            ? selectedGeneralServices?.hasOwnProperty(item.Id)
+            : selectedSpecialistService === item.Id;
+
+          const imageSource = isSelected
+            ? {uri: `https://democms.zumigo.pet${item?.Color_Icon}`}
+            : {uri: `https://democms.zumigo.pet${item?.SCIcon}`};
+
+          return (
+            <View
+              style={{width: (windowWidth - 78) / 3}}
+              className={`${(index - 1) % 3 === 0 ? 'mx-[15px]' : ''}`}>
+              <TouchableOpacity
+                onPress={() => toggleService(item)}
+                className={`
+            py-[14px] h-[100px] w-[100px] rounded-xl border items-center
+            ${
+              isSelected
+                ? 'bg-[#ffdef6] border-[#ffdef6]'
+                : 'bg-white border-[#BBBCB7]'
+            }
+          `}>
+                <Image
+                  source={imageSource}
+                  className="h-[70px] w-[70px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <Text
+                className={`mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11px]  ${
+                  isSelected ? 'text-[#000000]' : 'text-[#838999]'
+                }`}>
+                {item.SCTitle}
+              </Text>
+            </View>
+          );
+        }}
       />
 
       {/* Section List with Grid Layout */}
-      {false && <SectionList
-        sections={services}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        renderItem={() => null} // Prevents the "no renderItem!" error
-        renderSectionHeader={({ section: { title, data } }) => (
-          <View>
-            <Text className=" mb-[18px] font-Nunito-Bold text-[19px]">
-              {title}
-            </Text>
-            <View className=" flex-1 flex-row flex-wrap  ">
-              {data.map((item, index) => {
-                const isSelected = isGeneral
-                  ? !!selectedGeneralServices[item.id]
-                  : selectedSpecialistService === item.id;
-                return (
-                  <View
-                    key={item.id}
-                    style={{ width: (windowWidth - 78) / 3 }}
-                    className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
-                    <TouchableOpacity
+      {false && (
+        <SectionList
+          sections={services}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          renderItem={() => null} // Prevents the "no renderItem!" error
+          renderSectionHeader={({section: {title, data}}) => (
+            <View>
+              <Text className=" mb-[18px] font-Nunito-Bold text-[19px]">
+                {title}
+              </Text>
+              <View className=" flex-1 flex-row flex-wrap  ">
+                {data.map((item, index) => {
+                  const isSelected = isGeneral
+                    ? !!selectedGeneralServices[item.id]
+                    : selectedSpecialistService === item.id;
+                  return (
+                    <View
                       key={item.id}
-                      onPress={() => toggleService(item)}
-                      className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${isSelected
-                        ? 'border-[#D7588033] bg-[#ffdef6]'
-                        : ' bg-white  border-[#BBBCB7]'
+                      style={{width: (windowWidth - 78) / 3}}
+                      className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
+                      <TouchableOpacity
+                        key={item.id}
+                        onPress={() => toggleService(item)}
+                        className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${
+                          isSelected
+                            ? 'border-[#D7588033] bg-[#ffdef6]'
+                            : ' bg-white  border-[#BBBCB7]'
                         }`}>
-                      <Image
-                        source={item.image}
-                        className=" h-[70px] w-[70px] "
-                        resizeMode="contain"
-                        style={{
-                          tintColor: isSelected ? '#FFEDF9' : '#FFEDF9',
+                        <Image
+                          source={item.image}
+                          className=" h-[70px] w-[70px] "
+                          resizeMode="contain"
+                          style={{
+                            tintColor: isSelected ? '#FFEDF9' : '#FFEDF9',
 
-                          tintColor: isSelected ? '#D75880' : '#838999',
-                        }}
-                      />
-                      {item.name === 'Vaccination' &&
-                        selectedVaccines.length != 1 &&
-                        selectedVaccines.length && (
-                          <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
-                            <Text className=" text-[10px] font-Nunito-Bold text-primary">
-                              {selectedVaccines.length}
-                            </Text>
-                          </View>
-                        )}
-                    </TouchableOpacity>
-                    <Text className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11px] text-[#838999]">
-                      {item.name}
-                    </Text>
-                  </View>
-                );
-              })}
+                            tintColor: isSelected ? '#D75880' : '#838999',
+                          }}
+                        />
+                        {item.name === 'Vaccination' &&
+                          selectedVaccines.length != 1 &&
+                          selectedVaccines.length && (
+                            <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
+                              <Text className=" text-[10px] font-Nunito-Bold text-primary">
+                                {selectedVaccines.length}
+                              </Text>
+                            </View>
+                          )}
+                      </TouchableOpacity>
+                      <Text className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11px] text-[#838999]">
+                        {item.name}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-        )}
-        ListFooterComponent={() => <View className="mt-10 " />}
-        showsVerticalScrollIndicator={false}
-      />}
+          )}
+          ListFooterComponent={() => <View className="mt-10 " />}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
 
       {/* Continue Button */}
-      <View className=" mt-24"></View>
+      <View className=" mt-24">
+        <Text></Text>
+      </View>
 
       <TouchableOpacity
         onPress={() =>
@@ -400,40 +441,38 @@ const ServiceSelection = ({ navigation, route }) => {
         <View className="py-4 bg-white">
           <View className="rounded-full bg-[#d75880] w-full items-center py-5 px-5 flex-col">
             {/* Continue Button First */}
-            <TouchableOpacity
-            // onPress={() =>
-            //   navigation.navigate(screens.AddYourPet, {
-            //     isHomeVisit: true,
-            //     title: 'Home Visit',
-            //   })
-            // }
-            >
-              <Text
-                className="text-white font-semibold text-[20px]"
-                style={{ fontFamily: 'Nunito-Bold' }}>
-                Continue
-              </Text>
-            </TouchableOpacity>
-
-            {/* Total Services Below */}
+            {/* <TouchableOpacity */}
+            {/* // onPress={() => */}
+            {/* //   navigation.navigate(screens.AddYourPet, { */}
+            {/* // isHomeVisit: true, // title: 'Home Visit', */}
+            {/* //   }) */}
+            {/* // } */}
+            {/* // > */}
+            <Text
+              className="text-white font-semibold text-[20px]"
+              style={{fontFamily: 'Nunito-Bold'}}>
+              Continue
+            </Text>
+            // {/* </TouchableOpacity> */}
+            // {/* Total Services Below */}
             {(Object.keys(selectedGeneralServices).length !== 0 ||
               selectedSpecialistService) && (
-                <TouchableOpacity
-                  className="items-center "
+              <TouchableOpacity
+                className="items-center "
                 // onPress={handlePriceOpenPress}
-                >
-                  <Text className="text-white font-Nunito-Regular">
-                    {isGeneral
-                      ? selectedVaccines.length
-                        ? Object.keys(selectedGeneralServices).length +
+              >
+                <Text className="text-white font-Nunito-Regular">
+                  {isGeneral
+                    ? selectedVaccines.length
+                      ? Object.keys(selectedGeneralServices).length +
                         selectedVaccines.length -
                         1
-                        : Object.keys(selectedGeneralServices).length
-                      : '1'}{' '}
-                    Services
-                  </Text>
-                </TouchableOpacity>
-              )}
+                      : Object.keys(selectedGeneralServices).length
+                    : '1'}{' '}
+                  Services
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </TouchableOpacity>
@@ -487,10 +526,11 @@ const ServiceSelection = ({ navigation, route }) => {
                 <TouchableOpacity
                   key={item.id}
                   onPress={() => toggleSelection(item)}
-                  className={`p-4 rounded-2xl mt-[10px] border flex-row  items-start justify-between gap-5 ${isSelected
-                    ? ' bg-primaryOpacity-10 border-primary'
-                    : ' bg-pastelGrey border-pastelgreyBorder'
-                    }`}>
+                  className={`p-4 rounded-2xl mt-[10px] border flex-row  items-start justify-between gap-5 ${
+                    isSelected
+                      ? ' bg-primaryOpacity-10 border-primary'
+                      : ' bg-pastelGrey border-pastelgreyBorder'
+                  }`}>
                   <View className=" flex-row gap-5">
                     <Image
                       source={images.vaccination}
@@ -519,7 +559,7 @@ const ServiceSelection = ({ navigation, route }) => {
                       source={images.footPrint}
                       className="h-[18px] w-[18px]"
                       resizeMode="contain"
-                      style={{ tintColor: '#d75880' }}
+                      style={{tintColor: '#d75880'}}
                     />
                   )}
                 </TouchableOpacity>
@@ -617,8 +657,8 @@ const ServiceSelection = ({ navigation, route }) => {
                     {isGeneral
                       ? selectedVaccines.length
                         ? Object.keys(selectedGeneralServices).length +
-                        selectedVaccines.length -
-                        1
+                          selectedVaccines.length -
+                          1
                         : Object.keys(selectedGeneralServices).length
                       : '1'}{' '}
                     Services | ₹ {getTotalPrice()}
@@ -638,7 +678,7 @@ const ServiceSelection = ({ navigation, route }) => {
                   }}>
                   <Text
                     className=" text-white font-semibold text-[20px] py-5 rounded-full"
-                    style={{ fontFamily: 'Nunito-Bold' }}>
+                    style={{fontFamily: 'Nunito-Bold'}}>
                     Continue
                   </Text>
                 </TouchableOpacity>
