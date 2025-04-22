@@ -476,4 +476,4 @@ const VerifyOTP = ({ navigation, route }) => {
   );
 };
 
-export default VerifyOTP;
+export default VerifyOTP;``

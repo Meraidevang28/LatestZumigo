@@ -280,7 +280,7 @@ const Dashboard = ({ navigation }) => {
                 //   `${consultation.Consultation_Name} UUID:`,
                 //   consultation.UUID,
                 // );
-                if (consultation.Consultaytion_Name === 'Home Visit') {
+                if (consultation.Consultaytion_Name === 'Vet Home Visit') {
 
                   try {
 
