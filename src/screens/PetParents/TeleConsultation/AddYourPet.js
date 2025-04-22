@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -10,31 +10,31 @@ import {
   Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Calendar } from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
 import images from '../../../assets/images';
 import FooterBtn from '../../../components/shared/FooterBtn';
 import BottomSheet from '../../../components/shared/BottomSheet';
-import { FlatList } from 'react-native-gesture-handler';
+import {FlatList} from 'react-native-gesture-handler';
 import screens from '../../../constants/screens';
 import DualOptionSelector from '../../../components/shared/DualOptionSelector';
 import CustomTextInput from '../../../components/shared/CustomTextInput';
 import WheelPicker from '@quidone/react-native-wheel-picker';
 import Modal from 'react-native-modal';
 import SearchByInput from '../../../components/shared/SearchByInput';
-import { primary } from '../../../assets/theme/colors';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { PermissionsAndroid, Platform } from 'react-native';
-import { API_BASE_URL, PET_TYPE, PET_BREED_GENDER, ADD_PET, UPLOAD } from '@env';
+import {primary} from '../../../assets/theme/colors';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {PermissionsAndroid, Platform} from 'react-native';
+import {API_BASE_URL, PET_TYPE, PET_BREED_GENDER, ADD_PET, UPLOAD} from '@env';
 
 import RNFS from 'react-native-fs';
-const AddYourPet = ({ navigation, route }) => {
+const AddYourPet = ({navigation, route}) => {
   const isHomeVisit = route?.params?.isHomeVisit;
   const tilte = route?.params?.title || null;
   const goBack = route?.params?.goBack;
 
   useEffect(() => {
     if (tilte) {
-      navigation.setOptions({ title: route?.params?.title });
+      navigation.setOptions({title: route?.params?.title});
     }
   }, []);
   const environmantUUID = '9549B2F6-0350-4484-9269-58F85A4FFxx1';
@@ -164,12 +164,35 @@ const AddYourPet = ({ navigation, route }) => {
 
     fetchPetTypes();
   }, []);
+  // const handlePetSelect = type => {
+  //   setPetType(type);
+  //   const selectedPet = petTypes.find(p => p.PetType_Name === type);
+  //   if (selectedPet) {
+  //     setSelectedPetUUID(selectedPet.UUID);
+  //   }
+  // };
   const handlePetSelect = type => {
     setPetType(type);
+
+    // Find the selected pet by name
     const selectedPet = petTypes.find(p => p.PetType_Name === type);
+
     if (selectedPet) {
       setSelectedPetUUID(selectedPet.UUID);
     }
+
+    // Reset all form fields
+    setPetName('');
+    setSelectedImage(null);
+    setSelectedBreed(null);
+    setGender(null);
+    setAge(null);
+    setMonth(null);
+    setWeight('');
+    setMicrochip('');
+    setSelectedDate(null);
+    setIsEnabled(false); // Reset microchip status if needed
+    setKci(false); // Reset KCI status if needed
   };
 
   const [petBreeds, setPetBreeds] = useState([]);
@@ -210,7 +233,7 @@ const AddYourPet = ({ navigation, route }) => {
   const handleBreedSelect = breed => {
     setSelectedBreed(breed); // breed is the full object from the list
     console.log('Selected Breed UUID:', breed.UUID); // log it here
-  };  
+  };
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const handleCalendarToggle = () => {
@@ -220,24 +243,24 @@ const AddYourPet = ({ navigation, route }) => {
   const handleDateSelect = date => {
     setSelectedDate(date.dateString); // Save the selected date
     setIsCalendarVisible(false); // Close the calendar
-  }; 
+  };
 
   const uploadPetImage = async image => {
     if (!image?.uri) return null;
-  
+
     try {
       const token = await AsyncStorage.getItem('auth_token');
       const formData = new FormData();
-  
+
       formData.append('files', {
         uri: image.uri,
         name: image.fileName || 'photo.jpg',
         type: image.type || 'image/jpeg',
       });
-  
+
       // formData.append('filepath', '/Petimg/');
       const uploadUrl = `${API_BASE_URL}${UPLOAD}?filepath=/Petimg/`;
-  
+
       const response = await fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -246,12 +269,14 @@ const AddYourPet = ({ navigation, route }) => {
         },
         body: formData,
       });
-  
+
       const contentType = response.headers.get('content-type');
       const isJson = contentType && contentType.includes('application/json');
 
-      const data = isJson ? await response.json() : JSON.parse(await response.text());
-  
+      const data = isJson
+        ? await response.json()
+        : JSON.parse(await response.text());
+
       if (response.ok && data?.Paths?.length > 0) {
         const filePath = data.Paths[0];
         console.log('Image uploaded:', filePath);
@@ -264,7 +289,7 @@ const AddYourPet = ({ navigation, route }) => {
       console.error('Upload error:', err);
       return null;
     }
-  };    
+  };
 
   const addPet = async () => {
     if (!petName || !selectedPetUUID || !age || !weight) {
@@ -315,10 +340,13 @@ const AddYourPet = ({ navigation, route }) => {
       if (response.ok) {
         console.log('Pet added successfully:', responseBody);
 
-        await AsyncStorage.setItem('last_added_pet', JSON.stringify(responseBody));
+        await AsyncStorage.setItem(
+          'last_added_pet',
+          JSON.stringify(responseBody),
+        );
 
         navigation.navigate(screens.SelectSymptoms, {
-          ...(isHomeVisit ? { isHomeVisit: true } : {}),
+          ...(isHomeVisit ? {isHomeVisit: true} : {}),
         });
         return true;
       } else {
@@ -330,41 +358,44 @@ const AddYourPet = ({ navigation, route }) => {
       console.error('Error occurred:', error);
     }
   };
-  
+
   return (
     <View className="flex-1 bg-white px-6">
       <ScrollView
         className="flex-1 bg-white "
         showsVerticalScrollIndicator={false}>
-        <Text className=" mt-5 text-[26px] font-PTSans-Bold text-darkGunmetal">
+        <Text className="  text-[26px] font-PTSans-Bold text-darkGunmetal">
           Add your pet!
         </Text>
         {/* Dog / Cat Toggle */}
-        <View
-          className="my-5 flex-row bg-pastelGrey rounded-2xl overflow-hidden ">
+        <View className="my-5 flex-row bg-pastelGrey rounded-2xl overflow-hidden ">
           <TouchableOpacity
-            className={`flex-1 p-[15px] items-center  rounded-2xl ${petType === 'Dog' ? ' bg-primary' : ''
-              }`}
+            className={`flex-1 p-[15px] items-center  rounded-2xl ${
+              petType === 'Dog' ? ' bg-primary' : ''
+            }`}
             // onPress={() => setPetType('Dog')}>
             onPress={() => handlePetSelect('Dog')}>
             <Text
-              className={` text-[16px]  leading-[22px] ${petType === 'Dog'
-                ? ' text-white  font-Nunito-Bold'
-                : ' text-[#969492] font-Nunito-Regular'
-                }`}>
+              className={` text-[16px]  leading-[22px] ${
+                petType === 'Dog'
+                  ? ' text-white  font-Nunito-Bold'
+                  : ' text-[#969492] font-Nunito-Regular'
+              }`}>
               Dog
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={`flex-1 p-[15px] items-center  rounded-2xl ${petType != 'Dog' ? ' bg-primary' : ''
-              }`}
+            className={`flex-1 p-[15px] items-center  rounded-2xl ${
+              petType != 'Dog' ? ' bg-primary' : ''
+            }`}
             // onPress={() => setPetType('Cat')}>
             onPress={() => handlePetSelect('Cat')}>
             <Text
-              className={` text-[16px]   leading-[22px] ${petType != 'Dog'
-                ? ' text-white font-Nunito-Bold'
-                : ' text-[#969492] font-Nunito-Regular'
-                }`}>
+              className={` text-[16px]   leading-[22px] ${
+                petType != 'Dog'
+                  ? ' text-white font-Nunito-Bold'
+                  : ' text-[#969492] font-Nunito-Regular'
+              }`}>
               Cat
             </Text>
           </TouchableOpacity>
@@ -379,14 +410,14 @@ const AddYourPet = ({ navigation, route }) => {
             {selectedImage ? (
               <>
                 <Image
-                  source={{ uri: selectedImage.uri }}
+                  source={{uri: selectedImage.uri}}
                   className="h-full w-full rounded-2xl"
                   resizeMode="cover"
                 />
                 {/* Remove Button */}
                 <TouchableOpacity
                   onPress={() => setSelectedImage(null)}
-                  className="absolute top-1 right-1 bg-primary p-1 rounded-full ">
+                  className="absolute top-[-2] right-[-3] bg-primary p-1 rounded-full ">
                   <Text className="text-white text-xs">✕</Text>
                 </TouchableOpacity>
               </>
@@ -418,8 +449,9 @@ const AddYourPet = ({ navigation, route }) => {
           }`}
           onPress={openBreedBottomSheet}>
           <Text
-            className={`font-Nunito-Regular text-[16px] ${selectedBreed ? 'text-[#000000]' : 'text-[#BBBCB7]'
-              }`}>
+            className={`font-Nunito-Regular text-[16px] ${
+              selectedBreed ? 'text-[#000000]' : 'text-[#BBBCB7]'
+            }`}>
             {selectedBreed ? selectedBreed : 'Breed*'}
           </Text>
           <Image
@@ -442,9 +474,14 @@ const AddYourPet = ({ navigation, route }) => {
         <TouchableOpacity
           className=" bg-white border border-[#BBBCB7] p-[19px] rounded-[20px] flex-row justify-between items-center mb-[15px]"
           onPress={() => setModalVisible(true)}>
-          <Text className="font-Nunito-Regular text-[#BBBCB7] ">
-            {age !== null && month !== null
-              ? `${age} Years ${month} Months`
+          <Text
+            className={`font-Nunito-Regular ${
+              age !== null ? 'text-black' : 'text-[#BBBCB7]'
+            }`}>
+            {age !== null
+              ? month === null || month === '0'
+                ? `${age} Years`
+                : `${age} Years ${month} Months`
               : 'Age'}
           </Text>
           <Image
@@ -473,12 +510,12 @@ const AddYourPet = ({ navigation, route }) => {
         <View className="flex-row justify-between items-center px-4 py-2 bg-[#f7f7f7] border border-[#BBBCB7] h-[63px] rounded-[20px] mb-[10px]">
           <Text
             className="text-[16px] text-[#000000] font-Nunito-Regular"
-            style={{ fontWeight: 400 }}>
+            style={{fontWeight: 400}}>
             Is your pet microchipped?
           </Text>
-          <View style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}>
+          <View style={{transform: [{scaleX: 1.2}, {scaleY: 1.2}]}}>
             <Switch
-              trackColor={{ false: '#ccc', true: primary }}
+              trackColor={{false: '#ccc', true: primary}}
               thumbColor={isEnabled ? '#fff' : '#f4f3f4'}
               ios_backgroundColor="#ccc"
               onValueChange={toggleSwitch}
@@ -488,25 +525,28 @@ const AddYourPet = ({ navigation, route }) => {
         </View>
         {isEnabled && (
           <>
-            <TouchableOpacity className=" bg-white border border-[#BBBCB7] p-[10px] rounded-[20px] flex-row justify-between items-center mb-[15px]">
+            <View className=" bg-white border border-[#BBBCB7] p-[10px] rounded-[20px] flex-row justify-between items-center mb-[15px]">
               <TextInput
                 placeholder="Microchip number"
                 value={microchip}
                 onChangeText={text => setMicrochip(text)}
                 placeholderTextColor="#BBBCB7"
-                className="font-Nunito-Regular text-[#000000] text-[16px]"></TextInput>
+                className=" font-Nunito-Regular text-[#000000] text-[16px]"></TextInput>
               <Image
                 source={images.Microchipping}
                 resizeMode="contain"
                 className=" h-[35px] w-[35px]"
                 tintColor="grey"
               />
-            </TouchableOpacity>
+            </View>
             <TouchableOpacity
               className=" bg-white border border-[#BBBCB7] p-[19px] rounded-[20px] flex-row justify-between items-center mb-[15px]"
               onPress={handleCalendarToggle}>
-              <Text className="font-Nunito-Regular text-[#BBBCB7] text-[16px]">
-                {selectedDate ? ` ${selectedDate}` : 'Date of microchipping'}
+              <Text
+                className={`font-Nunito-Regular text-[16px] ${
+                  selectedDate ? 'text-black' : 'text-[#BBBCB7]'
+                }`}>
+                {selectedDate ? selectedDate : 'Date of microchipping'}
               </Text>
               <Image
                 source={images.calenderIcon}
@@ -519,7 +559,7 @@ const AddYourPet = ({ navigation, route }) => {
               <Calendar
                 onDayPress={handleDateSelect}
                 markedDates={{
-                  [selectedDate]: { selected: true, selectedColor: 'blue' },
+                  [selectedDate]: {selected: true, selectedColor: 'blue'},
                 }}
               />
             )}
@@ -533,12 +573,12 @@ const AddYourPet = ({ navigation, route }) => {
           <View className="flex-row justify-between items-center px-4 py-2 bg-[#f7f7f7] border border-[#BBBCB7] h-[63px] rounded-[20px] mb-[10px]">
             <Text
               className="text-[16px] text-[#000000] font-Nunito-Regular"
-              style={{ fontWeight: 400 }}>
+              style={{fontWeight: 400}}>
               Do you have an KCI Registration?
             </Text>
-            <View style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}>
+            <View style={{transform: [{scaleX: 1.2}, {scaleY: 1.2}]}}>
               <Switch
-                trackColor={{ false: '#ccc', true: primary }}
+                trackColor={{false: '#ccc', true: primary}}
                 thumbColor={isEnabled ? '#fff' : '#f4f3f4'}
                 ios_backgroundColor="#ccc"
                 onValueChange={toggleKciSwitch}
@@ -555,18 +595,18 @@ const AddYourPet = ({ navigation, route }) => {
         //     navigation.goBack();
         //   } else {
         //     navigation.navigate(screens.SelectSymptoms, {
-        //       ...(isHomeVisit ? { isHomeVisit: true } : {}),
+        //       ...(isHomeVisit ? {isHomeVisit: true} : {}),
         //     });
         //   }
         // }}
-      onClick={addPet}
+        onClick={addPet}
       />
-      <Modal
+      {/* <Modal
         isVisible={isModalVisible}
         onBackdropPress={() => setModalVisible(false)}
-        style={{ justifyContent: 'flex-end', margin: 0 }}>
+        style={{justifyContent: 'flex-end', margin: 0}}>
         <View className="bg-white p-5 rounded-t-2xl">
-          <View style={{ backgroundColor: 'white' }}>
+          <View style={{backgroundColor: 'white'}}>
             <View className=" px-6">
               <Text className=" mt-6 font-Nunito-Bold text-[18px]">Age</Text>
 
@@ -581,17 +621,17 @@ const AddYourPet = ({ navigation, route }) => {
                   <WheelPicker
                     data={data}
                     value={44}
-                    style={{ zIndex: 1 }}
-                    onValueChanged={({ item: { value } }) => setAge(value)}
-                    overlayItemStyle={{ backgroundColor: '#00000000' }}
+                    style={{zIndex: 1}}
+                    onValueChanged={({item: {value}}) => setAge(value)}
+                    overlayItemStyle={{backgroundColor: '#00000000'}}
                   />
                   <Text className=" z-[1]">Years</Text>
                   <WheelPicker
                     data={data}
                     value={44}
-                    style={{ zIndex: 1 }}
-                    onValueChanged={({ item: { value } }) => setMonth(value)}
-                    overlayItemStyle={{ backgroundColor: '#00000000' }}
+                    style={{zIndex: 1}}
+                    onValueChanged={({item: {value}}) => setMonth(value)}
+                    overlayItemStyle={{backgroundColor: '#00000000'}}
                   />
                   <Text className=" z-[1]">Month</Text>
                   <View
@@ -612,7 +652,72 @@ const AddYourPet = ({ navigation, route }) => {
                 className="rounded-2xl bg-[#d75880] w-full items-center"
                 onPress={() => setModalVisible(false)}>
                 <Text className=" text-white font-Nunito-Bold text-[20px] py-5">
-                  Ok
+                  Save
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal> */}
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={() => setModalVisible(false)}
+        style={{justifyContent: 'flex-end', margin: 0}}>
+        <View className="bg-white p-5 rounded-t-2xl">
+          <View style={{backgroundColor: 'white'}}>
+            <View className="px-6">
+              {/* <Text className="mt-6 font-Nunito-Bold text-[18px]">Age</Text> */}
+
+              <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 50,
+                  }}>
+                  {/* Years Label */}
+                  <View style={{alignItems: 'center'}}>
+                    <Text className="font-Nunito-Bold text-[14px] mt-4">
+                      Years
+                    </Text>
+                    <WheelPicker
+                      data={data}
+                      value={44}
+                      style={{zIndex: 1}}
+                      onValueChanged={({item: {value}}) => setAge(value)}
+                      overlayItemStyle={{
+                        backgroundColor: '#D75880',
+                        width: 120,
+                      }}
+                    />
+                  </View>
+
+                  {/* Months Label */}
+                  <View style={{alignItems: 'center'}}>
+                    <Text className="font-Nunito-Bold text-[14px] mt-4">
+                      Months
+                    </Text>
+                    <WheelPicker
+                      data={data}
+                      value={44}
+                      style={{zIndex: 1}}
+                      onValueChanged={({item: {value}}) => setMonth(value)}
+                      overlayItemStyle={{backgroundColor: '#ffffff'}}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View className="w-full bottom-0">
+            <View className="my-4">
+              <TouchableOpacity
+                className="rounded-full bg-[#d75880] w-full items-center"
+                onPress={() => setModalVisible(false)}>
+                <Text className="text-white font-Nunito-Bold text-[20px] py-5">
+                  Save
                 </Text>
               </TouchableOpacity>
             </View>
@@ -633,7 +738,7 @@ const AddYourPet = ({ navigation, route }) => {
             data={petBreeds}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.UUID}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <TouchableOpacity
                 className="p-4 flex-row border-b-pastelgreyBorder border-b py-[15.5px] justify-between"
                 onPress={() => {
@@ -641,8 +746,9 @@ const AddYourPet = ({ navigation, route }) => {
                   closeBreedBottomSheet();
                 }}>
                 <Text
-                  className={`${selectedBreed === item.Pet_Breed ? 'text-primary' : ''
-                    }`}>
+                  className={`${
+                    selectedBreed === item.Pet_Breed ? 'text-primary' : ''
+                  }`}>
                   {item.Pet_Breed}
                 </Text>
                 {selectedBreed === item.Pet_Breed && (

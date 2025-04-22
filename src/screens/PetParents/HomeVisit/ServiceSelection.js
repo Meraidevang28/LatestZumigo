@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -12,23 +12,23 @@ import FooterBtn from '../../../components/shared/FooterBtn';
 import images from '../../../assets/images';
 import screens from '../../../constants/screens';
 import BottomSheet from '../../../components/shared/BottomSheet';
-import { ScrollView } from 'react-native-gesture-handler';
-import { primary } from '../../../assets/theme/colors';
+import {ScrollView} from 'react-native-gesture-handler';
+import {primary} from '../../../assets/theme/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 
 const generalServices = [
   {
     title: 'Sick pet care and Diagnostics',
     data: [
-      { id: '1', name: 'Vet Visit', image: images.vetvisitIcon, price: 1500 },
+      {id: '1', name: 'Vet Visit', image: images.vetvisitIcon, price: 1500},
       {
         id: '2',
         name: 'Lab Diagnostic',
         image: images.labdiagonisticIcon,
         price: 1200,
       },
-      { id: '3', name: 'IV Therapy', image: images.ivIcon, price: 1500 },
+      {id: '3', name: 'IV Therapy', image: images.ivIcon, price: 1500},
     ],
   },
   {
@@ -72,7 +72,7 @@ const specialistServices = [
         image: images.dermatologistIcon,
         price: 1500,
       },
-      { id: '10', name: 'Oncologist', image: images.oncologistIcon, price: 1500 },
+      {id: '10', name: 'Oncologist', image: images.oncologistIcon, price: 1500},
       {
         id: '11',
         name: 'Neurology',
@@ -158,13 +158,12 @@ const data = [
   },
 ];
 
-const ServiceSelection = ({ navigation }) => {
+const ServiceSelection = ({navigation}) => {
+  const {params} = useRoute();
 
-  const { params } = useRoute()
-
-  const [responseData, setResponseData] = useState(null)
-  const [selectedSCT, setSelectSCT] = useState(null)
-  const [selectedSC, setSelectSC] = useState(null)
+  const [responseData, setResponseData] = useState(null);
+  const [selectedSCT, setSelectSCT] = useState(null);
+  const [selectedSC, setSelectSC] = useState(null);
 
   const windowWidth = Dimensions.get('window').width;
 
@@ -181,13 +180,9 @@ const ServiceSelection = ({ navigation }) => {
   const [sctButtons, setSctButtons] = useState([]);
   const [petDetails, setPetDetails] = useState(null);
 
-
-
   useEffect(() => {
-
     if (params) {
-
-      console.log(params)
+      console.log(params);
 
       fetchServiceData();
     }
@@ -196,9 +191,10 @@ const ServiceSelection = ({ navigation }) => {
   const fetchServiceData = async () => {
     try {
       const token = await AsyncStorage.getItem('auth_token');
-      const consultationUuid = params.consultationTypeUUID
-      const serviceGroupUuid = params.serviceGroupUUID
-      const response = await fetch(`https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${serviceGroupUuid}/${consultationUuid}`,
+      const consultationUuid = params.consultationTypeUUID;
+      const serviceGroupUuid = params.serviceGroupUUID;
+      const response = await fetch(
+        `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${serviceGroupUuid}/${consultationUuid}`,
         {
           method: 'GET',
           headers: {
@@ -209,11 +205,11 @@ const ServiceSelection = ({ navigation }) => {
       );
       const data = await response.json();
 
-      console.log(data)
+      console.log(data);
 
-      setResponseData(data)
-      console.log(data?.SCT)
-      setSelectSCT(data?.SCT[0])
+      setResponseData(data);
+      console.log(data?.SCT);
+      setSelectSCT(data?.SCT[0]);
 
       console.log('Original Service Data:', data);
 
@@ -223,13 +219,12 @@ const ServiceSelection = ({ navigation }) => {
         setSctButtons(filteredSCTNames);
         setSelectedTab(filteredSCTNames[0]); // optionally select the first by default
       }
-
     } catch (error) {
       console.error('Error fetching service data:', error);
     }
   };
 
-  const isGeneral = selectedSCT?.UUID === responseData?.SCT[0]?.UUID
+  const isGeneral = selectedSCT?.UUID === responseData?.SCT[0]?.UUID;
   const services = isGeneral ? generalServices : specialistServices;
 
   useEffect(() => {
@@ -261,7 +256,7 @@ const ServiceSelection = ({ navigation }) => {
     );
 
     setSelectedGeneralServices(prev => {
-      const newServices = { ...prev };
+      const newServices = {...prev};
       if (totalPrice == 0) {
         delete newServices['6'];
       } else {
@@ -279,7 +274,7 @@ const ServiceSelection = ({ navigation }) => {
   };
 
   const toggleSelection = item => {
-    console.log(item)
+    console.log(item);
     setSelectedSpecialistService(null);
 
     setSelectedVaccines(prevSelected => {
@@ -301,7 +296,7 @@ const ServiceSelection = ({ navigation }) => {
       }
       setSelectedSpecialistService(null);
       setSelectedGeneralServices(prev => {
-        const newServices = { ...prev };
+        const newServices = {...prev};
         if (newServices[item.id]) {
           delete newServices[item.id];
         } else {
@@ -353,319 +348,434 @@ const ServiceSelection = ({ navigation }) => {
         </View>
       )}
 
-      <View className="my-5 flex-row bg-pastelGrey rounded-2xl overflow-hidden "
-      >
+      <View className="my-5 flex-row bg-pastelGrey rounded-2xl overflow-hidden ">
         {responseData?.SCT?.map(tab => (
           <TouchableOpacity
             key={tab.UUID}
-            className={`flex-1 p-[15px] items-center rounded-2xl ${selectedTab === tab.SCTName ? 'bg-primary' : ''
-              }`}
+            className={`flex-1 p-[15px] items-center rounded-2xl ${
+              selectedTab === tab.SCTName ? 'bg-primary' : ''
+            }`}
             onPress={() => {
-              setSelectSCT(tab)
-              setSelectedTab(tab.SCTName)
+              setSelectSCT(tab);
+              setSelectedTab(tab.SCTName);
               setSelectedGeneralServices({});
               setSelectedVaccines([]);
               setSelectedSpecialistService(null);
             }}>
             <Text
-              className={`text-[16px] leading-[22px] ${selectedTab === tab.SCTName
-                ? 'text-white font-Nunito-Bold'
-                : 'text-[#969492] font-Nunito-Regular'
-                }`}>
+              className={`text-[13px] leading-[22px] ${
+                selectedTab === tab.SCTName
+                  ? 'text-white font-Nunito-Bold'
+                  : 'text-[#969492] font-Nunito-Regular'
+              }`}>
               {tab.SCTName}
             </Text>
           </TouchableOpacity>
         ))}
       </View>
 
+      {false && (
+        <SectionList
+          sections={services}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          renderItem={() => null} // Prevents the "no renderItem!" error
+          renderSectionHeader={({section: {title, data}}) => (
+            <View>
+              <Text
+                className=" mb-[18px] font-Nunito-Regular text-[19px]"
+                style={{fontWeight: 500}}>
+                {title}
+              </Text>
 
-      {false && <SectionList
-        sections={services}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        renderItem={() => null} // Prevents the "no renderItem!" error
-        renderSectionHeader={({ section: { title, data } }) => (
-          <View>
-            <Text
-              className=" mb-[18px] font-Nunito-Regular text-[19px]"
-              style={{ fontWeight: 500 }}>
-              {title}
-            </Text>
-
-
-            <View className=" flex-1 flex-row flex-wrap  ">
-              {data.map((item, index) => {
-                const isSelected = isGeneral
-                  ? !!selectedGeneralServices[item.id]
-                  : selectedSpecialistService === item.id;
-                return (
-                  <View
-                    key={item.id}
-                    style={{ width: (windowWidth - 78) / 3 }}
-                    className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
-                    <TouchableOpacity
+              <View className=" flex-1 flex-row flex-wrap  ">
+                {data.map((item, index) => {
+                  const isSelected = isGeneral
+                    ? !!selectedGeneralServices[item.id]
+                    : selectedSpecialistService === item.id;
+                  return (
+                    <View
                       key={item.id}
-                      onPress={() => toggleService(item)}
-                      className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${isSelected
-                        ? 'border-[#D7588033] bg-[#ffdef6]'
-                        : ' bg-white  border-[#BBBCB7]'
+                      style={{width: (windowWidth - 78) / 3}}
+                      className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
+                      <TouchableOpacity
+                        key={item.id}
+                        onPress={() => toggleService(item)}
+                        className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${
+                          isSelected
+                            ? 'border-[#D7588033] bg-[#ffdef6]'
+                            : ' bg-white  border-[#BBBCB7]'
                         }`}>
-                      <Image
-                        source={item.image}
-                        className=" h-[70px] w-[70px] "
-                        resizeMode="contain"
-                        style={{
-                          tintColor: isSelected ? '#FFEDF9' : '#FFEDF9',
+                        <Image
+                          source={item.image}
+                          className=" h-[70px] w-[70px] "
+                          resizeMode="contain"
+                          style={{
+                            tintColor: isSelected ? '#FFEDF9' : '#FFEDF9',
 
-                          tintColor: isSelected ? '#D75880' : '#838999',
-                        }}
-                      />
-                      {item.name === 'Vaccination' &&
-                        selectedVaccines.length != 1 &&
-                        selectedVaccines.length && (
-                          <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
-                            <Text className=" text-[14px] font-Nunito-Bold text-primary">
-                              {selectedVaccines.length}
-                            </Text>
-                          </View>
-                        )}
-                    </TouchableOpacity>
-                    <Text
-                      className={`mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px] ${isSelected ? 'text-[#000000]' : 'text-[#838999]'
+                            tintColor: isSelected ? '#D75880' : '#838999',
+                          }}
+                        />
+                        {item.name === 'Vaccination' &&
+                          selectedVaccines.length != 1 &&
+                          selectedVaccines.length && (
+                            <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
+                              <Text className=" text-[14px] font-Nunito-Bold text-primary">
+                                {selectedVaccines.length}
+                              </Text>
+                            </View>
+                          )}
+                      </TouchableOpacity>
+                      <Text
+                        className={`mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px] ${
+                          isSelected ? 'text-[#000000]' : 'text-[#838999]'
                         }`}>
-                      {item.name}
-                    </Text>
-                  </View>
-                );
-              })}
+                        {item.name}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-        )}
-        ListFooterComponent={() => <View className="mt-10 " />}
-        showsVerticalScrollIndicator={false}
-      />}
+          )}
+          ListFooterComponent={() => <View className="mt-10 " />}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
 
-
-
-      {
-        selectedSCT?.IsSCGroupApplicable && responseData && responseData?.SCG?.map((scg) => (
+      {/* {selectedSCT?.IsSCGroupApplicable &&
+        responseData &&
+        responseData?.SCG?.map(scg => (
           <>
             <View>
               <Text
                 className=" mb-[18px] font-Nunito-Regular text-[21px]"
-                style={{ fontWeight: 500 }}>
+                style={{fontWeight: 500}}>
                 {scg?.SCGName}
               </Text>
 
               <View>
-
                 <ScrollView horizontal>
+                  {responseData?.SC?.filter(
+                    item => item.SCGUUID === scg?.UUID,
+                  )?.map((sc, index) => {
+                    const isSelected = !!selectedGeneralServices[sc.UUID];
 
-                  {
-                    responseData?.SC?.filter((item) => item.SCGUUID === scg?.UUID)?.map((sc, index) => {
-
-                      const isSelected = !!selectedGeneralServices[sc.UUID]
-
-                      return (
-                        (<>
-                          <View
-                            key={sc.UUID}
-                            style={{ width: (windowWidth - 78) / 3 }}
-                            className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}
-                          >
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (sc.HasSubServices) {
-                                  setSelectSC(sc)
-                                  handleVaccineOpenPress();
-
-                                } else {
-
-                                  setSelectedGeneralServices(prev => {
-                                    const newServices = { ...prev };
-                                    if (newServices[sc.UUID]) {
-                                      delete newServices[sc.UUID];
-                                    } else {
-                                      newServices[sc.UUID] = sc;
-                                    }
-                                    return newServices;
-                                  });
-
-
-                                }
-                              }}
-                              className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${isSelected
+                    return (
+                      <>
+                        <View
+                          key={sc.UUID}
+                          style={{width: (windowWidth - 78) / 3}}
+                          className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (sc.HasSubServices) {
+                                setSelectSC(sc);
+                                handleVaccineOpenPress();
+                              } else {
+                                setSelectedGeneralServices(prev => {
+                                  const newServices = {...prev};
+                                  if (newServices[sc.UUID]) {
+                                    delete newServices[sc.UUID];
+                                  } else {
+                                    newServices[sc.UUID] = sc;
+                                  }
+                                  return newServices;
+                                });
+                              }
+                            }}
+                            className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${
+                              isSelected
                                 ? 'border-[#D7588033] bg-[#ffdef6]'
                                 : ' bg-white  border-[#BBBCB7]'
-                                }`}
-                            >
-                              <Image
-                                source={{
-                                  uri: isSelected ? `https://democms.zumigo.pet${sc?.Color_Icon ?? ''}` : `https://democms.zumigo.pet${sc?.SCIcon ?? ''}`,
-                                }}
-                                className=" h-[70px] w-[70px] "
-                                resizeMode="contain"
+                            }`}>
+                            <Image
+                              source={{
+                                uri: isSelected
+                                  ? `https://democms.zumigo.pet${
+                                      sc?.Color_Icon ?? ''
+                                    }`
+                                  : `https://democms.zumigo.pet${
+                                      sc?.SCIcon ?? ''
+                                    }`,
+                              }}
+                              className=" h-[70px] w-[70px] "
+                              resizeMode="contain"
+                            />
 
-                              />
-                              {sc.HasSubServices &&
-                                selectedVaccines.length != 1 &&
-                                selectedVaccines.length && (
-                                  <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
-                                    <Text className=" text-[14px] font-Nunito-Bold text-primary">
-                                      {selectedVaccines.length}
-                                    </Text>
-                                  </View>
-                                )}
-                            </TouchableOpacity>
-                            <View className=" mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px]">
-                              <Text className="text-[14px] font-Nunito-Bold text-[#838999] font-[700] text-center">
-                                {
-                                  sc?.SCTitle
-                                }
-                              </Text>
-                            </View>
+                            {sc.HasSubServices &&
+                              selectedVaccines.length != 1 &&
+                              selectedVaccines.length && (
+                                <View className="absolute top-[6px] right-[6px] bg-pastelGrey py-[3px] px-[8px] rounded-full z-10">
+                                  <Text className="text-[14px] font-Nunito-Bold text-primary">
+                                    {selectedVaccines.length}
+                                  </Text>
+                                </View>
+                              )}
+                          </TouchableOpacity>
+                          <View className=" mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px]">
+                            <Text
+                              className="text-[13px] font-Nunito-Bold text-[#838999] font-[700] text-center"
+                              style={{
+                                color: isSelected ? 'black' : '#838999',
+                              }}>
+                              {sc?.SCTitle}
+                            </Text>
                           </View>
-                        </>)
-                      )
-                    }
-                    )
-                  }
-
+                        </View>
+                      </>
+                    );
+                  })}
                 </ScrollView>
               </View>
-
             </View>
           </>
-        ))
-      }
+        ))} */}
+      {selectedSCT?.IsSCGroupApplicable &&
+        responseData &&
+        responseData?.SCG?.map(scg => (
+          <>
+            <View>
+              <Text
+                className="mb-[18px] font-Nunito-Regular text-[21px]"
+                style={{fontWeight: 500}}>
+                {scg?.SCGName}
+              </Text>
 
-      {
-        !selectedSCT?.IsSCGroupApplicable &&
+              <View>
+                <ScrollView horizontal>
+                  {responseData?.SC?.filter(
+                    item => item.SCGUUID === scg?.UUID,
+                  )?.map((sc, index) => {
+                    const isSelected = !!selectedGeneralServices[sc.UUID];
+
+                    return (
+                      <View
+                        key={sc.UUID}
+                        style={{width: (windowWidth - 78) / 3}}
+                        className={`${(index - 1) % 3 == 0 && ' mx-[15px] '}`}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (sc.HasSubServices) {
+                              setSelectSC(sc);
+                              handleVaccineOpenPress();
+                            } else {
+                              setSelectedGeneralServices(prev => {
+                                const newServices = {...prev};
+                                if (newServices[sc.UUID]) {
+                                  delete newServices[sc.UUID];
+                                } else {
+                                  newServices[sc.UUID] = sc;
+                                }
+                                return newServices;
+                              });
+                            }
+                          }}
+                          // className={`py-[14px] h-[101px] w-[100px] rounded-xl border items-center relative ${
+                          //   isSelected
+                          //     ? 'border-[#D7588033] bg-[#ffdef6]'
+                          //     : 'bg-white border-[#BBBCB7]'
+                          // }`}
+                          className={`py-[14px] h-[101px] w-[100px] rounded-xl border items-center relative ${
+                            sc.HasSubServices && selectedVaccines.length > 0
+                              ? 'bg-[#ffdef6] border-[#D7588033]' // Pink for vaccination selected
+                              : isSelected
+                              ? 'border-[#D7588033] bg-[#ffdef6]' // Pink for selected service
+                              : 'bg-white border-[#BBBCB7]' // Default
+                          }`}>
+                          {/* <Image
+                            source={{
+                              uri: isSelected
+                                ? `https://democms.zumigo.pet${
+                                    sc?.Color_Icon ?? ''
+                                  }`
+                                : `https://democms.zumigo.pet${
+                                    sc?.SCIcon ?? ''
+                                  }`,
+                            }}
+                            className="h-[70px] w-[70px]"
+                            resizeMode="contain"
+                          /> */}
+                          <Image
+                            source={{
+                              uri: `https://democms.zumigo.pet${
+                                isSelected ||
+                                (sc.HasSubServices &&
+                                  selectedVaccines.length > 0)
+                                  ? sc?.Color_Icon ?? ''
+                                  : sc?.SCIcon ?? ''
+                              }`,
+                            }}
+                            className="h-[70px] w-[70px]"
+                            resizeMode="contain"
+                            style={{
+                              tintColor:
+                                isSelected ||
+                                (sc.HasSubServices &&
+                                  selectedVaccines.length > 0)
+                                  ? '#D75880' // or any highlight color
+                                  : undefined,
+                            }}
+                          />
+
+                          {sc.HasSubServices &&
+                            selectedVaccines.length !== 1 &&
+                            selectedVaccines.length > 0 && (
+                              <View className="absolute top-[-2px] right-[-6px] bg-pastelGrey py-[3px] px-[8px] rounded-full z-10">
+                                <Text className="text-[14px] font-Nunito-Bold text-primary">
+                                  {selectedVaccines.length}
+                                </Text>
+                              </View>
+                            )}
+                        </TouchableOpacity>
+                        <View className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px]">
+                          <Text
+                            className="text-[13px] font-Nunito-Bold font-[700] text-center"
+                            style={{
+                              color:
+                                (sc.HasSubServices &&
+                                  selectedVaccines.length > 0) ||
+                                isSelected
+                                  ? 'black'
+                                  : '#838999',
+                            }}>
+                            {sc?.SCTitle}
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </ScrollView>
+              </View>
+            </View>
+          </>
+        ))}
+
+      {!selectedSCT?.IsSCGroupApplicable && (
         <FlatList
-          data={responseData?.SC?.filter((item) => item.ServiceCategoryType_UUID === selectedSCT?.UUID)}
-          renderItem={({
-            index, item
-          }) => {
+          data={responseData?.SC?.filter(
+            item => item.ServiceCategoryType_UUID === selectedSCT?.UUID,
+          )}
+          renderItem={({index, item}) => {
             const isSelected = selectedSpecialistService === item.UUID;
 
             return (
               <>
-
                 <View
                   key={item.UUID}
-                  style={{ width: (windowWidth - 78) / 3 }}
+                  style={{width: (windowWidth - 78) / 3}}
                   className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
                   <TouchableOpacity
                     onPress={() => {
-
                       setSelectedGeneralServices({});
                       setSelectedVaccines([]);
                       setSelectedSpecialistService(prev =>
                         prev === item?.UUID ? null : item?.UUID,
                       );
-
                     }}
-
-                    className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${isSelected
-                      ? 'border-[#D7588033] bg-[#ffdef6]'
-                      : ' bg-white  border-[#BBBCB7]'
-                      }`}
-                  >
+                    className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${
+                      isSelected
+                        ? 'border-[#D7588033] bg-[#ffdef6]'
+                        : ' bg-white  border-[#BBBCB7]'
+                    }`}>
                     <Image
                       source={{
-                        uri: isSelected ? `https://democms.zumigo.pet${item?.Color_Icon ?? ''}` : `https://democms.zumigo.pet${item?.SCIcon ?? ''}`,
+                        uri: isSelected
+                          ? `https://democms.zumigo.pet${
+                              item?.Color_Icon ?? ''
+                            }`
+                          : `https://democms.zumigo.pet${item?.SCIcon ?? ''}`,
                       }}
                       className=" h-[70px] w-[70px] "
                       resizeMode="contain"
                     />
                   </TouchableOpacity>
-                  <View className=" mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px]">
-                    <Text className="text-[14px] font-Nunito-Bold text-[#838999] font-[700] text-center">
-
-                      {
-                        item?.SCTitle
-                      }
+                  <View className=" mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px] flex items-center justify-center">
+                    <Text
+                      className="text-[12px] font-Nunito-Bold text-[#838999] font-[700] text-center"
+                      style={{
+                        color: isSelected ? 'black' : '#838999',
+                      }}>
+                      {item?.SCTitle}
                     </Text>
                   </View>
                 </View>
-
               </>
-            )
+            );
           }}
           numColumns={3}
         />
-
-      }
-
-
-
+      )}
 
       {/* Section List with Grid Layout */}
-      {false && <SectionList
-        sections={services}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        renderItem={() => null} // Prevents the "no renderItem!" error
-        renderSectionHeader={({ section: { title, data } }) => (
-          <View>
-            <Text
-              className=" mb-[18px] font-Nunito-Regular text-[19px]"
-              style={{ fontWeight: 500 }}>
-              {title}
-            </Text>
+      {false && (
+        <SectionList
+          sections={services}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          renderItem={() => null} // Prevents the "no renderItem!" error
+          renderSectionHeader={({section: {title, data}}) => (
+            <View>
+              <Text
+                className=" mb-[18px] font-Nunito-Regular text-[19px]"
+                style={{fontWeight: 500}}>
+                {title}
+              </Text>
 
-
-            <View className=" flex-1 flex-row flex-wrap  ">
-              {data.map((item, index) => {
-                const isSelected = isGeneral
-                  ? !!selectedGeneralServices[item.id]
-                  : selectedSpecialistService === item.id;
-                return (
-                  <View
-                    key={item.id}
-                    style={{ width: (windowWidth - 78) / 3 }}
-                    className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
-                    <TouchableOpacity
+              <View className=" flex-1 flex-row flex-wrap  ">
+                {data.map((item, index) => {
+                  const isSelected = isGeneral
+                    ? !!selectedGeneralServices[item.id]
+                    : selectedSpecialistService === item.id;
+                  return (
+                    <View
                       key={item.id}
-                      onPress={() => toggleService(item)}
-                      className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${isSelected
-                        ? 'border-[#D7588033] bg-[#ffdef6]'
-                        : ' bg-white  border-[#BBBCB7]'
+                      style={{width: (windowWidth - 78) / 3}}
+                      className={`${(index - 1) % 3 == 0 && ' mx-[15px]'}`}>
+                      <TouchableOpacity
+                        key={item.id}
+                        onPress={() => toggleService(item)}
+                        className={`py-[14px] h-[100px] w-[100px]  rounded-xl border items-center  ${
+                          isSelected
+                            ? 'border-[#D7588033] bg-[#ffdef6]'
+                            : ' bg-white  border-[#BBBCB7]'
                         }`}>
-                      <Image
-                        source={item.image}
-                        className=" h-[70px] w-[70px] "
-                        resizeMode="contain"
-                        style={{
-                          tintColor: isSelected ? '#FFEDF9' : '#FFEDF9',
+                        <Image
+                          source={item.image}
+                          className=" h-[70px] w-[70px] "
+                          resizeMode="contain"
+                          style={{
+                            tintColor: isSelected ? '#FFEDF9' : '#FFEDF9',
 
-                          tintColor: isSelected ? '#D75880' : '#838999',
-                        }}
-                      />
-                      {item.name === 'Vaccination' &&
-                        selectedVaccines.length != 1 &&
-                        selectedVaccines.length && (
-                          <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
-                            <Text className=" text-[14px] font-Nunito-Bold text-primary">
-                              {selectedVaccines.length}
-                            </Text>
-                          </View>
-                        )}
-                    </TouchableOpacity>
-                    <Text
-                      className={`mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px] ${isSelected ? 'text-[#000000]' : 'text-[#838999]'
+                            tintColor: isSelected ? '#D75880' : '#838999',
+                          }}
+                        />
+                        {item.name === 'Vaccination' &&
+                          selectedVaccines.length != 1 &&
+                          selectedVaccines.length && (
+                            <View className=" absolute bg-pastelGrey py-[3px] px-[8px] rounded-full top-[6px] right-[6px]">
+                              <Text className=" text-[14px] font-Nunito-Bold text-primary">
+                                {selectedVaccines.length}
+                              </Text>
+                            </View>
+                          )}
+                      </TouchableOpacity>
+                      <Text
+                        className={`mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px] ${
+                          isSelected ? 'text-[#000000]' : 'text-[#838999]'
                         }`}>
-                      {item.name}
-                    </Text>
-                  </View>
-                );
-              })}
+                        {item.name}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-        )}
-        ListFooterComponent={() => <View className="mt-10 " />}
-        showsVerticalScrollIndicator={false}
-      />}
+          )}
+          ListFooterComponent={() => <View className="mt-10 " />}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
 
       {/* Continue Button */}
       <View className=" mt-24"></View>
@@ -686,11 +796,10 @@ const ServiceSelection = ({ navigation }) => {
         <View className="py-4 bg-white">
           <View className="rounded-full bg-[#d75880] w-full items-center py-5 px-5 flex-col">
             {/* Continue Button First */}
-            <TouchableOpacity
-            >
+            <TouchableOpacity>
               <Text
                 className="text-white font-semibold text-[20px]"
-                style={{ fontFamily: 'Nunito-Bold' }}>
+                style={{fontFamily: 'Nunito-Bold'}}>
                 Continue
               </Text>
             </TouchableOpacity>
@@ -698,22 +807,33 @@ const ServiceSelection = ({ navigation }) => {
             {/* Total Services Below */}
             {(Object.keys(selectedGeneralServices).length !== 0 ||
               selectedSpecialistService) && (
-                <TouchableOpacity
-                  className="items-center "
+              <TouchableOpacity
+                className="items-center "
                 // onPress={handlePriceOpenPress}
-                >
-                  <Text className="text-white font-Nunito-Regular">
-                    {isGeneral
-                      ? selectedVaccines.length
-                        ? Object.keys(selectedGeneralServices).length +
-                        selectedVaccines.length -
-                        1
-                        : Object.keys(selectedGeneralServices).length
-                      : '1'}{' '}
-                    Services
-                  </Text>
-                </TouchableOpacity>
-              )}
+              >
+                <Text className="text-white font-Nunito-Regular">
+                  {isGeneral ? (
+                    <>
+                      {Object.keys(selectedGeneralServices).length > 0 &&
+                        `${Object.keys(selectedGeneralServices).length} ${
+                          Object.keys(selectedGeneralServices).length > 1
+                            ? ''
+                            : ''
+                        }`}
+                      {/* { selectedVaccines.length > 0 &&
+                        `${
+                          Object.keys(selectedGeneralServices).length > 0
+                            ? ' + '
+                            : ''
+                        }Vaccination Selected`} */}
+                    </>
+                  ) : (
+                    '1 Service'
+                  )}
+                  Services
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </TouchableOpacity>
@@ -727,63 +847,63 @@ const ServiceSelection = ({ navigation }) => {
           <ScrollView
             className="mt-[30px]"
             showsVerticalScrollIndicator={false}>
-            {
+            {responseData?.S?.filter(
+              item => item.SCUUID === selectedSC?.UUID,
+            ).map(item => {
+              const isSelected = selectedVaccines.some(
+                vaccine => vaccine.UUID === item.UUID,
+              );
 
-
-
-              responseData?.S?.filter((item) => item.SCUUID === selectedSC?.UUID).map((item) => {
-
-                const isSelected = selectedVaccines.some(
-                  vaccine => vaccine.UUID === item.UUID,
-                );
-
-                return (
-                  <>
-                    <TouchableOpacity
-                      key={item.id}
-                      onPress={() => toggleSelection(item)}
-                      className={`p-4 rounded-2xl mt-[10px] border flex-row  items-start  gap-5 ${isSelected
+              return (
+                <>
+                  <TouchableOpacity
+                    key={item.id}
+                    onPress={() => toggleSelection(item)}
+                    className={`p-4 rounded-2xl  border flex-row  items-start  gap-5 ${
+                      isSelected
                         ? ' bg-primaryOpacity-10 border-[#ffdef6]'
                         : ' bg-[#F2F6F733] border-pastelgreyBorder'
-                        }`}
-                    >
-                      <View className=" flex-row gap-5">
-                        <Image
-                          source={{
-                            uri: `https://democms.zumigo.pet${item?.ServiceIcon ?? ''}`,
-                          }}
-                          className="h-[30px] w-[30px]"
-                          style={{ tintColor: isSelected ? primary : 'grey' }}
-                        />
-                        <View>
+                    }`}>
+                    <View className=" flex-row gap-1">
+                      <Image
+                        source={{
+                          uri: `https://democms.zumigo.pet${
+                            item?.ServiceIcon ?? ''
+                          }`,
+                        }}
+                        className="h-[25px] w-[25px]"
+                        style={{tintColor: isSelected ? primary : 'grey'}}
+                      />
+                      <View>
+                        <Text
+                          className=" font-Nunito-Bold text-[17px] w-[200px]"
+                          ellipsizeMode="tail"
+                          numberOfLines={1}>
+                          {item.ServiceTitle}{' '}
+                        </Text>
+                        <Text className=" font-Nunito-Regular text-[12px] text-black opacity-50">
+                          {item?.Tagline}
+                        </Text>
+                        <Text className=" font-Nunito-Regular text-[12px] mt-[5px] mb-[10px] w-[250px]">
+                          {item.Description?.substring(0, 85)}...
+                        </Text>
+                        <View className="flex flex-row justify-between items-end">
                           <Text
-                            className=" font-Nunito-Bold text-[17px] w-[200px]"
-                            ellipsizeMode="tail"
-                            numberOfLines={1}>
-                            {item.ServiceTitle}{' '}
-                          </Text>
-                          <Text className=" font-Nunito-Regular text-[12px] text-black opacity-50">
-                            {item?.Tagline}
-                          </Text>
-                          <Text
-
-                            className=" font-Nunito-Regular text-[12px] mt-[5px] mb-[10px] w-[250px]">
-                            {item.Description?.substring(0, 85)}...
-                          </Text>
-                          <View className="flex flex-row justify-between items-end">
-                            <Text style={{
+                            style={{
                               fontWeight: 700,
-                              fontSize: 15
-                            }}>{"₹ 1500"}</Text>
-                            {isSelected && (
-                              <Image
-                                source={images.footPrint}
-                                className="h-[23px] w-full"
-                                resizeMode="contain"
-                                style={{ tintColor: primary }}
-                              />
-                            )}
-                            {/* {isSelected && (
+                              fontSize: 15,
+                            }}>
+                            {'₹ 1500'}
+                          </Text>
+                          {isSelected && (
+                            <Image
+                              source={images.footPrint}
+                              className="h-[23px] w-full"
+                              resizeMode="contain"
+                              style={{tintColor: primary}}
+                            />
+                          )}
+                          {/* {isSelected && (
                         <Image
                           source={images.footPrint}
                           className="h-[23px] w-full right-14"
@@ -791,15 +911,13 @@ const ServiceSelection = ({ navigation }) => {
                           style={{ tintColor: primary }}
                         />
                       )} */}
-                          </View>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                  </>
-                )
-
-              })
-            }
+                    </View>
+                  </TouchableOpacity>
+                </>
+              );
+            })}
 
             {/* {data.map(item => {
               const isSelected = selectedVaccines.some(
@@ -942,8 +1060,8 @@ const ServiceSelection = ({ navigation }) => {
                     {isGeneral
                       ? selectedVaccines.length
                         ? Object.keys(selectedGeneralServices).length +
-                        selectedVaccines.length -
-                        1
+                          selectedVaccines.length -
+                          1
                         : Object.keys(selectedGeneralServices).length
                       : '1'}{' '}
                     Services | ₹ {getTotalPrice()}
@@ -960,13 +1078,12 @@ const ServiceSelection = ({ navigation }) => {
                       isHomeVisit: true,
                       // title: 'Home Visit',
                     });
-                  }}>
-                  <Text
-                    className=" text-white font-semibold text-[20px] py-5 rounded-full"
-                    style={{ fontFamily: 'Nunito-Bold' }}>
-                    Continue
-                  </Text>
-                </TouchableOpacity>
+                  }}></TouchableOpacity>
+                <Text
+                  className=" text-white font-semibold text-[20px] py-5 rounded-full"
+                  style={{fontFamily: 'Nunito-Bold'}}>
+                  Continue
+                </Text>
               </View>
             </View>
           </View>

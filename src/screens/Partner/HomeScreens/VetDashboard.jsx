@@ -22,6 +22,8 @@ import {Dimensions} from 'react-native';
 const VetDashboard = () => {
   const {width, height} = Dimensions.get('window');
   const navigation = useNavigation();
+
+  const screenWidth = Dimensions.get('window').width;
   return (
     <View className="flex-1 bg-[#f2f6f7]">
       <ScrollView>
@@ -69,25 +71,18 @@ const VetDashboard = () => {
         <View className="flex-1 bg-[#f2f6f7] px-4">
           <View className=" flex-col">
             <View className="flex flex-row items-center">
-              <View className=" pt-10  mr-[6px] mb-[25px] w-[180px] ">
+              <View className="  mr-[6px] mb-[25px] w-[180px] ">
                 <Text
                   // numberOfLines={2}
                   className=" font-Nunito-Bold text-primary text-[16px] leading-6">
                   You have 10 appointments this week
                 </Text>
-                <Text className=" w-[139px] text-[13px] leading-[19.5px] text-[#333333] font-Nunito-Regular mt-[4px]">
+                <Text className=" w-[139px] text-[13px] leading-[19.5px] text-[#333333] font-Nunito-Regular mt-[10px]">
                   Your pet patients are delighted to receive thoughtful,
                   personalised and comforting healthcare!
                 </Text>
               </View>
               <View className=" bg-[#f2f6f7] ">
-                {/* <Image
-              source={images.dogIcon}
-              className=" rounded-full bg-[#f2f6f7]"
-              style={{width: 165, height: 250}}
-              // tintColor="#f2f6f7"
-              resizeMode="contain"
-            /> */}
                 <Image
                   source={images.dogIcon}
                   className="rounded-full bg-[#f2f6f7]"
@@ -99,7 +94,7 @@ const VetDashboard = () => {
                 />
               </View>
             </View>
-            <Text className=" text-[18px] text-[#1C222F] font-Nunito-Regular mt-[30px] mb-[14px]">
+            <Text className=" text-[18px] text-[#1C222F] font-Nunito-Regular mt-[10px] mb-[14px]">
               Upcoming Appointment
             </Text>
             <TouchableOpacity
@@ -110,46 +105,28 @@ const VetDashboard = () => {
                 time="09:00 AM"
               />
             </TouchableOpacity>
-            <View className=" h-[40px]  mt-[33px] flex flex-row justify-between items-center">
-              <Text className="font-PTSans-Bold text-[16px] text-[#000000]">
-                Earnings
-              </Text>
-              <View className="flex flex-row items-center gap-[8px] w-[110px] h-[39px]  border border-pastelgreyBorder rounded-[20px] bg-[#f3f6f7]">
-                <Text className=" ml-[12px] mt-[8px] mb-[7px] text-center font-Nunito-Regular">
-                  This month
-                </Text>
-                <Image
-                  source={require('../../../assets/images/downArrow.png')}
-                  style={{tintColor: primary}}
-                  className="w-[10px] h-[5px]"
-                />
-              </View>
-            </View>
-            <View className="flex  h-[159.12px] bg-pastelGrey border border-pastelgreyBorder  mt-[14.2px] rounded-[20px] ">
-              <CircleDesign />
-            </View>
-            <View className="flex-row items-center justify-between  h-[79px]  bg-pastelGrey border border-pastelgreyBorder mt-[29.9px] rounded-[20px]">
-              <View className="flex flex-row items-center justify-between ml-[20px] mt-[20.8px] mb-[13.1px] ">
-                <View className="flex flex-col gap-[3px]">
-                  <Text className="text-[12px] font-Nunito-Regular text-[#787A82]">
-                    Average Earning by Vet
+
+            <View className="mt-6 flex-row items-center justify-between gap-2 px-2">
+              {[
+                {label: 'Pets served', count: 90},
+                {label: 'Total Appointments', count: 134},
+              ].map((item, index) => (
+                <View
+                  key={index}
+                  className="bg-[#814DCC4D] h-[90px] flex-1 flex-col items-center justify-center gap-2 rounded-[20px]"
+                  style={{
+                    minWidth: screenWidth * 0.43, // around 43% of screen width
+                  }}>
+                  <Text className=" font-Nunito-Regular text-black text-[16px]">
+                    {item.label}
                   </Text>
-                  <View className=" h-[21px] flex flex-row items-center justify-center mb-[20.2px] ">
-                    <Text className="text-[16px] font-Nunito-Bold text-[#000000]">
-                      80,574.00/
-                    </Text>
-                    <Text className="text-[12px] text-[#787A82] font-Nunito-Regular mt-[3px]">
-                      Per month
-                    </Text>
-                  </View>
+                  <Text className="text-xl font-Nunito-Bold text-black">
+                    {item.count}
+                  </Text>
                 </View>
-              </View>
-              <Image
-                source={require('../../../assets/images/EarningImage.png')}
-                className="w-[68.63px] h-[60.1px] mr-[36.4px]  "
-              />
+              ))}
             </View>
-            <View className=" h-[40px]  mt-[33px] flex flex-row justify-between items-center">
+            {/* <View className=" h-[40px]  mt-[33px] flex flex-row justify-between items-center">
               <Text className="font-PTSans-Bold text-[16px] text-[#000000]">
                 Appointments
               </Text>
@@ -162,9 +139,10 @@ const VetDashboard = () => {
                   className="w-[10px] h-[5px]"
                 />
               </View>
+            </View> */}
+            <View className="mt-[20px]">
+              <AppointmentComponent />
             </View>
-
-            <AppointmentComponent />
             <Text className="font-PTSans-Bold text-[16px] text-[#000000]  mt-[19.7px] mb-[14px]">
               Appointments
             </Text>

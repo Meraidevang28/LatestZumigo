@@ -19,11 +19,7 @@ const services = [
       {
         name: 'Doorstep Lab Diagnostic Service',
         price: '₹650.00',
-        details: [
-          'CBC & Blood Chemistry',
-          'Urinalysis',
-          'Tick-borne Illness Test',
-        ],
+        subText: '(Per blood test)',
       },
     ],
   },
@@ -40,19 +36,15 @@ const services = [
         price: '₹7,499.00',
         details: ['Anti-Rabies', 'Corona', 'DHPPI+'],
       },
-    ],
-  },
-  {
-    title: 'Travel Certificates',
-    data: [
       {
         name: 'Travel Certificates',
-        price: '₹850.00',
-        details: [
-          'Thorough physical checkup',
-          'Up-to-date vaccination & boosters record check',
-          'Veterinarian fitness test',
-        ],
+        price: '₹7,499.00',
+        national: '(Domestic)',
+      },
+      {
+        name: 'Travel Certificates',
+        price: '₹7,499.00',
+        national: '(International)',
       },
     ],
   },
@@ -87,22 +79,32 @@ const ServicesAndPricings = ({navigation}) => {
               keyExtractor={(item, index) => item.name + index}
               renderItem={({item}) => (
                 <View className="flex flex-row items-center justify-between border border-[#e8e9eb] shadow-md-light bg-[#f3f6f7] rounded-2xl p-[15px] mb-[15px]">
-                  <Text
-                    style={{fontFamily: 'Nunito-Regular'}}
-                    className="text-[16px] text-darkGunmetal w-[180px]">
-                    {item.name}
-                  </Text>
-
-                  <Text
-                    className=" text-[16px] text-darkGunmetal"
-                    style={{fontFamily: 'Nunito-Bold'}}>
-                    {item.price}
-                  </Text>
+                  <View className="flex flex-col">
+                    <Text
+                      style={{fontFamily: 'Nunito-Bold', fontWeight: 600}}
+                      className="text-[16px] text-[#333333] w-[180px]">
+                      {item.name}
+                    </Text>
+                    <Text className="text-[12px] text-[#838999]">
+                      {item.national}
+                    </Text>
+                  </View>
+                  <View className="flex flex-col items-center">
+                    <Text
+                      className=" text-[16px] text-[#333333]"
+                      style={{fontFamily: 'Nunito-Bold'}}>
+                      {item.price}
+                    </Text>
+                    <Text className="text-[12px] text-[#838999]">
+                      {item.subText}
+                    </Text>
+                  </View>
                 </View>
               )}
               renderSectionHeader={({section: {title}}) => (
                 <Text
-                  className=" font-Nunito-Regular mt-[15px] mb-3 text-[16px] text-[#000000]"
+                  className=" font-Nunito-Bold mt-[15px] mb-3 text-[16px] text-[#333333]"
+                  style={{fontWeight: 500}}
                   // style={{fontFamily: ''}}
                 >
                   {title}

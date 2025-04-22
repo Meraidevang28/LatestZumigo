@@ -57,22 +57,22 @@ const AppointmentComponent = () => {
         {/* Legend */}
         <View style={styles.legend}>
           <View style={styles.legendItem}>
-            <View
+            {/* <View
               style={[
                 styles.legendColor,
                 {backgroundColor: 'rgba(255, 99, 132, 1)'},
               ]}
-            />
-            <Text>My Appointments</Text>
+            /> */}
+            {/* <Text>My Appointments</Text> */}
           </View>
           <View style={styles.legendItem}>
-            <View
+            {/* <View
               style={[
                 styles.legendColor,
                 {backgroundColor: 'rgba(255, 99, 132, 0.5)'},
               ]}
-            />
-            <Text>Total Appointments</Text>
+            /> */}
+            {/* <Text>Total Appointments</Text> */}
           </View>
         </View>
       </View>

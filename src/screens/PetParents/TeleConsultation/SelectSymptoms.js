@@ -695,12 +695,15 @@ const SelectSymptoms = ({navigation, route}) => {
       <Text className="mb-3 text-[26px] font-PTSans-Bold">
         Select the Symptoms
       </Text>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{paddingBottom: 250}}>
         <View className="flex-1 mb-[50px]">
           <View className="flex-1 py-5 px-[14px] bg-pastelGrey border-pastelgreyBorder border rounded-2xl">
             <View className=" flex-row justify-between items-center">
               <View className=" flex-row gap-[15px] ">
-                <Image source={images.Symptoms} className=" w-[22px] h-[22px]" />
+                <Image
+                  source={images.Symptoms}
+                  className=" w-[22px] h-[22px]"
+                />
                 <Text className=" text-[16px] font-Nunito-Bold  text-darkGunmetal ">
                   Symptoms
                 </Text>
@@ -753,24 +756,34 @@ const SelectSymptoms = ({navigation, route}) => {
                 Upload Image
               </Text>
             </TouchableOpacity>
-            <View className="flex-row gap-[10px] flex-wrap">
-              {uploadedImages.map((image, index) => (
-                <View
-                  key={index}
-                  className="w-[121px] h-[107px] mt-[10px] flex flex-row bg-pastelGrey border border-pastelgreyBorder rounded-2xl items-center justify-center static overflow-hidden">
-                  <Image
-                    source={{uri: image.uri}}
-                    className="h-full w-full rounded-2xl"
-                    resizeMode="cover"
-                  />
-                  <TouchableOpacity
-                    onPress={() => removeImage(index)}
-                    className="absolute top-1 right-1 bg-primary p-1 rounded-full z-10">
-                    <Text className="text-white text-xs">✕</Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
+            {uploadedImages.length > 0 && (
+              <View className="flex-row flex-wrap gap-x-[10px] gap-y-[10px] p-[10px] bg-pastelGrey border border-pastelgreyBorder rounded-2xl mt-4">
+                {uploadedImages.map((image, index) => (
+                  <View
+                    key={index}
+                    className="relative"
+                    style={{width: 90, height: 90}}>
+                    {/* ❌ Close Button */}
+                    <TouchableOpacity
+                      onPress={() => removeImage(index)}
+                      className="absolute top-[-10px] right-[-10px] bg-[#D75880] w-[24px] h-[24px] items-center justify-center rounded-full shadow-md z-10">
+                      <Text className="text-white text-[16px] font-bold">
+                        ✕
+                      </Text>
+                    </TouchableOpacity>
+
+                    {/* Image Container */}
+                    <View className="w-full h-full bg-white border border-pastelgreyBorder rounded-2xl overflow-hidden">
+                      <Image
+                        source={{uri: image.uri}}
+                        className="w-full h-full"
+                        resizeMode="cover"
+                      />
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
 
           {attachments.length > 0 && (
@@ -795,7 +808,7 @@ const SelectSymptoms = ({navigation, route}) => {
             </View>
           )}
 
-          <View className="left-[50px] items-center mb-[200px]">
+          {/* <View className="left-[50px] items-center mb-[200px]">
             <Image
               source={images.sleepingcatIcon}
               style={{
@@ -816,9 +829,34 @@ const SelectSymptoms = ({navigation, route}) => {
               }}
               resizeMode="contain"
             />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 90,
+          right: 0,
+          alignItems: 'center',
+        }}>
+        <Image
+          source={images.sleepingcatIcon}
+          style={{
+            width:
+              uploadedImages.length > 0 || attachments.length > 0 ? 160 : 229,
+            height:
+              uploadedImages.length > 0 || attachments.length > 0 ? 160 : 229,
+            left: uploadedImages.length > 0 || attachments.length > 0 ? 50 : 15,
+            // top:
+            // uploadedImages.length > 0 || attachments.length > 0 ? 100 : 160,
+            bottom:
+              uploadedImages.length > 0 || attachments.length > 0 ? 100 : 60,
+          }}
+          resizeMode="contain"
+        />
+      </View>
 
       <FooterBtn
         title="Continue"

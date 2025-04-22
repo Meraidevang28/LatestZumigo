@@ -328,6 +328,7 @@ const Vetdetails = () => {
     panId: null,
     vetLicense: null,
     companyLogo: null,
+    degreeCertificate: null,
   });
 
   const navigation = useNavigation();
@@ -364,11 +365,13 @@ const Vetdetails = () => {
 
     fetchStoredData();
 
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
-      setIsKeyboardVisible(true),
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setIsKeyboardVisible(true),
     );
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
-      setIsKeyboardVisible(false),
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => setIsKeyboardVisible(false),
     );
 
     return () => {
@@ -435,42 +438,56 @@ const Vetdetails = () => {
     });
   };
 
-  const renderFileUpload = (fileType, label) => (
-    <View className="mt-4 flex flex-col bg-pastelGrey rounded-[20px]">
-      <TouchableOpacity onPress={() => selectFile(fileType)}>
-        <View className="h-[60px] flex flex-row items-center justify-between bg-pastelGrey border border-pastelgreyBorder rounded-[20px]">
-          <Text className="text-[16px] ml-[15px] text-[#000000] font-Nunito-Regular">
-            {label}
-          </Text>
-          <Image
-            source={images.uploadIcon}
-            className="h-[25px] w-[25px] mr-[21.1px]"
-            style={{resizeMode: 'contain'}}
-          />
-        </View>
-      </TouchableOpacity>
-      {selectedFiles[fileType] && (
-        <View className="mt-4 flex flex-row items-center gap-3 ml-[20px] mb-[15px] ">
-          {selectedFiles[fileType].type.includes('image') ? (
+  const renderFileUpload = (fileType, label) => {
+    const hasFile = !!selectedFiles[fileType];
+
+    return (
+      <View
+        className="mt-4 bg-pastelGrey rounded-[20px]"
+        style={{
+          borderWidth: 1,
+          borderColor: '#DBDBDB', // pastelgreyBorder fallback
+          paddingBottom: hasFile ? 15 : 0,
+        }}>
+        <TouchableOpacity onPress={() => selectFile(fileType)}>
+          <View className="h-[60px] flex flex-row items-center justify-between rounded-[20px] bg-pastelGrey">
+            <Text className="text-[16px] ml-[15px] text-[#000000] font-Nunito-Regular">
+              {label}
+            </Text>
             <Image
-              source={{uri: selectedFiles[fileType].uri}}
-              className="w-[100px] h-[100px] rounded-lg"
-              resizeMode="contain"
+              source={images.uploadIcon}
+              className="h-[25px] w-[25px] mr-[21.1px]"
+              style={{resizeMode: 'contain'}}
             />
-          ) : (
-            <View className="bg-gray-200 p-2 rounded-md">
-              <Text className="text-black">{selectedFiles[fileType].name}</Text>
-            </View>
-          )}
-          <TouchableOpacity
-            className="bg-primary top-[-45] left-[-20px] rounded-full h-[25px] w-[25px] flex justify-center items-center"
-            onPress={() => removeFile(fileType)}>
-            <Text className="text-white">X</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
-  );
+          </View>
+        </TouchableOpacity>
+
+        {hasFile && (
+          <View className="mt-4 flex flex-row items-center gap-3 ml-[20px] mr-[20px]">
+            {selectedFiles[fileType].type.includes('image') ? (
+              <Image
+                source={{uri: selectedFiles[fileType].uri}}
+                className="w-[100px] h-[100px] rounded-lg"
+                resizeMode="contain"
+              />
+            ) : (
+              <View className="bg-gray-200 p-2 rounded-md">
+                <Text className="text-black">
+                  {selectedFiles[fileType].name}
+                </Text>
+              </View>
+            )}
+
+            <TouchableOpacity
+              className="bg-primary top-[-45px] left-[-20px] rounded-full h-[25px] w-[25px] flex justify-center items-center"
+              onPress={() => removeFile(fileType)}>
+              <Text className="text-white">X</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <>
@@ -479,7 +496,9 @@ const Vetdetails = () => {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             className="flex-1">
-            <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
+            <ScrollView
+              contentContainerStyle={{flexGrow: 1}}
+              showsVerticalScrollIndicator={false}>
               <View className="mt-[15px] mb-2">
                 <RegistrationProgressBar screenNo={1} />
               </View>
@@ -489,8 +508,8 @@ const Vetdetails = () => {
                 </Text>
 
                 <TextInput
-                  placeholder="First Name"
-                  placeholderTextColor="#00000080"
+                  placeholder="First Name *"
+                  placeholderTextColor="#BBBCB7"
                   onChangeText={text => {
                     setFirstName(text);
                     console.log('First name:', text);
@@ -501,8 +520,8 @@ const Vetdetails = () => {
                 />
 
                 <TextInput
-                  placeholder="Last Name"
-                  placeholderTextColor="#00000080"
+                  placeholder="Last Name *"
+                  placeholderTextColor="#BBBCB7"
                   onChangeText={text => {
                     setLastName(text);
                     console.log('Last name:', text);
@@ -514,7 +533,7 @@ const Vetdetails = () => {
 
                 <TextInput
                   placeholder="Phone no"
-                  placeholderTextColor="#00000080"
+                  placeholderTextColor="#BBBCB7"
                   onChangeText={text => {
                     setPhoneNo(text);
                     console.log('Phone no:', text);
@@ -526,7 +545,7 @@ const Vetdetails = () => {
 
                 <TextInput
                   placeholder="Email"
-                  placeholderTextColor="#00000080"
+                  placeholderTextColor="#BBBCB7"
                   onChangeText={text => {
                     setEmail(text);
                     console.log('Email:', text);
@@ -536,7 +555,9 @@ const Vetdetails = () => {
                   style={{lineHeight: 22}}
                 />
 
-                <Text className="text-[22px] font-Nunito-Bold mt-[15px]">Identity Proof and Vet License</Text>
+                <Text className="text-[22px] font-Nunito-Bold mt-[15px]">
+                  Identity Proof and Vet License
+                </Text>
                 <Text className="text-[18px] font-Nunito-Regular mt-[8px] text-[#BBBCB7]">
                   Upload required documents
                 </Text>
@@ -544,11 +565,15 @@ const Vetdetails = () => {
                 {renderFileUpload('photo', 'Upload Photo')}
                 {renderFileUpload('aadhaar', 'Upload Aadhaar')}
                 {renderFileUpload('panId', 'Upload PAN ID')}
+                {renderFileUpload(
+                  'degreeCertificate',
+                  'Upload Degree Certificate',
+                )}
                 {renderFileUpload('vetLicense', 'Upload Vet License')}
 
                 <TextInput
-                  placeholder="Enter vet license no*"
-                  placeholderTextColor="#00000080"
+                  placeholder="Enter Vet License No *"
+                  placeholderTextColor="#BBBCB7"
                   onChangeText={text => {
                     setVetLicense(text);
                     console.log('Vet License No:', text);
@@ -563,7 +588,7 @@ const Vetdetails = () => {
                 </Text>
 
                 <TextInput
-                  placeholder="GSTIN (Optional)"
+                  placeholder="GST IN (Optional)"
                   placeholderTextColor="#BBBCB7"
                   onChangeText={text => {
                     setGstIn(text);
@@ -597,7 +622,9 @@ const Vetdetails = () => {
               await saveToStorage();
               navigation.navigate(screens.AddAddress);
             }}>
-            <Text className="text-[20px] text-white font-Nunito-Bold text-center">Continue</Text>
+            <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+              Continue
+            </Text>
           </TouchableOpacity>
         </View>
       )}

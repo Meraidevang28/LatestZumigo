@@ -1,10 +1,5 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import images from '../../assets/images';
 import Slider from '@react-native-community/slider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,7 +9,7 @@ const apiKey = 'AIzaSyAzaFHvZmHZxgM3uIhNKC0XuageLFjIooI';
 const SelectServiceArea = () => {
   const [radius, setRadius] = useState(5);
   const [selectedAreas, setSelectedAreas] = useState([]);
-  const [location, setLocation] = useState({ lat: null, lng: null });
+  const [location, setLocation] = useState({lat: null, lng: null});
   // const [areas, setAreas] = useState([]);
   const [areaNames, setAreaNames] = useState([]);
   const [loadingNearby, setLoadingNearby] = useState(false);
@@ -22,11 +17,16 @@ const SelectServiceArea = () => {
   useEffect(() => {
     const fetchStoredLocation = async () => {
       try {
-        const storedLocation = await AsyncStorage.getItem('finalAddressLocation');
+        const storedLocation = await AsyncStorage.getItem(
+          'finalAddressLocation',
+        );
         if (storedLocation !== null) {
           const parsedLocation = JSON.parse(storedLocation);
           console.log('Fetched Address Location:', parsedLocation);
-          setLocation({ lat: parsedLocation.latitude, lng: parsedLocation.longitude });
+          setLocation({
+            lat: parsedLocation.latitude,
+            lng: parsedLocation.longitude,
+          });
         }
       } catch (error) {
         console.log('Error retrieving location from storage:', error);
@@ -46,7 +46,6 @@ const SelectServiceArea = () => {
     return () => clearTimeout(timeout); // clear timeout if radius changes again quickly
   }, [radius, location]);
 
-
   const fetchNearbyPlaces = async (lat, lng, radiusMeters) => {
     if (loadingNearby) return;
 
@@ -63,30 +62,37 @@ const SelectServiceArea = () => {
       // const uniqueAreas = [...new Set([...areas, ...newAreas])];
       const uniqueAreas = [...new Set(newAreas)];
 
-
       const enriched = [];
 
       for (const address of uniqueAreas) {
-        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address,
+        )}&key=${apiKey}`;
         const geoResponse = await fetch(geocodeUrl);
         const geoData = await geoResponse.json();
         const components = geoData.results[0]?.address_components || [];
 
-        const getComponent = (types) =>
-          components.find(c => types.every(type => c.types.includes(type)))?.long_name;
+        const getComponent = types =>
+          components.find(c => types.every(type => c.types.includes(type)))
+            ?.long_name;
 
-        const area = getComponent(['sublocality']) || getComponent(['route']) || getComponent(['neighborhood']);
-        const city = getComponent(['locality']) || getComponent(['administrative_area_level_2']);
+        const area =
+          getComponent(['sublocality']) ||
+          getComponent(['route']) ||
+          getComponent(['neighborhood']);
+        const city =
+          getComponent(['locality']) ||
+          getComponent(['administrative_area_level_2']);
         const state = getComponent(['administrative_area_level_1']);
         const pincode = getComponent(['postal_code']);
         const country = getComponent(['country']);
 
         const details = [];
-        if (area) details.push({ name: 'area', value: area });
-        if (city) details.push({ name: 'city', value: city });
-        if (state) details.push({ name: 'state', value: state });
-        if (pincode) details.push({ name: 'pincode', value: pincode });
-        if (country) details.push({ name: 'country', value: country });
+        if (area) details.push({name: 'area', value: area});
+        if (city) details.push({name: 'city', value: city});
+        if (state) details.push({name: 'state', value: state});
+        if (pincode) details.push({name: 'pincode', value: pincode});
+        if (country) details.push({name: 'country', value: country});
 
         enriched.push(details);
       }
@@ -114,7 +120,7 @@ const SelectServiceArea = () => {
   //   });
   // };
 
-  const toggleAreaSelection = async (area) => {
+  const toggleAreaSelection = async area => {
     setSelectedAreas(prevSelected => {
       const updatedSelected = prevSelected.includes(area)
         ? prevSelected.filter(item => item !== area)
@@ -125,14 +131,14 @@ const SelectServiceArea = () => {
         .then(() => {
           console.log('Selected Areas saved to AsyncStorage:', updatedSelected);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log('Error saving selected areas:', error);
         });
 
       return updatedSelected;
     });
   };
-  
+
   return (
     <View>
       <Text className="text-gray-900 mb-5 text-[24px] font-Nunito-Bold mt-[10px]">
@@ -201,16 +207,18 @@ const SelectServiceArea = () => {
             .map((area, index) => (
               <TouchableOpacity
                 key={index}
-                className={`rounded-[20px] py-[14px] px-[15px] mb-2 border ${selectedAreas.includes(area)
-                  ? 'border border-[#e8d5db] bg-[#d75880] shadow-md-light'
-                  : 'bg-[#f3f6f7] border border-[#e8e9eb] shadow-md-light'
-                  }`}
+                className={`rounded-[16px] py-[14px] px-[15px] mb-2 border ${
+                  selectedAreas.includes(area)
+                    ? 'border border-[#e8d5db] bg-[#d75880] shadow-md-light'
+                    : 'bg-[#f3f6f7] border border-[#e8e9eb] shadow-md-light'
+                }`}
                 onPress={() => toggleAreaSelection(area)}>
                 <Text
-                  className={` text-[16px] leading-6  ${!selectedAreas.includes(area)
-                    ? ' text-darkGunmetal font-Nunito-Regular'
-                    : ' text-white font-Nunito-Bold'
-                    }`}>
+                  className={` text-[16px] leading-6  ${
+                    !selectedAreas.includes(area)
+                      ? ' text-[#838999] font-Nunito-Regular'
+                      : ' text-white font-Nunito-Bold'
+                  }`}>
                   {area}
                 </Text>
               </TouchableOpacity>
@@ -219,7 +227,7 @@ const SelectServiceArea = () => {
       )}
       <Image
         source={images.petLocationIcon}
-        style={{ resizeMode: 'contain' }}
+        style={{resizeMode: 'contain'}}
         className="w-full h-[200px] mt-[20px] mb-[200px] left-[100px]"
       />
     </View>
