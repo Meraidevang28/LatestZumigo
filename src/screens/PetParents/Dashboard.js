@@ -231,7 +231,7 @@ const Dashboard = ({ navigation }) => {
               />
             </TouchableOpacity>
             <Text className="text-[25px] font-Nunito-Regular text-[#333333]">
-              Hiiii
+              Hi
               <Text className="font-Nunito-Regular text-[#333333]">
                 {isProfileComplete ? ` ${firstName}` : ' Pet Parent'}
               </Text>
@@ -280,7 +280,7 @@ const Dashboard = ({ navigation }) => {
                 //   `${consultation.Consultation_Name} UUID:`,
                 //   consultation.UUID,
                 // );
-                if (consultation.Consultaytion_Name === 'Home Visit') {
+                if (consultation.Consultaytion_Name === 'Vet Home Visit') {
 
                   try {
 
@@ -300,7 +300,7 @@ const Dashboard = ({ navigation }) => {
                     console.log(err)
                   }
                 } else if (
-                  consultation.Consultaytion_Name === 'Teleconsultation'
+                  consultation.Consultaytion_Name === 'Vet Teleconsultation'
                 ) {
                   console.log("292")
 

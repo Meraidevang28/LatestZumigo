@@ -550,16 +550,16 @@ const AddYourPet = ({ navigation, route }) => {
       </ScrollView>
       <FooterBtn
         title="Save"
-        // onClick={() => {
-        //   if (goBack) {
-        //     navigation.goBack();
-        //   } else {
-        //     navigation.navigate(screens.SelectSymptoms, {
-        //       ...(isHomeVisit ? { isHomeVisit: true } : {}),
-        //     });
-        //   }
-        // }}
-      onClick={addPet}
+        onClick={() => {
+          if (goBack) {
+            navigation.goBack();
+          } else {
+            navigation.navigate(screens.SelectSymptoms, {
+              ...(isHomeVisit ? { isHomeVisit: true } : {}),
+            });
+          }
+        }}
+      // onClick={addPet}
       />
       <Modal
         isVisible={isModalVisible}

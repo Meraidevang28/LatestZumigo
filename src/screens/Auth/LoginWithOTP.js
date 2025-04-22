@@ -9,6 +9,7 @@ import {
   ScrollView,
   Keyboard,
   Dimensions,
+  Platform
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
@@ -25,6 +26,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
 
 const LoginScreen = ({ navigation }) => {
   const [isPartner, setIsPartner] = useState(false);
@@ -84,6 +87,7 @@ const LoginScreen = ({ navigation }) => {
         const ip = await NetworkInfo.getIPAddress();
         if (ip) {
           setDeviceIp(ip);
+          await AsyncStorage.setItem('device_Ip', ip);
           console.log('Device IP Address:', ip);
         }
       } catch (error) {
@@ -148,17 +152,60 @@ const LoginScreen = ({ navigation }) => {
 
       if (response.data?.Token) {
         await AsyncStorage.setItem('auth_token', response.data.Token.Token);
-        setAuthToken(response.data.Token.Token);
+        setAuthToken(response.data.Token.Token);  
       }
     } catch (error) {
       console.error('Error fetching token:', error);
     }
   };
+
+  const requestLocationPermission = async () => {
+    try {
+      const permission =
+        Platform.OS === 'ios'
+          ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+          : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+  
+      const result = await request(permission);
+      console.log('Permission result:', result);
+  
+      if (result === RESULTS.GRANTED) {
+        const hasPermission = await check(permission);
+        if (hasPermission !== RESULTS.GRANTED) {
+          Alert.alert('Permission Denied', 'Location permission is required');
+          return false;
+        }
+  
+        Geolocation.getCurrentPosition(
+          position => {
+            console.log('Location:', position);
+          },
+          error => {
+            console.error('Geolocation error:', error);
+            Alert.alert('Error', 'Failed to get location');
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+        return true;
+      } else {
+        Alert.alert('Permission Denied', 'Location permission is required');
+        return false;
+      }
+    } catch (error) {
+      console.error('Permission request error:', error);
+      return false;
+    }
+  };  
+
   const sendOtp = async () => {
     if (!mobile || mobile.length !== 10 || !/^\d+$/.test(mobile)) {
       Alert.alert('Please enter a valid mobile number.');
       return;
     }
+
+    // const locationAllowed = await requestLocationPermission();
+    // if (!locationAllowed) return;
+
     try {
       const response = await axios.get(`${API_BASE_URL}${AUTH_SENDOTP}`, {
         params: {
@@ -166,7 +213,7 @@ const LoginScreen = ({ navigation }) => {
           DeviceIp: deviceIp,
           UserTypeUuid: userTypeUuid,
         },
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: { Authorization: `Bearer ${authToken}`},
       });
       console.log('Full Response:', response.data);
       const otp = response.data?.[0]?.OTP;
@@ -391,6 +438,7 @@ const LoginScreen = ({ navigation }) => {
 };
 
 export default LoginScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
