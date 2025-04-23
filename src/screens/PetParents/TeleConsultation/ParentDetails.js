@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,9 @@ import CustomTextInput from '../../../components/shared/CustomTextInput';
 import screens from '../../../constants/screens';
 import images from '../../../assets/images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_BASE_URL, UPDATE_USER } from '@env';
+import {API_BASE_URL, UPDATE_USER} from '@env';
 
-const ParentDetails = ({ navigation, route }) => {
+const ParentDetails = ({navigation, route}) => {
   const isHomeVisit = route?.params?.isHomeVisit;
 
   const [authToken, setAuthToken] = useState(null);
@@ -36,14 +36,13 @@ const ParentDetails = ({ navigation, route }) => {
         if (userType) setUserTypeUuid(userType);
 
         if (mobileNumber) {
-          setForm(prev => ({ ...prev, phone: mobileNumber }));
+          setForm(prev => ({...prev, phone: mobileNumber}));
           console.log('Loaded mobile number:', mobileNumber);
         }
 
         console.log('auth_token:', token);
         console.log('userUUID:', uuid);
         console.log('user_type_uuid:', userType);
-        
       } catch (error) {
         console.error('Error fetching data from storage:', error);
       }
@@ -54,13 +53,13 @@ const ParentDetails = ({ navigation, route }) => {
 
   useEffect(() => {
     if (isHomeVisit) {
-      navigation.setOptions({ title: 'Home Visit' });
+      navigation.setOptions({title: 'Home Visit'});
     }
   }, []);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
     if (isHomeVisit) {
-      navigation.setOptions({ title: 'Home Visit' });
+      navigation.setOptions({title: 'Home Visit'});
     }
 
     const keyboardDidShowListener = Keyboard.addListener(
@@ -86,7 +85,7 @@ const ParentDetails = ({ navigation, route }) => {
   });
 
   const handleChange = (name, value) => {
-    setForm({ ...form, [name]: value });
+    setForm({...form, [name]: value});
   };
 
   const handleSubmit = async () => {
@@ -181,9 +180,9 @@ const ParentDetails = ({ navigation, route }) => {
                 className="w-[357px] h-[228px]"
               />
             </View>
-            <FooterBtn title="Continue" onClick={handleSubmit} />
           </>
         )}
+        <FooterBtn title="Continue" onClick={handleSubmit} />
       </View>
     </KeyboardAvoidingView>
   );

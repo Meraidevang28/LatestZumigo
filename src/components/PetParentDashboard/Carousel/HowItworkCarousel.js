@@ -270,7 +270,7 @@ const HowItworkCarousel = ({data, aspectRatio = 1.2}) => {
                 borderWidth: 1,
                 borderColor: '#E6E7E9',
                 borderRadius: 16,
-                marginHorizontal: 16,
+                marginHorizontal: 25,
                 marginTop: 12,
                 paddingBottom: 8,
               }}>
@@ -286,7 +286,13 @@ const HowItworkCarousel = ({data, aspectRatio = 1.2}) => {
                   paddingVertical: 10,
                   zIndex: 10,
                 }}>
-                <Text style={{fontSize: 12, fontWeight: '600', color: '#000'}}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    // fontWeight: '700',
+                    color: '#000',
+                    fontFamily: 'Nunito-Bold',
+                  }}>
                   {index + 1}
                 </Text>
               </View>
@@ -314,7 +320,8 @@ const HowItworkCarousel = ({data, aspectRatio = 1.2}) => {
                 style={{
                   color: '#000',
                   fontSize: width * 0.04,
-                  fontWeight: '700',
+                  // fontWeight: '700',
+                  fontFamily: 'Nunito-Bold',
                   marginBottom: 4,
                 }}>
                 {item.title}
@@ -324,10 +331,11 @@ const HowItworkCarousel = ({data, aspectRatio = 1.2}) => {
                   color: '#000',
                   fontSize: width * 0.035,
                   marginBlock: 4,
+                  fontFamily: 'Nunito-Regular',
                 }}>
                 {item.descriptionPrefix}
                 {item.descriptionBold && (
-                  <Text style={{fontWeight: '700'}}>
+                  <Text style={{fontFamily: 'Nunito-Bold'}}>
                     {item.descriptionBold}
                   </Text>
                 )}

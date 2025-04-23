@@ -692,9 +692,7 @@ const SelectSymptoms = ({navigation, route}) => {
 
   return (
     <View className="flex-1 bg-white px-6">
-      <Text className="mb-3 text-[26px] font-PTSans-Bold">
-        Select the Symptoms
-      </Text>
+      <Text className="mb-3 text-[26px] font-PTSans-Bold">Pet's Symptoms</Text>
       <ScrollView contentContainerStyle={{paddingBottom: 250}}>
         <View className="flex-1 mb-[50px]">
           <View className="flex-1 py-5 px-[14px] bg-pastelGrey border-pastelgreyBorder border rounded-2xl">
@@ -731,10 +729,10 @@ const SelectSymptoms = ({navigation, route}) => {
                   </Text>
                   <TouchableOpacity
                     onPress={() => removeSymptom(index)}
-                    className=" absolute right-[-2px] top-[-3px]">
+                    className=" absolute right-[-2px]  top-[-3px]">
                     <Image
                       source={images.primaryClose}
-                      className=" h-[14px] w-[14px]"
+                      className=" h-[14px] w-[14px] "
                     />
                   </TouchableOpacity>
                 </View>
@@ -744,7 +742,7 @@ const SelectSymptoms = ({navigation, route}) => {
 
           <View className="flex-col gap-[10px] mb-[15px] flex-wrap">
             <TouchableOpacity
-              className="w-[141px] h-[50px] mt-[10px] flex flex-row gap-[10px] bg-pastelGrey border border-pastelgreyBorder rounded-[20px] items-center justify-center"
+              className="w-[141px] h-[40px] mt-[15px] flex flex-row gap-[10px] bg-[#F2F6F733] border border-pastelgreyBorder rounded-[20px] items-center justify-center"
               onPress={selectImage}>
               <Image
                 source={images.secondaryAdd}
@@ -757,23 +755,23 @@ const SelectSymptoms = ({navigation, route}) => {
               </Text>
             </TouchableOpacity>
             {uploadedImages.length > 0 && (
-              <View className="flex-row flex-wrap gap-x-[10px] gap-y-[10px] p-[10px] bg-pastelGrey border border-pastelgreyBorder rounded-2xl mt-4">
+              <View className="flex-row items-center flex-wrap gap-x-[10px] gap-y-[5px] p-[16px] bg-pastelGrey border border-pastelgreyBorder rounded-2xl mt-4">
                 {uploadedImages.map((image, index) => (
                   <View
                     key={index}
                     className="relative"
                     style={{width: 90, height: 90}}>
-                    {/* ❌ Close Button */}
+                    {/* ✕ Close Button */}
                     <TouchableOpacity
                       onPress={() => removeImage(index)}
-                      className="absolute top-[-10px] right-[-10px] bg-[#D75880] w-[24px] h-[24px] items-center justify-center rounded-full shadow-md z-10">
+                      className="absolute top-[-10px] right-[-8px] bg-[#D75880] w-[24px] h-[24px] items-center justify-center rounded-full shadow-md z-10">
                       <Text className="text-white text-[16px] font-bold">
                         ✕
                       </Text>
                     </TouchableOpacity>
 
-                    {/* Image Container */}
-                    <View className="w-full h-full bg-white border border-pastelgreyBorder rounded-2xl overflow-hidden">
+                    {/* Image Preview */}
+                    <View className=" bg-white border border-pastelgreyBorder rounded-2xl overflow-hidden">
                       <Image
                         source={{uri: image.uri}}
                         className="w-full h-full"
@@ -916,7 +914,9 @@ const SelectSymptoms = ({navigation, route}) => {
                   );
                 })
               ) : (
-                <Text className="text-center w-full">Loading symptoms...</Text>
+                <Text className="text-center font-Nunito-Bold w-full">
+                  Loading symptoms...
+                </Text>
               )}
             </View>
           </ScrollView>

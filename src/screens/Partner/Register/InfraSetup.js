@@ -5,12 +5,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import RegistrationProgressBar from '../../../components/shared/RegistrationProgressBar';
 import images from '../../../assets/images';
 import screens from '../../../constants/screens';
-
 const InfraSetup = ({navigation}) => {
   const [selectedinfrastructure, setSelectedInfrastructure] = useState([]);
   const Infrastructure = [
@@ -18,6 +18,8 @@ const InfraSetup = ({navigation}) => {
     'In-house Pharmacy',
     'Portable eye checkup equipment',
   ];
+  const {width, height} = Dimensions.get('window');
+  const imageHeight = height * 0.4;
   const toggleInfraSelection = Infrastructure => {
     setSelectedInfrastructure(prev =>
       prev.includes(Infrastructure)
@@ -28,7 +30,7 @@ const InfraSetup = ({navigation}) => {
   return (
     <View className="flex-1 bg-white">
       <View className="mt-[15px] mb-2 px-6">
-        <RegistrationProgressBar screenNo={5} />
+        <RegistrationProgressBar screenNo={4} />
       </View>
       <View className="flex-1 bg-white px-6">
         <Text className="text-[24px] font-Nunito-Bold mb-[15px] mt-[10px]">
@@ -58,8 +60,23 @@ const InfraSetup = ({navigation}) => {
           </View>
         </ScrollView>
       </View>
-      <View className="flex flex-row items-center justify-center">
-        <Image source={images.infraIcon} style={{resizeMode: 'contain'}} />
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 50, // adjust if you have a footer
+          left: 25,
+          right: 0,
+          alignItems: 'center',
+          backgroundColor: 'white',
+        }}>
+        <Image
+          source={images.infraIcon}
+          style={{
+            width: width * 1.99, // responsive width
+            height: imageHeight * 0.9, // responsive height
+            resizeMode: 'contain',
+          }}
+        />
       </View>
       <View
         className="bg-white flex px-6 justify-center h-[100px] w-full"

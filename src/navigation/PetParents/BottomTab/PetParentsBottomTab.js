@@ -28,12 +28,12 @@ export default function PetParentsBottomTab() {
         tabBarShowLabel: false,
       }}
       tabBar={({state, navigation}) => (
-        <View className="absolute bottom-0 left-0 right-0 bg-primary  pb-4 flex-row justify-around  rounded-[20px] mx-6 mb-6">
+        <View className="absolute bottom-0 left-0 right-0 bg-primary  pb-2 flex-row justify-around  rounded-[20px] mx-4 mb-4">
           {state.routes.map((route, index) => {
             const isActive = state.index === index;
             const icons = {
               Home: images.HomeIcon,
-              Bookings: images.bookingIcon,
+              Booking: images.bookingIcon,
               MyPets: images.mypetIcon,
             };
             return (
@@ -50,7 +50,7 @@ export default function PetParentsBottomTab() {
         </View>
       )}>
       <Tab.Screen name="Home" component={Dashboard} />
-      <Tab.Screen name="Bookings" component={Appointments} />
+      <Tab.Screen name="Booking" component={Appointments} />
       <Tab.Screen name="MyPets" component={Pets} />
     </Tab.Navigator>
   );

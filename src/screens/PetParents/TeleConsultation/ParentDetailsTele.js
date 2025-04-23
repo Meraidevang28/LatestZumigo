@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,9 @@ import CustomTextInput from '../../../components/shared/CustomTextInput';
 import screens from '../../../constants/screens';
 import images from '../../../assets/images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_BASE_URL, UPDATE_USER } from '@env';
+import {API_BASE_URL, UPDATE_USER} from '@env';
 
-const ParentDetailsTele = ({ navigation, route }) => {
+const ParentDetailsTele = ({navigation, route}) => {
   const isHomeVisit = route?.params?.isHomeVisit;
 
   const [authToken, setAuthToken] = useState(null);
@@ -36,7 +36,7 @@ const ParentDetailsTele = ({ navigation, route }) => {
         if (userType) setUserTypeUuid(userType);
 
         if (mobileNumber) {
-          setForm(prev => ({ ...prev, phone: mobileNumber }));
+          setForm(prev => ({...prev, phone: mobileNumber}));
           console.log('Loaded mobile number:', mobileNumber);
         }
 
@@ -53,13 +53,13 @@ const ParentDetailsTele = ({ navigation, route }) => {
 
   useEffect(() => {
     if (isHomeVisit) {
-      navigation.setOptions({ title: 'Home Visit' });
+      navigation.setOptions({title: 'Home Visit'});
     }
   }, []);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
     if (isHomeVisit) {
-      navigation.setOptions({ title: 'Home Visit' });
+      navigation.setOptions({title: 'Home Visit'});
     }
 
     const keyboardDidShowListener = Keyboard.addListener(
@@ -85,7 +85,7 @@ const ParentDetailsTele = ({ navigation, route }) => {
   });
 
   const handleChange = (name, value) => {
-    setForm({ ...form, [name]: value });
+    setForm({...form, [name]: value});
   };
 
   const handleSubmit = async () => {

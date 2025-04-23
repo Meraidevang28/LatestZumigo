@@ -20,10 +20,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 const VetAssistantDetails = ({navigation}) => {
-  const {height, width} = Dimensions.get('window');
+  // const {height, width} = Dimensions.get('window');
   const [hasAssistant, setHasAssistant] = useState(false);
   const [assistants, setAssistants] = useState([{name: '', mobile: ''}]);
-
+  const {width, height} = Dimensions.get('window');
+  const imageHeight = height * 0.34;
   const toggleSwitch = () => setHasAssistant(prev => !prev);
 
   const addAssistant = () => {
@@ -74,78 +75,80 @@ const VetAssistantDetails = ({navigation}) => {
   };
   return (
     <>
-      <View className="flex-1 bg-white px-6 ">
-        <View className="flex-1">
-          {/* Progress bar  */}
+      <ScrollView className="bg-white" showsVerticalScrollIndicator={false}>
+        <View className="flex-1 bg-white px-6">
+          {/* Progress bar */}
           <View className="mt-[15px] mb-2">
             <RegistrationProgressBar screenNo={6} />
           </View>
           <Text className="text-gray-900 mb-[10px] text-[24px] font-Nunito-Bold mt-[10px]">
             Your Assistant Details
           </Text>
-          <ScrollView
-            className=" bg-white "
-            showsVerticalScrollIndicator={false}>
-            {/* Toggle Switch */}
 
-            <View className="flex-row justify-between items-center bg-[#F2F6F733]  border border-[#BBBCB733] px-[19px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
-              <Text className="text-[16px] text-darkGunmetal leading-10 font-Nunito-Regular">
-                Do you have an assistant?
-              </Text>
-              <Switch
-                value={hasAssistant}
-                onValueChange={toggleSwitch}
-                trackColor={{false: '#E7ECF7', true: '#d75880'}}
-                thumbColor={true ? '#fff' : '#fff'}
-              />
+          {/* Toggle Switch */}
+          <View className="flex-row justify-between items-center bg-[#F2F6F733] border border-[#BBBCB733] px-[19px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
+            <Text className="text-[16px] text-darkGunmetal leading-10 font-Nunito-Regular">
+              Do you have an assistant?
+            </Text>
+            <Switch
+              value={hasAssistant}
+              onValueChange={toggleSwitch}
+              trackColor={{false: '#E7ECF7', true: '#d75880'}}
+              thumbColor={'#fff'}
+            />
+          </View>
+
+          {/* Assistant Fields */}
+          {hasAssistant && (
+            <View>
+              {assistants.map((assistant, index) => (
+                <View key={index}>
+                  <TextInput
+                    className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
+                    placeholder="Name"
+                    placeholderTextColor="#00000080"
+                    value={assistant.name}
+                    onChangeText={text => updateAssistant(index, 'name', text)}
+                  />
+                  <TextInput
+                    className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
+                    placeholder="Mobile number"
+                    placeholderTextColor="#00000080"
+                    keyboardType="phone-pad"
+                    value={assistant.mobile}
+                    onChangeText={text =>
+                      updateAssistant(index, 'mobile', text)
+                    }
+                  />
+                </View>
+              ))}
+              <TouchableOpacity onPress={addAssistant}>
+                <Text className="text-[16px] text-primary font-Nunito-Regular">
+                  + Add more
+                </Text>
+              </TouchableOpacity>
             </View>
-            {/* Assistant Fields */}
-            {hasAssistant && (
-              <View>
-                {assistants.map((assistant, index) => (
-                  <View key={index}>
-                    <TextInput
-                      className="bg-white text-[#000000] h-[60px] text-[16px]  border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
-                      placeholder="Name"
-                      placeholderTextColor="#00000080"
-                      value={assistant.name}
-                      onChangeText={text =>
-                        updateAssistant(index, 'name', text)
-                      }
-                    />
-                    <TextInput
-                      className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
-                      placeholder="Mobile number"
-                      placeholderTextColor="#00000080"
-                      keyboardType="phone-pad"
-                      value={assistant.mobile}
-                      onChangeText={text =>
-                        updateAssistant(index, 'mobile', text)
-                      }
-                    />
-                  </View>
-                ))}
-                <TouchableOpacity onPress={addAssistant}>
-                  <Text className="text-[16px] text-primary font-Nunito-Regular">
-                    + Add assistant
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            <View className=" mt-20 items-center mb-[50px]">
-              <Image
-                source={images.Assistant}
-                // className="right-[-35px] bottom-[-10px]"
-                style={{resizeMode: 'contain', right: wp(-10), bottom: hp(-6)}}
-              />
-            </View>
-          </ScrollView>
-          {/* <FooterBtn
-        title="Continue"
-        onClick={() => navigation.navigate(screens.VetRegisterAgreement)}
-      /> */}
+          )}
+          <View
+            style={{
+              position: 'absolute',
+              bottom: -600,
+              right: 0,
+              paddingRight: 16,
+              zIndex: -1,
+              marginBottom: 200,
+            }}>
+            <Image
+              source={images.Assistant}
+              style={{
+                width: width * 0.5,
+                height: height * 0.3,
+                resizeMode: 'contain',
+              }}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
       {!isKeyboardVisible && (
         <View
           className="bg-white flex px-6 justify-center h-[100px] w-full"

@@ -30,7 +30,7 @@ const CarouselCard = ({item}) => (
         Behavior with Us!
       </Text>
       <View className="items-start mt-[15px]">
-        <TouchableOpacity className="bg-primary rounded-full py-[8px] px-[18px]">
+        <TouchableOpacity className="bg-primary rounded-full py-[8px] px-[26px]">
           <Text className="font-Proxima-Nova-Bold text-white">Book Now</Text>
         </TouchableOpacity>
       </View>

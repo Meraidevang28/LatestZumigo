@@ -105,7 +105,7 @@ const VetNavigation = () => {
       <Stack.Screen
         name={screens.SelectServices}
         component={SelectServices}
-        options={{title: 'Veterinarian Registration'}}
+        options={{title: 'Registration'}}
       />
       <Stack.Screen
         name={screens.Vetdetails}
@@ -170,7 +170,7 @@ const VetNavigation = () => {
       <Stack.Screen
         name={screens.VetRegisterAgreement}
         component={VetRegisterAgreement}
-        options={{title: 'Veterinarian Registration'}}
+        options={{title: ' Registration'}}
       />
 
       <Stack.Screen

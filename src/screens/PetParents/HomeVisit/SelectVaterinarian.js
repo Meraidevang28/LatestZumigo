@@ -46,7 +46,7 @@ const SelectVaterinarian = ({navigation, route}) => {
         <Text className="text-[24px] text-black font-Nunito-Bold">
           Select your Vaterinarian
         </Text>
-        <View className="h-[130px] bg-[#f7f7f7] border border-[#BBBCB7] mt-[30px] rounded-[20px] px-1">
+        <View className="h-[130px] bg-[#F2F6F733] border border-[#BBBCB7] mt-[30px] rounded-[20px] px-1">
           <Text className="mt-[20px] text-[16px] text-black font-Nunito-Regular left-4">
             Consult a
           </Text>
@@ -66,7 +66,7 @@ const SelectVaterinarian = ({navigation, route}) => {
                     className={`text-[13px] text-center  ${
                       selectedSct?.UUID === sct.UUID
                         ? 'text-white font-Nunito-Bold'
-                        : 'text-[#BBBCB7]'
+                        : 'text-[#BBBCB7] font-Nunito-Regular'
                     }`}>
                     {sct.SCTName}
                   </Text>
@@ -86,7 +86,7 @@ const SelectVaterinarian = ({navigation, route}) => {
                   className={`text-[16px] text-center  ${
                     selected === 'generalpractitioner'
                       ? 'text-white font-Nunito-Bold'
-                      : 'text-[#BBBCB7]'
+                      : 'text-[#BBBCB7] '
                   }`}>
                   General Practitioner
                 </Text>

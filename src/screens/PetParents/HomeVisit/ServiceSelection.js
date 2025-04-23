@@ -630,7 +630,7 @@ const ServiceSelection = ({navigation}) => {
                         </TouchableOpacity>
                         <View className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px]">
                           <Text
-                            className="text-[13px] font-Nunito-Bold font-[700] text-center"
+                            className="text-[11px] font-Nunito-Bold text-center"
                             style={{
                               color:
                                 (sc.HasSubServices &&
@@ -692,7 +692,7 @@ const ServiceSelection = ({navigation}) => {
                   </TouchableOpacity>
                   <View className=" mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11.5px] flex items-center justify-center">
                     <Text
-                      className="text-[12px] font-Nunito-Bold text-[#838999] font-[700] text-center"
+                      className="text-[11px] font-Nunito-Bold text-[#838999]  text-center"
                       style={{
                         color: isSelected ? 'black' : '#838999',
                       }}>
@@ -796,13 +796,13 @@ const ServiceSelection = ({navigation}) => {
         <View className="py-4 bg-white">
           <View className="rounded-full bg-[#d75880] w-full items-center py-5 px-5 flex-col">
             {/* Continue Button First */}
-            <TouchableOpacity>
-              <Text
-                className="text-white font-semibold text-[20px]"
-                style={{fontFamily: 'Nunito-Bold'}}>
-                Continue
-              </Text>
-            </TouchableOpacity>
+            {/* <TouchableOpacity> */}
+            <Text
+              className="text-white font-semibold text-[20px]"
+              style={{fontFamily: 'Nunito-Bold'}}>
+              Continue
+            </Text>
+            {/* </TouchableOpacity> */}
 
             {/* Total Services Below */}
             {(Object.keys(selectedGeneralServices).length !== 0 ||
@@ -828,7 +828,7 @@ const ServiceSelection = ({navigation}) => {
                         }Vaccination Selected`} */}
                     </>
                   ) : (
-                    '1 Service'
+                    '1 '
                   )}
                   Services
                 </Text>
@@ -859,12 +859,12 @@ const ServiceSelection = ({navigation}) => {
                   <TouchableOpacity
                     key={item.id}
                     onPress={() => toggleSelection(item)}
-                    className={`p-4 rounded-2xl  border flex-row  items-start  gap-5 ${
+                    className={`p-4 rounded-2xl mb-5 border flex-row  items-start  gap-5 ${
                       isSelected
                         ? ' bg-primaryOpacity-10 border-[#ffdef6]'
                         : ' bg-[#F2F6F733] border-pastelgreyBorder'
                     }`}>
-                    <View className=" flex-row gap-1">
+                    <View className=" flex-row gap-[8px]">
                       <Image
                         source={{
                           uri: `https://democms.zumigo.pet${
@@ -887,10 +887,11 @@ const ServiceSelection = ({navigation}) => {
                         <Text className=" font-Nunito-Regular text-[12px] mt-[5px] mb-[10px] w-[250px]">
                           {item.Description?.substring(0, 85)}...
                         </Text>
-                        <View className="flex flex-row justify-between items-end">
+                        <View className="flex flex-row  justify-between items-end">
                           <Text
                             style={{
-                              fontWeight: 700,
+                              // fontWeight: 700,
+                              fontFamily: 'Nunito-Bold',
                               fontSize: 15,
                             }}>
                             {'₹ 1500'}
@@ -898,7 +899,7 @@ const ServiceSelection = ({navigation}) => {
                           {isSelected && (
                             <Image
                               source={images.footPrint}
-                              className="h-[23px] w-full"
+                              className="h-[23px] w-full right-3"
                               resizeMode="contain"
                               style={{tintColor: primary}}
                             />

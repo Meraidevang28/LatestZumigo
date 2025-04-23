@@ -13,7 +13,7 @@ const VetServiceLocation = ({navigation}) => {
         showsVerticalScrollIndicator={false}>
         {/* Progress bar  */}
         <View className="mt-[15px] mb-2">
-          <RegistrationProgressBar screenNo={3} />
+          <RegistrationProgressBar screenNo={2} />
         </View>
 
         <SelectServiceArea />

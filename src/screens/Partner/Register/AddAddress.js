@@ -18,14 +18,20 @@ const AddAddress = ({navigation}) => {
         <TouchableOpacity
           className=" flex-row w-full justify-center items-center bg-white border-2 border-primary  rounded-full py-2 gap-2"
           onPress={() => navigation.navigate(screens.MapViewScreenVet)}>
-          <Text className="text-[30px]  text-primary">+</Text>
-          <Text className=" font-Nunito-Bold text-[21px] text-primary">
-            Add Address
-          </Text>
+          <View className="flex flex-row items-center justify-center gap-2 ">
+            <Text className="text-[32px] font-Nunito-Bold text-primary">+</Text>
+            <Text className=" font-Nunito-Bold text-[21px] text-primary">
+              Add Address
+            </Text>
+          </View>
         </TouchableOpacity>
       </ScrollView>
       <View className="absolute bottom-0 left-0 right-0 items-center pb-4">
-        <Image source={images.addressIcon} resizeMode="contain" />
+        <Image
+          source={images.addressIcon}
+          resizeMode="contain"
+          style={{width: 600, height: 300}}
+        />
       </View>
     </View>
   );

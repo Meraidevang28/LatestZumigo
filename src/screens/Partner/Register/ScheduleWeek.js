@@ -35,6 +35,7 @@ import screens from '../../../constants/screens';
 const ScheduleWeek = () => {
   const {height, width} = Dimensions.get('window');
   const [isTimeModalVisible, setTimeModalVisible] = useState(false);
+  const [selectedSlotIndex, setSelectedSlotIndex] = useState(null); // Track which slot
   const [selectedMinuteIndex, setSelectedMinuteIndex] = useState(0);
   const [selectedHourIndex, setSelectedHourIndex] = useState(0);
   const [selectedAmPmIndex, setSelectedAmPmIndex] = useState(0);
@@ -55,15 +56,15 @@ const ScheduleWeek = () => {
     {value: 'AM', label: 'AM'},
     {value: 'PM', label: 'PM'},
   ];
-  const handleTimeSelect = () => {
-    const selectedHour = hourdata[selectedHourIndex]?.label;
-    const selectedMinute = mindata[selectedMinuteIndex]?.label;
-    const selectedAmPm = amPmData[selectedAmPmIndex]?.label;
+  // const handleTimeSelect = () => {
+  //   const selectedHour = hourdata[selectedHourIndex]?.label;
+  //   const selectedMinute = mindata[selectedMinuteIndex]?.label;
+  //   const selectedAmPm = amPmData[selectedAmPmIndex]?.label;
 
-    // ✅ Set the selected time and close the modal
-    setSelectedTime(`${selectedHour}:${selectedMinute} ${selectedAmPm}`);
-    setTimeModalVisible(false);
-  };
+  //   // ✅ Set the selected time and close the modal
+  //   setSelectedTime(`${selectedHour}:${selectedMinute} ${selectedAmPm}`);
+  //   setTimeModalVisible(false);
+  // };
   const bottomSheetRef = useRef(null);
   const timebottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['70%'], []);
@@ -158,6 +159,24 @@ const ScheduleWeek = () => {
       ),
     );
   };
+  const handleTimeSelect = () => {
+    const selectedHour = hourdata[selectedHourIndex];
+    const selectedMinute = mindata[selectedMinuteIndex];
+    const selectedAmPm = amPmData[selectedAmPmIndex];
+
+    const formattedTime = `${selectedHour}:${selectedMinute} ${selectedAmPm}`;
+
+    setHourSlot(prev =>
+      prev.map((slot, index) =>
+        index === selectedSlotIndex
+          ? {...slot, startTime: formattedTime} // <- This must be a string
+          : slot,
+      ),
+    );
+
+    setTimeModalVisible(false);
+  };
+
   return (
     <>
       <BottomSheetModalProvider>
@@ -225,7 +244,7 @@ const ScheduleWeek = () => {
                     Hours
                   </Text>
 
-                  <View className="bg-[#F2F6F733] border border-pastelgreyBorder rounded-[20px] px-3 pt-3 pb-1">
+                  {/* <View className="bg-[#F2F6F733] border border-pastelgreyBorder rounded-[20px] px-3 pt-3 pb-1">
                     {hourSlot.map((slot, index) => (
                       <View
                         key={index}
@@ -258,7 +277,7 @@ const ScheduleWeek = () => {
 
                         <TouchableOpacity
                           onPress={() => handleDeleteSlot(index)}
-                          style={{marginLeft: 10}}>
+                          style={{marginLeft: ''}}>
                           <Image
                             source={require('../../../assets/images/deleteImage.png')}
                             className="w-[10px] h-[13px] "
@@ -268,9 +287,80 @@ const ScheduleWeek = () => {
                       </View>
                     ))}
 
-                    {/* Add More Button */}
+                   
                     <TouchableOpacity onPress={handleAddSlot} className="mt-1">
                       <Text className="text-primary text-[14px] font-medium">
+                        + Add More
+                      </Text>
+                    </TouchableOpacity>
+                  </View> */}
+                  <View className="bg-[#F2F6F733] border border-pastelgreyBorder rounded-[20px] px-3 pt-3 pb-1">
+                    {hourSlot.map((slot, index) => (
+                      <View
+                        key={index}
+                        className="flex-row items-center mb-3 mt-[5px]">
+                        {/* Time Buttons Section - take all available space */}
+                        <View className="flex-row items-center gap-3 flex-1">
+                          {/* <TouchableOpacity
+                            onPress={() => setTimeModalVisible(true)}
+                            className="bg-white border border-gray-300 rounded-[15px] px-2 py-2 min-w-[70px]">
+                            <Text
+                              className="text-gray-400 font-Nunito-Regular text-center"
+                              style={{fontWeight: 500}}>
+                              {slot.startTime || 'Start Time'}
+                            </Text>
+                          </TouchableOpacity> */}
+                          <TouchableOpacity
+                            onPress={() => {
+                              setSelectedSlotIndex(index);
+                              setTimeModalVisible(true);
+                            }}
+                            className="bg-white border border-gray-300 rounded-[15px] px-2 py-2 min-w-[70px]">
+                            <Text
+                              className="text-gray-400 font-Nunito-Regular text-center"
+                              style={{fontWeight: 500}}>
+                              {slot.startTime || 'Start Time'}
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => setTimeModalVisible(true)}
+                            className="bg-white border border-gray-300 rounded-full px-2 py-2 min-w-[70px]">
+                            <Text
+                              className="text-gray-400 font-Nunito-Regular text-center"
+                              style={{fontWeight: 500}}>
+                              {slot.endTime || 'End Time'}
+                            </Text>
+                          </TouchableOpacity>
+
+                          <TouchableOpacity
+                            onPress={visitOpenModal}
+                            className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
+                            <Text
+                              className="text-black font-Nunito-Regular text-center"
+                              style={{fontWeight: 500}}>
+                              {slot.type || 'Service Mode'}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+
+                        {/* Fixed width delete button for consistent spacing */}
+                        <TouchableOpacity
+                          onPress={() => handleDeleteSlot(index)}
+                          className="ml-2 w-[24px] items-end">
+                          <Image
+                            source={require('../../../assets/images/deleteImage.png')}
+                            className="w-[10px] h-[13px]"
+                            style={{tintColor: '#D9607C'}}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+
+                    {/* Add More Button */}
+                    <TouchableOpacity onPress={handleAddSlot} className="mt-1">
+                      <Text
+                        className="text-primary text-[14px] font-Nunito-Regular"
+                        style={{fontWeight: 600}}>
                         + Add More
                       </Text>
                     </TouchableOpacity>
@@ -281,12 +371,12 @@ const ScheduleWeek = () => {
                   data={schedule}
                   keyExtractor={item => item.day}
                   renderItem={({item, index: dayIndex}) => (
-                    <View className="mb-5">
+                    <View className="mb-5  ">
                       <Text className="text-[16px] font-bold text-black mb-2">
                         {item.day}
                       </Text>
 
-                      <View className="bg-[#F2F6F733] border border-pastelgreyBorder rounded-[15px] px-3 pt-3 pb-1">
+                      {/* <View className="bg-[#F2F6F733] border border-pastelgreyBorder rounded-[15px] px-3 pt-3 pb-1">
                         {item.slots.map((slot, slotIndex) => (
                           <View
                             key={slotIndex}
@@ -341,6 +431,68 @@ const ScheduleWeek = () => {
                           onPress={() => handleAddDaySlot(dayIndex)}
                           className="mt-1">
                           <Text className="text-primary text-[14px] font-medium">
+                            + Add More
+                          </Text>
+                        </TouchableOpacity>
+                      </View> */}
+                      <View className="bg-[#F2F6F733] h-[109px] border border-pastelgreyBorder rounded-[20px] px-3 pt-3 pb-1">
+                        {hourSlot.map((slot, index) => (
+                          <View
+                            key={index}
+                            className="flex-row items-center mb-3 mt-[5px]">
+                            {/* Time Buttons Section - take all available space */}
+                            <View className="flex-row items-center gap-3 flex-1">
+                              <TouchableOpacity
+                                onPress={() => setTimeModalVisible(true)}
+                                className="bg-white border border-gray-300 rounded-[15px] px-2 py-2 min-w-[70px]">
+                                <Text
+                                  className="text-gray-400 text-center font-Nunito-Regular"
+                                  style={{fontWeight: 500}}>
+                                  {slot.startTime || 'Start Time'}
+                                </Text>
+                              </TouchableOpacity>
+
+                              <TouchableOpacity
+                                onPress={() => setTimeModalVisible(true)}
+                                className="bg-white border border-gray-300 rounded-full px-2 py-2 min-w-[70px]">
+                                <Text
+                                  className="text-gray-400 font-Nunito-Regular text-center"
+                                  style={{fontWeight: 500}}>
+                                  {slot.endTime || 'End Time'}
+                                </Text>
+                              </TouchableOpacity>
+
+                              <TouchableOpacity
+                                onPress={visitOpenModal}
+                                className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
+                                <Text
+                                  className="text-black font-Nunito-Regular text-center"
+                                  style={{fontWeight: 500}}>
+                                  {slot.type || 'Service Mode'}
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+
+                            {/* Fixed width delete button for consistent spacing */}
+                            <TouchableOpacity
+                              onPress={() => handleDeleteSlot(index)}
+                              className="ml-2 w-[24px] items-end">
+                              <Image
+                                source={require('../../../assets/images/deleteImage.png')}
+                                className="w-[10px] h-[13px]"
+                                style={{tintColor: '#D9607C'}}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                        ))}
+
+                        {/* Add More Button */}
+                        <TouchableOpacity
+                          onPress={handleAddSlot}
+                          className="mt-1">
+                          <Text
+                            className="text-primary text-[14px] font-Nunito-Regular"
+                            style={{fontWeight: 600}}>
                             + Add More
                           </Text>
                         </TouchableOpacity>

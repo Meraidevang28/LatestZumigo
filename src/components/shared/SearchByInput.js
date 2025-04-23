@@ -4,7 +4,7 @@ import images from '../../assets/images';
 
 const SearchByInput = () => {
   return (
-    <View className="flex-row items-center bg-pastelGrey border border-pastelgreyBorder rounded-2xl px-4 w-full">
+    <View className="flex-row items-center bg-white border border-pastelgreyBorder rounded-2xl px-4 w-full">
       {/* Search Icon */}
       <Image source={images.search} className="h-4 w-4" />
       {/* Vertical Line */}
@@ -14,6 +14,9 @@ const SearchByInput = () => {
       <TextInput
         placeholder="Search by..."
         placeholderTextColor="#A5A4A380"
+        style={{
+          fontFamily: 'Nunito-Regular', // custom font for both text and placeholder
+        }}
         className="flex-1 text-gray-600"
       />
     </View>

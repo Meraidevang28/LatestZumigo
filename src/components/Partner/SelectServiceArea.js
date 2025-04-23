@@ -145,7 +145,7 @@ const SelectServiceArea = () => {
         Select Your Service Area
       </Text>
 
-      <Text className=" text-[#333333] text-[14px] mb-5 font-Nunito-Regular">
+      <Text className=" text-[#333333] text-[13px] mb-5 font-Nunito-Regular">
         Based on the address provided, we have populated the neighbourhood that
         you may prefer to serve.
       </Text>
@@ -187,7 +187,7 @@ const SelectServiceArea = () => {
       </View>
 
       <Text
-        className=" mt-2 mb-[30px] text-[#BBBCB7] text-[14px]"
+        className=" mt-2 mb-[30px] text-[#BBBCB7] text-[12px]"
         style={{fontFamily: 'Nunito-Regular'}}>
         The areas shown below are within the specified radius.
       </Text>

@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   FlatList,
+  StyleSheet,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import screens from '../../constants/screens';
@@ -213,11 +214,11 @@ const Dashboard = ({navigation}) => {
       <View className="bg-[#f2f6f7]">
         <Image
           source={{uri: `https://democms.zumigo.pet${item.Picture}`}}
-          className="rounded-full bg-[#f2f6f7]"
+          className="  bg-[#f2f6f7]"
           style={{
-            width: width * 0.4,
-            height: width * 0.6,
-            right: width * -0.01,
+            width: width * 0.46,
+            height: width * 0.4,
+            right: width * 0.06,
             resizeMode: 'contain',
             zIndex: 1,
           }}
@@ -226,6 +227,8 @@ const Dashboard = ({navigation}) => {
     </View>
   );
   const screenWidth = Dimensions.get('window').width;
+  // const uuid = consultation.UUID;
+  // const name = consultation.Consultaytion_Name;
   return (
     <View className="flex-1 bg-[#f2f6f7]">
       <ScrollView
@@ -281,7 +284,7 @@ const Dashboard = ({navigation}) => {
           />
         </View>
 
-        <View className="px-2 flex-row justify-center items-center gap-2 mb-6">
+        {/* <View className="px-2 flex-row justify-center items-center gap-2 mb-6">
           {filteredConsultations.map(consultation => (
             <TouchableOpacity
               key={consultation.UUID}
@@ -330,111 +333,190 @@ const Dashboard = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           ))}
+        </View> */}
+        <View className="px-2 flex-row justify-center items-center gap-2 mb-6">
+          {filteredConsultations.map(consultation => (
+            <TouchableOpacity
+              key={consultation.UUID}
+              className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
+              style={{minWidth: screenWidth / 2.2}}
+              onPress={async () => {
+                console.log('Selected UUID:', consultation.UUID);
+
+                // Save selected UUID for future use
+                await AsyncStorage.setItem(
+                  'selected_consultation_uuid',
+                  consultation.UUID,
+                );
+
+                // Standardize name to avoid case issues
+                const name = consultation.Consultaytion_Name?.toLowerCase();
+
+                if (name.includes('home')) {
+                  navigation.navigate(screens.ServiceSelection, {
+                    serviceGroupUUID:
+                      serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+                    consultationTypeUUID:
+                      consultationTypes.find(x => x.IsServiceBased)?.UUID || '',
+                  });
+                } else if (name.includes('tele')) {
+                  navigation.navigate(screens.SelectVaterinarian, {
+                    headerTitle: 'Tele Consultation',
+                    serviceGroupUUID:
+                      serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+                    consultationTypeUUID:
+                      consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+                      '',
+                  });
+                } else {
+                  console.warn('Unhandled consultation type:', name);
+                }
+              }}>
+              <Image
+                source={{
+                  uri: `https://democms.zumigo.pet${consultation.Icon ?? ''}`,
+                }}
+                className="w-7 h-[23px] mr-2"
+                resizeMode="contain"
+              />
+              <Text
+                className="text-base font-Nunito-Bold text-white text-center"
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {consultation.Consultaytion_Name}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
-        <View className=" rounded-t-[25px] bg-white flex-1">
-          <Text className="text-[24px] font-Nunito-Bold px-6 mt-[20px]">
-            Pet Services
-          </Text>
-          <View className="flex-row items-center px-4 gap-2 justify-between flex-wrap mt-[20px]">
-            {serviceGroups
-              .filter(item => !item.DisplayAsPrimary)
-              .map((item, index) => (
-                <View
-                  key={index}
-                  className="items-center gap-1.5"
-                  style={{width: width * 0.28}}>
-                  <Image
-                    source={{uri: `https://democms.zumigo.pet${item.Picture}`}}
-                    style={{
-                      width: '100%',
-                      height: width * 0.28,
-                      resizeMode: 'cover',
-                      borderRadius: 20,
-                      backgroundColor: '#f2f6f7',
-                    }}
-                  />
-                  <Text
-                    className="text-[14px] text-center font-Nunito-Regular"
-                    style={{fontSize: getFontSize(15)}}>
-                    {item.GroupName}
-                  </Text>
-                </View>
-              ))}
-          </View>
+        <View style={{flex: 1}}>
+          <View
+            style={{
+              shadowColor: '#000',
+              shadowOffset: {width: 0, height: -6},
+              shadowOpacity: 0.15,
+              shadowRadius: 50,
+              elevation: 5,
+            }}>
+            <View className="rounded-t-[25px] bg-white overflow-hidden">
+              <Text className="text-[24px] font-Nunito-Bold px-6 mt-[20px]">
+                Pet Services
+              </Text>
+              <View className="flex-row items-center px-4 gap-2 justify-between flex-wrap mt-[20px]">
+                {serviceGroups
+                  .filter(item => !item.DisplayAsPrimary)
+                  .map((item, index) => (
+                    <View
+                      key={index}
+                      className="items-center gap-1.5"
+                      style={{width: width * 0.28}}>
+                      {/* Image with bottom shadow */}
+                      <View
+                        style={[
+                          {
+                            width: width * 0.28,
+                            height: width * 0.28,
+                            borderRadius: 20,
+                            overflow: 'hidden', // Ensure borderRadius clips the image
+                            backgroundColor: '#f2f6f7',
+                          },
+                        ]}>
+                        <Image
+                          source={{
+                            uri: `https://democms.zumigo.pet${item.Picture}`,
+                          }}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            resizeMode: 'cover',
+                          }}
+                        />
+                      </View>
 
-          <View className=" mt-[10px] mb-[18px]">
-            <CTACarousel data={[1, 2, 3]} />
-          </View>
+                      {/* Group Name */}
+                      <Text
+                        className="text-[14px] text-center font-Nunito-Regular"
+                        style={{fontSize: getFontSize(16)}}>
+                        {item.GroupName}
+                      </Text>
+                    </View>
+                  ))}
+              </View>
 
-          {/* white  background  */}
+              <View className=" mt-[10px] mb-[18px]">
+                <CTACarousel data={[1, 2, 3]} />
+              </View>
 
-          {/* Top Specialist  */}
+              {/* white  background  */}
 
-          <View className=" px-4 mb-[12px]">
-            <Text className=" mt-[9px] font-Proxima-Nova-Bold text-[24px] leading-[48px]">
-              Top Specialists
-            </Text>
-            {/* Category Tabs */}
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className="mb-3">
-              {categories.map(category => (
-                <TouchableOpacity
-                  key={category.id}
-                  className={`px-4 py-2 mr-2 rounded-full border flex-row items-center gap-[6.5px] ${
-                    selectedCategory == category.id
-                      ? 'bg-primary border-primary'
-                      : 'bg-pastelGrey border-pastelgreyBorder'
-                  }`}
-                  onPress={() => setSelectedCategory(category.id)}>
-                  <View
-                    className={` h-[30px] w-[30px] rounded-full justify-center items-center  ${
-                      selectedCategory == category.id
-                        ? 'bg-[#ffffff1A]'
-                        : 'bg-pastelPrimary'
-                    }`}>
-                    <Image
-                      source={category.icon}
-                      className=" w-[20px] h-[20px]"
-                      resizeMode="contain"
-                      style={{
-                        tintColor:
+              {/* Top Specialist  */}
+
+              <View className=" px-4 mb-[12px]">
+                <Text className=" mt-[9px] font-Proxima-Nova-Bold text-[24px] leading-[48px]">
+                  Top Specialists
+                </Text>
+                {/* Category Tabs */}
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className="mb-3">
+                  {categories.map(category => (
+                    <TouchableOpacity
+                      key={category.id}
+                      className={`px-4 py-2 mr-2 rounded-full border flex-row items-center gap-[6.5px] ${
+                        selectedCategory == category.id
+                          ? 'bg-primary border-primary'
+                          : 'bg-pastelGrey border-pastelgreyBorder'
+                      }`}
+                      onPress={() => setSelectedCategory(category.id)}>
+                      <View
+                        className={` h-[30px] w-[30px] rounded-full justify-center items-center  ${
                           selectedCategory == category.id
-                            ? '#ffffff'
-                            : '#d75880',
-                      }}
-                    />
-                  </View>
-                  <Text
-                    className={`font-Nunito-Bold text-[] ${
-                      selectedCategory == category.id
-                        ? 'text-white'
-                        : 'text-gray-500'
-                    }`}
-                    style={{fontSize: getFontSize(15)}}>
-                    {category.name}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-            <View className=" mt-[9px]">
-              {doctors.map(doctor => (
-                <TopSpecialistsCard key={doctor.id} doctor={doctor} />
-              ))}
+                            ? 'bg-[#ffffff1A]'
+                            : 'bg-pastelPrimary'
+                        }`}>
+                        <Image
+                          source={category.icon}
+                          className=" w-[20px] h-[20px]"
+                          resizeMode="contain"
+                          style={{
+                            tintColor:
+                              selectedCategory == category.id
+                                ? '#ffffff'
+                                : '#d75880',
+                          }}
+                        />
+                      </View>
+                      <Text
+                        className={`font-Nunito-Bold text-[] ${
+                          selectedCategory == category.id
+                            ? 'text-white'
+                            : 'text-gray-500'
+                        }`}
+                        style={{fontSize: getFontSize(15)}}>
+                        {category.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+                <View className=" mt-[9px]">
+                  {doctors.map(doctor => (
+                    <TopSpecialistsCard key={doctor.id} doctor={doctor} />
+                  ))}
+                </View>
+              </View>
+
+              {/* how it work  */}
+              <Text className=" px-4 font-Proxima-Nova-Bold text-[20px] leading-6 text-[#4E4E4E] mb-[18px]">
+                How it Works?
+              </Text>
+              <View className="mx-2  mb-[15px]  rounded-2xl">
+                <HowItworkCarousel data={advOneData} aspectRatio={238 / 213} />
+              </View>
+
+              <View className=" mb-6 pb-36">
+                <ImageCarousel data={advTwoData} aspectRatio={403 / 213} />
+              </View>
             </View>
-          </View>
-
-          {/* how it work  */}
-          <Text className=" px-4 font-Proxima-Nova-Bold text-[20px] leading-6 text-[#4E4E4E] mb-[18px]">
-            How it Works?
-          </Text>
-          <View className="mx-2  mb-[15px]  rounded-2xl">
-            <HowItworkCarousel data={advOneData} aspectRatio={238 / 213} />
-          </View>
-
-          <View className=" mb-6 pb-36">
-            <ImageCarousel data={advTwoData} aspectRatio={403 / 213} />
           </View>
         </View>
       </ScrollView>
@@ -443,3 +525,16 @@ const Dashboard = ({navigation}) => {
 };
 
 export default Dashboard;
+const styles = StyleSheet.create({
+  shadowBox: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5, // Shadow at bottom
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5, // Android shadow
+    backgroundColor: '#fff', // Required for shadow to be visible
+  },
+});

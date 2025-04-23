@@ -1,7 +1,7 @@
 import {View} from 'react-native';
 import React from 'react';
 
-const RegistrationProgressBar = ({screenNo, n = 9}) => {
+const RegistrationProgressBar = ({screenNo, n = 8}) => {
   const arr = Array.from({length: n}, (_, i) => i + 1);
 
   return (

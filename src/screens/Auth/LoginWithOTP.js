@@ -410,7 +410,7 @@
 //     marginBottom: 10,
 //   },
 // });
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -440,6 +440,7 @@ import base64 from 'react-native-base64';
 import {API_BASE_URL, AUTH_DEVICE, AUTH_SENDOTP, USER_TYPES} from '@env';
 import Svg, {Path} from 'react-native-svg';
 import CustomSvg from '../../components/shared/CustomSvg';
+import {user_type} from '../../constants/constants';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -580,8 +581,12 @@ const LoginScreen = ({navigation}) => {
     }
   };
   const sendOtp = async () => {
-    if (!mobile || mobile.length !== 10 || !/^\d+$/.test(mobile)) {
-      Alert.alert('Please enter a valid mobile number.');
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Mobile Number',
+        text2: 'Please enter a valid Number',
+      });
       return;
     }
     try {
@@ -623,6 +628,7 @@ const LoginScreen = ({navigation}) => {
       console.error('Error sending OTP:', error);
     }
   };
+  const mobileInputRef = useRef(null);
 
   return (
     <View className="bg-white">
@@ -699,10 +705,10 @@ const LoginScreen = ({navigation}) => {
                     style={{
                       position: 'absolute',
                       resizeMode: 'contain',
-                      width: wp(24),
-                      height: hp(11),
+                      width: wp(34),
+                      height: hp(15),
                       left: wp(65),
-                      bottom: hp(-14.3),
+                      bottom: hp(-16.3),
                       transform: [{rotate: '0deg'}],
                     }}
                   />
@@ -728,24 +734,34 @@ const LoginScreen = ({navigation}) => {
                     Experience pet healthcare like never before.
                   </Text>
 
-                  <View className=" flex-row  bg-[#ffffff] px-[19.5px] rounded-[20px] items-center border border-[#BBBCB7] ">
-                    <Text
-                      className=" text-[#848A9A]  text-[16px] "
-                      style={{fontFamily: 'Proxima-Nova-Regular'}}>
-                      +91 |
-                    </Text>
+                  <TouchableWithoutFeedback
+                    onPress={() => mobileInputRef.current?.focus()}>
+                    <View className="flex-row bg-[#ffffff] px-[19.5px] rounded-[20px] items-center border border-[#BBBCB7]">
+                      <Text
+                        className="text-[#333333] text-[16px]"
+                        style={{
+                          fontFamily: 'Nunito-Regular',
+                          fontWeight: '500',
+                        }}>
+                        +91 |
+                      </Text>
 
-                    <TextInput
-                      className=" text-darkGunmetal  text-[16px] py-[19px] "
-                      style={{fontFamily: 'Proxima-Nova-Regular'}}
-                      placeholder="Enter Mobile number"
-                      keyboardType="numeric"
-                      placeholderTextColor="#848A9A"
-                      value={mobile}
-                      onChangeText={text => setMobile(text)}
-                      maxLength={10}
-                    />
-                  </View>
+                      <TextInput
+                        ref={mobileInputRef}
+                        className="text-darkGunmetal text-[16px] py-[19px]"
+                        style={{
+                          fontFamily: 'Nunito-Regular',
+                          fontWeight: '500',
+                        }}
+                        placeholder="Enter Mobile number"
+                        keyboardType="numeric"
+                        placeholderTextColor="#848A9A"
+                        value={mobile}
+                        onChangeText={text => setMobile(text)}
+                        maxLength={10}
+                      />
+                    </View>
+                  </TouchableWithoutFeedback>
                   <View className="flex flex-col ">
                     <Image
                       source={require('../../assets/images/DummyImages/halfImage3.png')}
@@ -773,13 +789,13 @@ const LoginScreen = ({navigation}) => {
                       <View className="flex-row gap-2 justify-center items-center">
                         <Text
                           className=" text-[#848A9A] text-center"
-                          style={{fontFamily: 'Proxima-Nova-Regular'}}>
+                          style={{fontFamily: 'Nunito-Regular'}}>
                           {!isPartner ? 'Are you a Partner?' : 'Not a Partner?'}
                         </Text>
                         <TouchableOpacity
                           onPress={() => setIsPartner(!isPartner)}>
                           <Text
-                            style={{fontFamily: 'Proxima-Nova-Regular'}}
+                            style={{fontFamily: 'Nunito-Regular'}}
                             className=" text-primary text-center">
                             Click here
                           </Text>
@@ -798,7 +814,7 @@ const LoginScreen = ({navigation}) => {
                       height: hp(10),
                       left: wp(85),
                       bottom: hp(1),
-                      tintColor: '#dee0e3',
+                      // tintColor: '#dee0e3',
                       transform: [{rotate: '0deg'}],
                     }} // Rotate the image
                   />

@@ -481,7 +481,7 @@ const Vetdetails = () => {
             <TouchableOpacity
               className="bg-primary top-[-45px] left-[-20px] rounded-full h-[25px] w-[25px] flex justify-center items-center"
               onPress={() => removeFile(fileType)}>
-              <Text className="text-white">X</Text>
+              <Text className="text-white font-Nunito-Bold">X</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -555,7 +555,9 @@ const Vetdetails = () => {
                   style={{lineHeight: 22}}
                 />
 
-                <Text className="text-[22px] font-Nunito-Bold mt-[15px]">
+                <Text
+                  className="text-[24px] text-[#000000] font-Nunito-Regular mt-[29.9px] "
+                  style={{fontWeight: 500}}>
                   Identity Proof and Vet License
                 </Text>
                 <Text className="text-[18px] font-Nunito-Regular mt-[8px] text-[#BBBCB7]">
@@ -583,7 +585,9 @@ const Vetdetails = () => {
                   style={{lineHeight: 22}}
                 />
 
-                <Text className="text-[24px] text-[#000000] font-PTSans-Bold mt-[29.9px] mb-[14.1px]">
+                <Text
+                  className="text-[24px] text-[#000000] font-Nunito-Regular mt-[29.9px] mb-[14.1px]"
+                  style={{fontWeight: 500}}>
                   Business Details
                 </Text>
 
