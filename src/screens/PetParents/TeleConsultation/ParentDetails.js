@@ -126,7 +126,7 @@ const ParentDetails = ({navigation, route}) => {
         console.log('First name saved to AsyncStorage:', form.firstName);
         await AsyncStorage.setItem('is_profile_complete', 'true');
 
-        navigation.navigate(screens.SelectVeterinarian, {
+        navigation.navigate(screens.SelectVeterinarianServices, {
           isTeleConsult: !Boolean(isHomeVisit),
         });
       } else {

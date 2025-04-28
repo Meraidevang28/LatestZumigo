@@ -9,31 +9,41 @@ const ServiceInfoCard = ({
   onClick,
   rating,
   reviews,
-  isSelected = false,
+  isSelected,
   children,
 }) => {
   return (
     <TouchableOpacity
-      className={`flex flex-row pt-[14.8px] pb-[15.4px] px-[14.5px] mb-[15px] rounded-2xl border  gap-[15px] ${
+      className={`flex flex-row pt-[14.8px] pb-[15.4px] px-[14.5px] mb-[15px] mt-3 rounded-2xl border  gap-[15px] ${
         isSelected
           ? ' bg-pastelPrimary border-primary'
           : 'border-pastelgreyBorder bg-pastelGrey'
       }`}
       onPress={onClick}>
-      <Image source={image} className="h-[67px] w-[67px]  rounded-[10px]" />
+      <Image source={image} className="h-[90px] w-[90px]  rounded-[10px]" />
       <View>
-        <Text className="font-semibold text-[16px] text-darkGunmetal mb-[6.2px] font-Nunito-Bold">
+        <Text
+          className="text-[20px] font-PTSans-Bold  text-darkGunmetal mb-[6.2px] "
+          style={{fontWeight: '700'}}>
           {name}
         </Text>
-        <Text className=" text-black opacity-50 text-[12px] font-normal mb-[8.8px] font-Nunito-Regular">
+        <Text
+          className=" text-black opacity-50 text-[14px] font-normal mb-[8.8px] font-Nunito-Regular"
+          style={{fontWeight: '500'}}>
           {qualification}
         </Text>
 
-        <View className="flex-row gap-[6.1px]">
-          <Image source={images.star} className=" h-[10px] w-[10.43px]" />
-          <Text className="text-[14px] font-normal mb-[8.8px] leading-none  font-Nunito-Regular text-black">
+        <View className="flex-row items-center gap-[6.1px]">
+          <Image
+            source={images.star}
+            className=" h-[17px] w-[18px]"
+            style={{bottom: 2}}
+          />
+          <Text
+            className="text-[16px] font-Nunito-Regular text-primary"
+            style={{fontWeight: '700'}}>
             {rating}{' '}
-            <Text className=" text-gray-500 text-[12px] font-normal">
+            <Text className=" text-[#838999] text-[13px] font-normal">
               ({reviews} Review)
             </Text>
           </Text>
@@ -44,7 +54,7 @@ const ServiceInfoCard = ({
       {isSelected && (
         <Image
           source={images.footPrint}
-          className=" w-[20px] h-[17.13px] absolute top-[10px] right-[10.5px]"
+          className=" w-[20px] h-[17.13px] absolute top-[16px] right-[10.5px]"
         />
       )}
     </TouchableOpacity>

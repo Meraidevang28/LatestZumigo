@@ -79,10 +79,10 @@ const ServicesAndPricings = ({navigation}) => {
               keyExtractor={(item, index) => item.name + index}
               renderItem={({item}) => (
                 <View className="flex flex-row items-center justify-between border border-[#e8e9eb] shadow-md-light bg-[#f3f6f7] rounded-2xl p-[15px] mb-[15px]">
-                  <View className="flex flex-col">
+                  <View className="flex flex-col  ">
                     <Text
-                      style={{fontFamily: 'Nunito-Bold', fontWeight: 600}}
-                      className="text-[16px] text-[#333333] w-[180px]">
+                      style={{fontFamily: 'Nunito-Regular', fontWeight: 600}}
+                      className="text-[16px] mt-3 text-[#333333] w-[180px]">
                       {item.name}
                     </Text>
                     <Text className="text-[12px] text-[#838999]">
@@ -91,7 +91,7 @@ const ServicesAndPricings = ({navigation}) => {
                   </View>
                   <View className="flex flex-col items-center">
                     <Text
-                      className=" text-[16px] text-[#333333]"
+                      className=" text-[16px] mt-3 text-[#333333]"
                       style={{fontFamily: 'Nunito-Bold'}}>
                       {item.price}
                     </Text>
@@ -103,7 +103,7 @@ const ServicesAndPricings = ({navigation}) => {
               )}
               renderSectionHeader={({section: {title}}) => (
                 <Text
-                  className=" font-Nunito-Bold mt-[15px] mb-3 text-[16px] text-[#333333]"
+                  className=" font-Nunito-Regular mt-[8px] mb-3 text-[16px] text-[#333333]"
                   style={{fontWeight: 500}}
                   // style={{fontFamily: ''}}
                 >

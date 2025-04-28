@@ -19,6 +19,7 @@ import BottomNavigation from '../../../components/shared/BottomNavigation';
 import {primary} from '../../../assets/theme/colors';
 import images from '../../../assets/images';
 import {Dimensions} from 'react-native';
+import BarChart from '../../../components/shared/BarChart';
 const VetDashboard = () => {
   const {width, height} = Dimensions.get('window');
   const navigation = useNavigation();
@@ -68,10 +69,10 @@ const VetDashboard = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View className="flex-1 bg-[#f2f6f7] px-4">
+        <View className="flex-1 bg-[#f2f6f7] ">
           <View className=" flex-col">
-            <View className="flex flex-row items-center">
-              <View className="  mr-[6px] mb-[25px] w-[180px] ">
+            <View className="flex flex-row items-center px-4">
+              <View className="  mr-[6px] mb-[20px] w-[180px] ">
                 <Text
                   // numberOfLines={2}
                   className=" font-Nunito-Bold text-primary text-[16px] leading-6">
@@ -94,10 +95,11 @@ const VetDashboard = () => {
                 />
               </View>
             </View>
-            <Text className=" text-[18px] text-[#1C222F] font-Nunito-Regular mt-[10px] mb-[14px]">
+            <Text className=" text-[18px] text-[#1C222F] font-Nunito-Regular  mb-[14px] px-4">
               Upcoming Appointment
             </Text>
             <TouchableOpacity
+              className="px-4"
               onPress={() => navigation.navigate(screens.HomeVisitScreen)}>
               <OnGoingAppointment
                 title="Tele Consultation"
@@ -105,53 +107,98 @@ const VetDashboard = () => {
                 time="09:00 AM"
               />
             </TouchableOpacity>
+            <View className="rounded-t-[20px] bg-white mt-[20px]">
+              <View className="mt-6 flex-row items-center justify-between gap-3 px-4">
+                {[
+                  {label: 'Pets served', count: 90},
+                  {label: 'Total Appointments', count: 134},
+                ].map((item, index) => (
+                  <View
+                    key={index}
+                    className="bg-[#814DCC4D] h-[90px] flex-1 flex-col items-center justify-center gap-2 rounded-[16px]"
+                    style={{
+                      minWidth: screenWidth * 0.43, // around 43% of screen width
+                    }}>
+                    <Text className=" font-Nunito-Regular text-black text-[16px]">
+                      {item.label}
+                    </Text>
+                    <Text className="text-xl font-Nunito-Bold text-black">
+                      {item.count}
+                    </Text>
+                  </View>
+                ))}
+              </View>
 
-            <View className="mt-6 flex-row items-center justify-between gap-2 px-2">
-              {[
-                {label: 'Pets served', count: 90},
-                {label: 'Total Appointments', count: 134},
-              ].map((item, index) => (
-                <View
-                  key={index}
-                  className="bg-[#814DCC4D] h-[90px] flex-1 flex-col items-center justify-center gap-2 rounded-[20px]"
-                  style={{
-                    minWidth: screenWidth * 0.43, // around 43% of screen width
-                  }}>
-                  <Text className=" font-Nunito-Regular text-black text-[16px]">
-                    {item.label}
+              <View className="mt-[5px] px-2">
+                <BarChart />
+              </View>
+              <View className="flex flex-row items-center gap-2 px-4 mt-[25px]">
+                <View className="flex flex-col gap-4 rounded-[20px] w-[50%] h-[118px] border border-[#848A9A33] bg-white">
+                  <Text
+                    className="font-Nunito-Regular text-[21px] mt-[15px] left-2"
+                    style={{fontWeight: '700'}}>
+                    {' '}
+                    ₹ 2,861.00{' '}
                   </Text>
-                  <Text className="text-xl font-Nunito-Bold text-black">
-                    {item.count}
+                  <Text
+                    className="text-[16px] font-Nunito-Regular text-[#838999] left-4"
+                    style={{fontWeight: '500'}}>
+                    Settled
                   </Text>
                 </View>
-              ))}
-            </View>
-            {/* <View className=" h-[40px]  mt-[33px] flex flex-row justify-between items-center">
-              <Text className="font-PTSans-Bold text-[16px] text-[#000000]">
-                Appointments
-              </Text>
-              <View className="flex flex-row items-center gap-[8px] w-[110px] h-[39px]  border border-pastelgreyBorder rounded-[20px] bg-[#f3f6f7] mb-[10.2px]">
-                <Text className=" ml-[12px] mt-[8px] mb-[7px] text-center font-Nunito-Regular">
-                  This month
-                </Text>
-                <Image
-                  source={require('../../../assets/images/ArrowDown.png')}
-                  className="w-[10px] h-[5px]"
-                />
+                <View className="flex flex-col gap-4 rounded-[20px] w-[50%] h-[118px] border border-[#848A9A33] bg-white">
+                  <Text
+                    className="font-Nunito-Regular text-[21px] mt-[15px] left-2"
+                    style={{fontWeight: '700'}}>
+                    {' '}
+                    ₹ 6,860.00{' '}
+                  </Text>
+                  <Text
+                    className="text-[16px] font-Nunito-Regular text-[#838999] left-4"
+                    style={{fontWeight: '500'}}>
+                    In processing
+                  </Text>
+                </View>
               </View>
-            </View> */}
-            <View className="mt-[20px]">
-              <AppointmentComponent />
-            </View>
-            <Text className="font-PTSans-Bold text-[16px] text-[#000000]  mt-[19.7px] mb-[14px]">
-              Appointments
-            </Text>
-            <View>
-              <CalendarComponent />
+              <View className="px-4 rounded-2xl">
+                <View className="flex flex-row items-center mt-[20px] rounded-2xl px-6 h-[184px] bg-[#FFEDF966] border border-[#D7588033]">
+                  <View className="flex flex-col mt-[10px] w-[75%] ">
+                    <Text
+                      className="text-[15px] text-primary font-Nunito-Regular"
+                      style={{fontWeight: '500'}}>
+                      Your Average Earning
+                    </Text>
+                    <View className="flex flex-row items-center mt-[5px]">
+                      <Text
+                        className="text-[#333333] text-[16px] font-Nunito-Regular"
+                        style={{fontWeight: '700'}}>
+                        ₹80,574.00{' '}
+                      </Text>
+                      <Text
+                        className="text-[#333333] text-[14px] font-Nunito-Regular"
+                        style={{fontWeight: '400'}}>
+                        / Per month
+                      </Text>
+                    </View>
+                    <Text className="text-[14px] mt-[8px]" numberOfLines={3}>
+                      Vets in your neighbourhood are catering to more
+                      appointments between 8-10pm
+                    </Text>
+                  </View>
+                  <View>
+                    <Image
+                      source={images.dogwithMoney}
+                      style={{width: '96', height: '123'}}
+                    />
+                  </View>
+                </View>
+              </View>
+              <AddvertisementCards />
             </View>
           </View>
-          <AddvertisementCards />
-          <BottomNavigation />
+          {/* </View> */}
+          {/* <BottomNavigation /> */}
+          <View />
         </View>
       </ScrollView>
     </View>

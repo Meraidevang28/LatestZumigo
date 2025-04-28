@@ -1,3 +1,4 @@
+import MapViewScreenGroomer from '../screens/Partner/Grooming/MapViewScreenGroomer';
 import SelectGeneralPractitioner from '../screens/PetParents/HomeVisit/SelectGeneralPractitioner';
 
 export default {
@@ -114,5 +115,23 @@ export default {
   GroomerServiceLocation: 'GroomerServiceLocation',
   GroomerSelectServiceArea: 'GroomerSelectServiceArea',
   GroomerSelectServices: 'GroomerSelectServices',
+  GroomerSchedule: 'GroomerSchedule',
   MapViewScreenVet: 'MapViewScreenVet',
+  MapViewScreenGroomer: 'MapViewScreenGroomer',
+  GrommerCommercialScreen: 'GrommerCommercialScreen',
+  GroomerBankDetails: 'GroomerBankDetails',
+  GroomersAggrement: 'GroomersAggrement',
+  RadiologistDetails: 'RadiologistDetails',
+  AddRadiologistAddress: 'AddRadiologistAddress',
+  MapViewScreenRadiologist: 'MapViewScreenRadiologist',
+  RadiologistAddressDetails: 'RadiologistAddressDetails',
+  RadiologistServiceLocation: 'RadiologistServiceLocation',
+  RadiologistServiceSelection: 'RadiologistServiceSelection',
+  RadiologistCommercial: 'RadiologistCommercial',
+  RadiologistSchedule: 'RadiologistSchedule',
+  RadiologistBankDetails: 'RadiologistBankDetails',
+  RadiologistAggrement: 'RadiologistAggrement',
+  SelectDataTimeHomeVisit: 'SelectDataTimeHomeVisit',
+  SelectVeterinarianServices: 'SelectVeterinarianServices',
+  PreviewProceedPayment: 'PreviewProceedPayment',
 };

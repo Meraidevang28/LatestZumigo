@@ -631,203 +631,239 @@ const LoginScreen = ({navigation}) => {
   const mobileInputRef = useRef(null);
 
   return (
-    <View className="bg-white">
-      <View className=" bg-[#FFEDF9] ">
-        <ScrollView>
-          {/* <KeyboardAvoidingView
+    <ScrollView>
+      <View className="bg-white">
+        <View className=" bg-[#FFEDF9] ">
+          <ScrollView>
+            {/* <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{flex: 1}}> */}
-          {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-          <View>
-            {/* Skip Button */}
-            <View
-              className={` flex-1 bg-[#FFEDF9] px-6 `}
-              style={{
-                height: isKeyboardVisible ? height * 0.2 : height * 0.37,
-              }}>
-              <View className="mt-[46px]  p-4 rounded-t-[30px]  flex-row  items-end">
-                {/* Left-Side Image or SVG */}
-                <View className="absolute left-[45%] top-[-80px]">
-                  <Image
-                    source={require('../../assets/images/DummyImages/halfImage1.png')}
-                    className="h-[143.87px] w-[143.87px]"
-                    resizeMode="contain"
-                    style={{transform: [{rotate: '230deg'}]}} // Rotate the image
-                  />
-                </View>
-
-                {/* Skip Button (Aligned Right) */}
-                <View className="flex-1 flex-row justify-end items-center pr-4 top-[-30px] left-[35px]">
-                  {!isPartner ? (
-                    <TouchableOpacity
-                      className="flex-row items-center"
-                      onPress={() => dispatch(login(user_type.PET_PARENT))}>
-                      <Text className="text-[20px] text-[#000000] leading-5 font-Nunito-Regular">
-                        Skip
-                      </Text>
-                      <Image
-                        source={images.skip}
-                        className="h-3 w-[8px] ml-2"
-                        resizeMode="contain"
-                        style={{tintColor: '#000000'}}
-                      />
-                    </TouchableOpacity>
-                  ) : (
-                    <Text className="text-[16px] text-white leading-5 font-Nunito-Regular">
-                      {' '}
-                    </Text>
-                  )}
-                </View>
-              </View>
-
-              <Image
-                source={require('../../assets/images/DummyImages/shape1.png')}
-                className={`w-[119.23px] h-[119.23px] left-[-85px] mb-[90px] ${
-                  isKeyboardVisible ? 'top-[-50px]' : 'top-[-0px]'
-                }`}
-                style={{transform: [{rotate: '170deg'}]}} // Rotate the image
-              />
-              {!isKeyboardVisible && (
-                <>
-                  <Image
-                    source={require('../../assets/images/DummyImages/halfImage1.png')}
-                    style={{
-                      position: 'absolute',
-                      width: wp(10),
-                      height: hp(8),
-                      left: wp(7),
-                      bottom: hp(-4),
-                      transform: [{rotate: '400deg'}],
-                    }}
-                  />
-                  <Image
-                    source={require('../../assets/images/DummyImages/shape1.png')}
-                    style={{
-                      position: 'absolute',
-                      resizeMode: 'contain',
-                      width: wp(34),
-                      height: hp(15),
-                      left: wp(65),
-                      bottom: hp(-16.3),
-                      transform: [{rotate: '0deg'}],
-                    }}
-                  />
-                </>
-              )}
-            </View>
-            <ScrollView>
-              <View>
-                <CustomSvg />
-              </View>
-              <View className="flex-1 bg-white">
-                <View className={`flex-1 bg-white px-6 `}>
-                  <View className="flex items-center justify-center mb-[10px]">
+            {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+            <View>
+              {/* Skip Button */}
+              <View
+                className={` flex-1 bg-[#FFEDF9] px-6 `}
+                style={{
+                  height: isKeyboardVisible ? height * 0.2 : height * 0.37,
+                }}>
+                <View className="mt-[46px]  p-4 rounded-t-[30px]  flex-row  items-end">
+                  {/* Left-Side Image or SVG */}
+                  <View className="absolute left-[45%] top-[-80px]">
                     <Image
-                      source={require('../../assets/images/DummyImages/ZumigoLogo.png')}
-                      className=" h-[69px] w-[186px]  "
+                      source={require('../../assets/images/DummyImages/halfImage1.png')}
+                      className="h-[143.87px] w-[143.87px]"
+                      resizeMode="contain"
+                      style={{transform: [{rotate: '230deg'}]}} // Rotate the image
                     />
-                    <Text className="text-[13px] font-Nunito-Bold text-primary">
-                      Simpler. Quicker. Smarter
-                    </Text>
                   </View>
-                  <Text className=" font-Nunito-Regular text-[#333333] text-[15px] text-center mb-[32px]">
-                    Experience pet healthcare like never before.
-                  </Text>
 
-                  <TouchableWithoutFeedback
-                    onPress={() => mobileInputRef.current?.focus()}>
-                    <View className="flex-row bg-[#ffffff] px-[19.5px] rounded-[20px] items-center border border-[#BBBCB7]">
-                      <Text
-                        className="text-[#333333] text-[16px]"
-                        style={{
-                          fontFamily: 'Nunito-Regular',
-                          fontWeight: '500',
-                        }}>
-                        +91 |
+                  {/* Skip Button (Aligned Right) */}
+                  <View className="flex-1 flex-row justify-end items-center pr-4 top-[-30px] left-[35px]">
+                    {!isPartner ? (
+                      <TouchableOpacity
+                        className="flex-row items-center"
+                        onPress={() => dispatch(login(user_type.PET_PARENT))}>
+                        <Text className="text-[20px] text-[#000000] leading-5 font-Nunito-Regular">
+                          Skip
+                        </Text>
+                        <Image
+                          source={images.skip}
+                          className="h-3 w-[8px] ml-2"
+                          resizeMode="contain"
+                          style={{tintColor: '#000000'}}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <Text className="text-[16px] text-white leading-5 font-Nunito-Regular">
+                        {' '}
                       </Text>
+                    )}
+                  </View>
+                </View>
 
-                      <TextInput
-                        ref={mobileInputRef}
-                        className="text-darkGunmetal text-[16px] py-[19px]"
-                        style={{
-                          fontFamily: 'Nunito-Regular',
-                          fontWeight: '500',
-                        }}
-                        placeholder="Enter Mobile number"
-                        keyboardType="numeric"
-                        placeholderTextColor="#848A9A"
-                        value={mobile}
-                        onChangeText={text => setMobile(text)}
-                        maxLength={10}
-                      />
-                    </View>
-                  </TouchableWithoutFeedback>
-                  <View className="flex flex-col ">
+                <Image
+                  source={require('../../assets/images/DummyImages/shape1.png')}
+                  className={`w-[119.23px] h-[119.23px] left-[-85px] mb-[90px] ${
+                    isKeyboardVisible ? 'top-[-50px]' : 'top-[-0px]'
+                  }`}
+                  style={{transform: [{rotate: '170deg'}]}} // Rotate the image
+                />
+                {!isKeyboardVisible && (
+                  <>
                     <Image
-                      source={require('../../assets/images/DummyImages/halfImage3.png')}
+                      source={require('../../assets/images/DummyImages/halfImage1.png')}
                       style={{
-                        width: width * 0.18, // ~70.48px on a 390px screen
-                        height: width * 0.18,
-                        left: -width * 0.08, // ~-30px
-                        top: width * 0.025, // ~10px
-                        tintColor: '#dee0e3',
-                        transform: [{rotate: '500deg'}],
+                        position: 'absolute',
+                        width: wp(10),
+                        height: hp(8),
+                        left: wp(7),
+                        bottom: hp(-4),
+                        transform: [{rotate: '400deg'}],
                       }}
                     />
-                  </View>
-                  <View className="flex flex-col items-center ">
-                    <View className=" my-5 mt-[7px] flex items-center mb-[50px] ">
-                      <TouchableOpacity
-                        className="rounded-full bg-primary w-[250px] items-center "
-                        onPress={sendOtp}>
-                        <Text className=" text-white font-semibold text-[24px] py-5 font-Nunito-Bold">
-                          Get OTP
-                        </Text>
-                      </TouchableOpacity>
+                    <Image
+                      source={require('../../assets/images/DummyImages/shape1.png')}
+                      style={{
+                        position: 'absolute',
+                        resizeMode: 'contain',
+                        width: wp(34),
+                        height: hp(15),
+                        left: wp(65),
+                        bottom: hp(-16.3),
+                        transform: [{rotate: '0deg'}],
+                      }}
+                    />
+                  </>
+                )}
+              </View>
+              <ScrollView>
+                <View>
+                  <CustomSvg />
+                </View>
+                <View className="flex-1 bg-white">
+                  <View className={`flex-1 bg-white px-6 `}>
+                    <View className="flex items-center justify-center mb-[10px]">
+                      <Image
+                        source={require('../../assets/images/DummyImages/ZumigoLogo.png')}
+                        className=" h-[69px] w-[186px]  "
+                      />
+                      <Text className="text-[13px] font-Nunito-Bold text-primary">
+                        Simpler. Quicker. Smarter
+                      </Text>
                     </View>
-                    <View className="absolute w-full flex flex-row items-center justify-center bottom-0 mt-[10px] mb-[10px] ">
-                      <View className="flex-row gap-2 justify-center items-center">
+                    <Text className=" font-Nunito-Regular text-[#333333] text-[15px] text-center mb-[32px]">
+                      Experience pet healthcare like never before.
+                    </Text>
+
+                    {/* <TouchableWithoutFeedback
+                      onPress={() => mobileInputRef.current?.focus()}>
+                      <View className="flex-row bg-[#ffffff] px-[19.5px] rounded-[20px] items-center border border-[#BBBCB7]">
                         <Text
-                          className=" text-[#848A9A] text-center"
-                          style={{fontFamily: 'Nunito-Regular'}}>
-                          {!isPartner ? 'Are you a Partner?' : 'Not a Partner?'}
+                          className="text-[#333333] text-[16px]"
+                          style={{
+                            fontFamily: 'Nunito-Regular',
+                            fontWeight: '500',
+                          }}>
+                          +91 |
                         </Text>
+
+                        <TextInput
+                          ref={mobileInputRef}
+                          className="text-darkGunmetal text-[16px] py-[18px]"
+                          style={{
+                            fontFamily: 'Nunito-Regular',
+                            fontWeight: '500',
+                          }}
+                          placeholder="Enter Mobile number"
+                          keyboardType="numeric"
+                          placeholderTextColor="#848A9A"
+                          value={mobile}
+                          onChangeText={text => setMobile(text)}
+                          maxLength={10}
+                        />
+                      </View>
+                    </TouchableWithoutFeedback> */}
+                    <TouchableWithoutFeedback
+                      onPress={() => mobileInputRef.current?.focus()}>
+                      <View className="flex-row bg-[#ffffff] px-[19.5px] rounded-[20px] items-center border border-[#BBBCB7]">
+                        <Text
+                          className="text-[#333333] text-[16px] mr-2"
+                          style={{
+                            fontFamily: 'Nunito-Regular',
+                            fontWeight: '500',
+                            height: 56,
+                            lineHeight: 55,
+                          }}>
+                          +91 |
+                        </Text>
+                        <TextInput
+                          ref={mobileInputRef}
+                          className="flex-1 text-darkGunmetal text-[16px]"
+                          style={{
+                            fontFamily: 'Nunito-Regular',
+                            fontWeight: '500',
+                            height: 56,
+                            // lineHeight: ,
+                          }}
+                          placeholder="Enter Mobile number"
+                          keyboardType="numeric"
+                          placeholderTextColor="#848A9A"
+                          value={mobile}
+                          onChangeText={text => setMobile(text)}
+                          maxLength={10}
+                        />
+                      </View>
+                    </TouchableWithoutFeedback>
+
+                    <View className="flex flex-col ">
+                      <Image
+                        source={require('../../assets/images/DummyImages/halfImage3.png')}
+                        style={{
+                          width: width * 0.18, // ~70.48px on a 390px screen
+                          height: width * 0.18,
+                          left: -width * 0.08, // ~-30px
+                          top: width * 0.025, // ~10px
+                          tintColor: '#dee0e3',
+                          transform: [{rotate: '500deg'}],
+                        }}
+                      />
+                    </View>
+                    <View className="flex flex-col items-center ">
+                      <View className=" my-5 mt-[7px] flex items-center mb-[50px] ">
                         <TouchableOpacity
-                          onPress={() => setIsPartner(!isPartner)}>
-                          <Text
-                            style={{fontFamily: 'Nunito-Regular'}}
-                            className=" text-primary text-center">
-                            Click here
+                          className="rounded-full bg-primary w-[250px] items-center "
+                          onPress={sendOtp}>
+                          <Text className=" text-white font-semibold text-[24px] py-5 font-Nunito-Bold">
+                            Get OTP
                           </Text>
                         </TouchableOpacity>
                       </View>
+                      <View className="absolute w-full flex flex-row items-center justify-center bottom-0 mt-[10px] mb-[10px] ">
+                        <View className="flex-row gap-2 justify-center items-center">
+                          <Text
+                            className=" text-[#848A9A] text-center"
+                            style={{fontFamily: 'Nunito-Regular'}}>
+                            {!isPartner
+                              ? 'Are you a Partner?'
+                              : 'Not a Partner?'}
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() => setIsPartner(!isPartner)}>
+                            <Text
+                              style={{fontFamily: 'Nunito-Regular'}}
+                              className=" text-primary text-center">
+                              Click here
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
                     </View>
+
+                    <Image
+                      source={require('../../assets/images/DummyImages/halfImage3.png')}
+                      // className="w-[60.48px] h-[70.48px] left-[280px] bottom-[50px] ]"
+
+                      style={{
+                        position: 'absolute',
+                        width: wp(20),
+                        height: hp(10),
+                        left: wp(85),
+                        bottom: hp(1),
+                        // tintColor: '#dee0e3',
+                        transform: [{rotate: '0deg'}],
+                      }} // Rotate the image
+                    />
                   </View>
-
-                  <Image
-                    source={require('../../assets/images/DummyImages/halfImage3.png')}
-                    // className="w-[60.48px] h-[70.48px] left-[280px] bottom-[50px] ]"
-
-                    style={{
-                      position: 'absolute',
-                      width: wp(20),
-                      height: hp(10),
-                      left: wp(85),
-                      bottom: hp(1),
-                      // tintColor: '#dee0e3',
-                      transform: [{rotate: '0deg'}],
-                    }} // Rotate the image
-                  />
                 </View>
-              </View>
-            </ScrollView>
-          </View>
-          {/* </TouchableWithoutFeedback> */}
-          {/* {/* </KeyboardAvoidingView> */}
-        </ScrollView>
+              </ScrollView>
+            </View>
+            {/* </TouchableWithoutFeedback> */}
+            {/* {/* </KeyboardAvoidingView> */}
+          </ScrollView>
+        </View>
+        <Text className="mb-6"></Text>
       </View>
-      <Text className="mb-6"></Text>
-    </View>
+    </ScrollView>
   );
 };
 

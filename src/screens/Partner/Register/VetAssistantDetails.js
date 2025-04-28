@@ -76,10 +76,10 @@ const VetAssistantDetails = ({navigation}) => {
   return (
     <>
       <ScrollView className="bg-white" showsVerticalScrollIndicator={false}>
-        <View className="flex-1 bg-white px-6">
+        <View className=" bg-white px-6">
           {/* Progress bar */}
           <View className="mt-[15px] mb-2">
-            <RegistrationProgressBar screenNo={6} />
+            <RegistrationProgressBar screenNo={5} />
           </View>
           <Text className="text-gray-900 mb-[10px] text-[24px] font-Nunito-Bold mt-[10px]">
             Your Assistant Details
@@ -131,11 +131,11 @@ const VetAssistantDetails = ({navigation}) => {
           )}
           <View
             style={{
-              position: 'absolute',
-              bottom: -600,
-              right: 0,
+              // position: 'absolute',
+              bottom: -190,
+              right: -140,
               paddingRight: 16,
-              zIndex: -1,
+              // zIndex: -1,
               marginBottom: 200,
             }}>
             <Image

@@ -15,7 +15,7 @@ import AddressDetailCard from '../../../components/appointment/AddressDetailCard
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_BASE_URL, ADD_USER_ADDRESS} from '@env';
 
-const GroomerAddressDetails = ({navigation}) => {
+const RadiologistAddressDetails = ({navigation}) => {
   const [formData, setFormData] = useState({
     flatNo: '',
     apartment: '',
@@ -147,7 +147,7 @@ const GroomerAddressDetails = ({navigation}) => {
 
       if (response.ok) {
         // Alert.alert('Success', 'Address saved successfully!');
-        navigation.navigate(screens.GroomerServiceLocation, {
+        navigation.navigate(screens.RadiologistServiceLocation, {
           isHomeVisit: true,
         });
       } else {
@@ -241,4 +241,4 @@ const GroomerAddressDetails = ({navigation}) => {
   );
 };
 
-export default GroomerAddressDetails;
+export default RadiologistAddressDetails;

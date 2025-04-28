@@ -57,6 +57,9 @@ import MapViewScreenParent from '../../screens/PetParents/HomeVisit/MapViewScree
 // import SelectServices from '../../screens/Partner/Register/SelectServices';
 import ServiceSelection from '../../screens/PetParents/HomeVisit/ServiceSelection';
 import AddYourPetHomeVisit from '../../screens/PetParents/HomeVisit/AddYourPetHomeVisit';
+import SelectDataTimeHomeVisit from '../../screens/PetParents/HomeVisit/SelectDataTimeHomeVisit';
+import SelectVeterinarianServices from '../../screens/PetParents/HomeVisit/SelectVaterinarianServices';
+import PreviewProceedPayment from '../../screens/PetParents/HomeVisit/PreviewProceedPayment';
 import {primary} from '../../assets/theme/colors';
 const Stack = createStackNavigator();
 
@@ -229,11 +232,10 @@ const PetParentsNavigation = () => {
         name={screens.ServiceSelection}
         component={ServiceSelection}
         options={{title: 'Home Visit'}}
-        initialParams={{ 
-          serviceGroupUUID:  "",
-                    consultationTypeUUID: ""
+        initialParams={{
+          serviceGroupUUID: '',
+          consultationTypeUUID: '',
         }}
-
       />
       <Stack.Screen
         name={screens.AddYourPetHomeVisit}
@@ -248,6 +250,21 @@ const PetParentsNavigation = () => {
       <Stack.Screen
         name={screens.FillAddressDetails}
         component={FillAddressDetails}
+        options={{title: 'Home Visit'}}
+      />
+      <Stack.Screen
+        name={screens.SelectDataTimeHomeVisit}
+        component={SelectDataTimeHomeVisit}
+        options={{title: 'Home Visit'}}
+      />
+      <Stack.Screen
+        name={screens.SelectVeterinarianServices}
+        component={SelectVeterinarianServices}
+        options={{title: 'Home Visit'}}
+      />
+      <Stack.Screen
+        name={screens.PreviewProceedPayment}
+        component={PreviewProceedPayment}
         options={{title: 'Home Visit'}}
       />
       <Stack.Screen

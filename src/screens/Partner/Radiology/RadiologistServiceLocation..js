@@ -4,8 +4,10 @@ import RegistrationProgressBar from '../../../components/shared/RegistrationProg
 import FooterBtn from '../../../components/shared/FooterBtn';
 import screens from '../../../constants/screens';
 import SelectServiceArea from '../../../components/Partner/SelectServiceArea';
-import GroomerSelectServiceArea from './GrommerSelectServiceArea';
-const GroomerServiceLocation = ({navigation}) => {
+import GrommerSelectServiceArea from '../Grooming/GrommerSelectServiceArea';
+// import GroomerSelectServiceArea from './GrommerSelectServiceArea';
+GrommerSelectServiceArea;
+const RadiologistServiceLocation = ({navigation}) => {
   return (
     <View className="flex-1 bg-white px-6 ">
       <ScrollView
@@ -13,17 +15,17 @@ const GroomerServiceLocation = ({navigation}) => {
         showsVerticalScrollIndicator={false}>
         {/* Progress bar  */}
         <View className="mt-[15px] mb-2">
-          <RegistrationProgressBar screenNo={2} />
+          <RegistrationProgressBar screenNo={2} n={6} />
         </View>
 
-        <GroomerSelectServiceArea />
+        <GrommerSelectServiceArea />
       </ScrollView>
       <FooterBtn
         title="Continue"
-        onClick={() => navigation.navigate(screens.GroomerSelectServices)}
+        onClick={() => navigation.navigate(screens.RadiologistServiceSelection)}
       />
     </View>
   );
 };
 
-export default GroomerServiceLocation;
+export default RadiologistServiceLocation;

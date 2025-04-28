@@ -136,7 +136,7 @@
 // import {useNavigation} from '@react-navigation/native';
 // import {primary} from '../../../assets/theme/colors';
 // import {API_BASE_URL, SERVICE_GROUP_CONSULTATION} from '@env';
-// import AsyncStorage from '@react-native-async-storage/async-storage'; 
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const services = [
 //   {
@@ -316,26 +316,30 @@ const SelectServices = () => {
     const fetchConsultationServices = async () => {
       try {
         const token = await AsyncStorage.getItem('auth_token');
-        const response = await fetch(`${API_BASE_URL}${SERVICE_GROUP_CONSULTATION}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
+        const response = await fetch(
+          `${API_BASE_URL}${SERVICE_GROUP_CONSULTATION}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json',
+            },
           },
-        });
+        );
 
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
 
-          const formattedServices = data.ServiceGroup
-            .filter(service => service.IsDisplay && service.IsActive)
-            .map(service => ({
-              id: String(service.Id),
-              name: service.GroupName,
-              icon: service.Icon
-                ? {uri: `https://democms.zumigo.pet${service.Icon}`}
-                : images.defaultServiceIcon, // fallback if needed
-            }));
+          const formattedServices = data.ServiceGroup.filter(
+            service => service.IsDisplay && service.IsActive,
+          ).map(service => ({
+            id: String(service.Id),
+            name: service.GroupName,
+            icon: service.Icon
+              ? {uri: `https://democms.zumigo.pet${service.Icon}`}
+              : images.defaultServiceIcon, // fallback if needed
+          }));
 
           setServices(formattedServices);
           console.log('Formatted Services:', formattedServices);
@@ -358,7 +362,9 @@ const SelectServices = () => {
     <>
       <View className="flex-1 bg-white px-6">
         <View className="flex-1">
-          <Text className="mt-5 mb-2 text-[26px]" style={{fontFamily: 'PTSans-Bold'}}>
+          <Text
+            className="mt-5 mb-2 text-[26px]"
+            style={{fontFamily: 'PTSans-Bold'}}>
             Select Your Service
           </Text>
 
@@ -391,7 +397,7 @@ const SelectServices = () => {
                     />
                   </TouchableOpacity>
                   <Text
-                    style={{fontFamily: 'Nunito-Regular', fontWeight: '700'}}
+                    style={{fontFamily: 'Nunito-Regular', fontWeight: 700}}
                     className={`text-[15px] text-center mt-[10px] ${
                       isSelected ? 'text-[#000000]' : 'text-[#838999]'
                     }`}>
@@ -414,6 +420,8 @@ const SelectServices = () => {
         onClick={() => {
           if (selectedServices === '2') {
             navigation.navigate(screens.GroomerDetails);
+          } else if (selectedServices === '4') {
+            navigation.navigate(screens.RadiologistDetails);
           } else {
             navigation.navigate(screens.Vetdetails);
           }

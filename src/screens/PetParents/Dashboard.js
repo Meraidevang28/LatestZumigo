@@ -397,7 +397,15 @@ const Dashboard = ({navigation}) => {
               shadowRadius: 50,
               elevation: 5,
             }}>
-            <View className="rounded-t-[25px] bg-white overflow-hidden">
+            <View
+              className="rounded-t-[20px] bg-white overflow-hidden"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {width: 0, height: -4}, // upward shadow
+                shadowOpacity: 0.1,
+                shadowRadius: 20,
+                elevation: 10, // Android
+              }}>
               <Text className="text-[24px] font-Nunito-Bold px-6 mt-[20px]">
                 Pet Services
               </Text>
@@ -410,14 +418,18 @@ const Dashboard = ({navigation}) => {
                       className="items-center gap-1.5"
                       style={{width: width * 0.28}}>
                       {/* Image with bottom shadow */}
-                      <View
+                      {/* <View
                         style={[
                           {
                             width: width * 0.28,
                             height: width * 0.28,
                             borderRadius: 20,
-                            overflow: 'hidden', // Ensure borderRadius clips the image
                             backgroundColor: '#f2f6f7',
+                            shadowColor: '#000',
+                            shadowOffset: {width: 0, height: 2},
+                            shadowOpacity: 0.08,
+                            shadowRadius: 6,
+                            elevation: 4, // for Android
                           },
                         ]}>
                         <Image
@@ -430,6 +442,37 @@ const Dashboard = ({navigation}) => {
                             resizeMode: 'cover',
                           }}
                         />
+                      </View> */}
+                      <View
+                        style={{
+                          width: width * 0.28,
+                          borderRadius: 50,
+                          shadowColor: '#000',
+                          shadowOffset: {width: 0, height: 2},
+                          shadowOpacity: 0.08,
+                          shadowRadius: 6,
+                          elevation: 4, // for Android shadow
+                          backgroundColor: '#fff', // required on iOS for shadows
+                        }}>
+                        <View
+                          style={{
+                            width: width * 0.28,
+                            height: width * 0.28,
+                            borderRadius: 20,
+                            overflow: 'hidden',
+                            backgroundColor: '#f2f6f7',
+                          }}>
+                          <Image
+                            source={{
+                              uri: `https://democms.zumigo.pet${item.Picture}`,
+                            }}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              resizeMode: 'cover',
+                            }}
+                          />
+                        </View>
                       </View>
 
                       {/* Group Name */}

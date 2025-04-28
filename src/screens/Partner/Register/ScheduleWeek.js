@@ -176,6 +176,8 @@ const ScheduleWeek = () => {
 
     setTimeModalVisible(false);
   };
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedIcon, setSelectedIcon] = useState(null);
 
   return (
     <>
@@ -184,7 +186,7 @@ const ScheduleWeek = () => {
           <View className="flex-1">
             <ScrollView>
               <View className="mt-[15px] mb-2 ">
-                <RegistrationProgressBar screenNo={7} />
+                <RegistrationProgressBar screenNo={6} />
               </View>
 
               <View></View>
@@ -204,7 +206,9 @@ const ScheduleWeek = () => {
                         onPress={() => toggleDaySelection(day)}>
                         <View
                           className={`w-[49px] h-[53px] border border-pastelgreyBorder rounded-[15px] flex items-center justify-center ${
-                            isSelected ? 'bg-primary' : 'bg-[#F2F6F7]'
+                            isSelected
+                              ? 'bg-primary border-primary'
+                              : 'bg-[#F2F6F7]'
                           }`}>
                           <Text
                             className={
@@ -240,7 +244,9 @@ const ScheduleWeek = () => {
               </View>
               {isEnabled ? (
                 <>
-                  <Text className="text-[16px] font-bold text-black mb-2">
+                  <Text
+                    className="text-[16px] font-Nunito-Regular text-black mb-2"
+                    style={{fontWeight: 700}}>
                     Hours
                   </Text>
 
@@ -312,7 +318,7 @@ const ScheduleWeek = () => {
                           </TouchableOpacity> */}
                           <TouchableOpacity
                             onPress={() => {
-                              setSelectedSlotIndex(index);
+                              // setSelectedSlotIndex(index);
                               setTimeModalVisible(true);
                             }}
                             className="bg-white border border-gray-300 rounded-[15px] px-2 py-2 min-w-[70px]">
@@ -332,7 +338,7 @@ const ScheduleWeek = () => {
                             </Text>
                           </TouchableOpacity>
 
-                          <TouchableOpacity
+                          {/* <TouchableOpacity
                             onPress={visitOpenModal}
                             className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
                             <Text
@@ -340,16 +346,26 @@ const ScheduleWeek = () => {
                               style={{fontWeight: 500}}>
                               {slot.type || 'Service Mode'}
                             </Text>
+                          </TouchableOpacity> */}
+                          <TouchableOpacity
+                            onPress={visitOpenModal}
+                            className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
+                            <Text
+                              className="text-black font-Nunito-Regular text-center"
+                              style={{fontWeight: '500'}}>
+                              {selectedType || 'Service Mode'}{' '}
+                              {/* Reflect selectedType here */}
+                            </Text>
                           </TouchableOpacity>
                         </View>
 
                         {/* Fixed width delete button for consistent spacing */}
                         <TouchableOpacity
                           onPress={() => handleDeleteSlot(index)}
-                          className="ml-2 w-[24px] items-end">
+                          className=" w-[22px] items-end">
                           <Image
-                            source={require('../../../assets/images/deleteImage.png')}
-                            className="w-[10px] h-[13px]"
+                            source={require('../../../assets/images/DummyImages/delete.png')}
+                            className="w-[12px] h-[13px]"
                             style={{tintColor: '#D9607C'}}
                           />
                         </TouchableOpacity>
@@ -462,13 +478,23 @@ const ScheduleWeek = () => {
                                 </Text>
                               </TouchableOpacity>
 
-                              <TouchableOpacity
+                              {/* <TouchableOpacity
                                 onPress={visitOpenModal}
                                 className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
                                 <Text
                                   className="text-black font-Nunito-Regular text-center"
                                   style={{fontWeight: 500}}>
                                   {slot.type || 'Service Mode'}
+                                </Text>
+                              </TouchableOpacity> */}
+                              <TouchableOpacity
+                                onPress={visitOpenModal}
+                                className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
+                                <Text
+                                  className="text-black font-Nunito-Regular text-center"
+                                  style={{fontWeight: '500'}}>
+                                  {selectedType || 'Service Mode'}{' '}
+                                  {/* Reflect selectedType here */}
                                 </Text>
                               </TouchableOpacity>
                             </View>
@@ -478,8 +504,8 @@ const ScheduleWeek = () => {
                               onPress={() => handleDeleteSlot(index)}
                               className="ml-2 w-[24px] items-end">
                               <Image
-                                source={require('../../../assets/images/deleteImage.png')}
-                                className="w-[10px] h-[13px]"
+                                source={require('../../../assets/images/DummyImages/delete.png')}
+                                className="w-[12px] h-[13px]"
                                 style={{tintColor: '#D9607C'}}
                               />
                             </TouchableOpacity>
@@ -566,8 +592,8 @@ const ScheduleWeek = () => {
             <Text className="text-lg font-bold text-black mb-4">Select</Text>
 
             {/* Tele Consult Option */}
-            <TouchableOpacity className="flex-row justify-between items-center py-3 border-b border-gray-300">
-              <Text className="text-[16px] text-red-500">Tele Consult</Text>
+            {/* <TouchableOpacity className="flex-row justify-between items-center py-3 border-b border-gray-300">
+              <Text className="text-[16px] text-primary">Tele Consult</Text>
               <Image
                 source={require('../../../assets/images/footPrint.png')} // Replace with correct path
                 className="w-5 h-5"
@@ -575,8 +601,94 @@ const ScheduleWeek = () => {
             </TouchableOpacity>
 
             {/* Home Visit Option */}
-            <TouchableOpacity className="py-3">
+            {/* <TouchableOpacity className="py-3">
               <Text className="text-[16px] text-black">Home Visit</Text>
+            </TouchableOpacity> */}
+            {/* <TouchableOpacity
+              onPress={() => {
+                setSelectedType('Tele Consult');
+                setSelectedIcon(
+                  require('../../../assets/images/footPrint.png'),
+                );
+                visitBottomSheetRef.current?.dismiss();
+              }}
+              className="flex-row justify-between items-center py-3 border-b border-gray-300">
+              <Text
+                className={`text-[16px] ${
+                  selectedType === 'Tele Consult'
+                    ? 'text-primary'
+                    : 'text-black'
+                }`}>
+                Tele Consult
+              </Text>
+              <Image
+                source={require('../../../assets/images/footPrint.png')}
+                className="w-5 h-5"
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedType('Home Visit');
+                setSelectedIcon(require('../../../assets/images/homeIcon.png'));
+                visitBottomSheetRef.current?.dismiss();
+              }}
+              className="flex-row justify-between items-center py-3">
+              <Text
+                className={`text-[16px] ${
+                  selectedType === 'Home Visit' ? 'text-primary' : 'text-black'
+                }`}>
+                Home Visit
+              </Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedType('Tele Consult');
+                setSelectedIcon(
+                  require('../../../assets/images/footPrint.png'),
+                );
+                visitBottomSheetRef.current?.dismiss();
+              }}
+              className="flex-row justify-between items-center py-3 border-b border-gray-300">
+              <Text
+                className={`text-[16px] ${
+                  selectedType === 'Tele Consult'
+                    ? 'text-primary'
+                    : 'text-black'
+                }`}>
+                Tele Consult
+              </Text>
+              <Image
+                source={
+                  selectedType === 'Tele Consult'
+                    ? require('../../../assets/images/footPrint.png')
+                    : ''
+                }
+                className="w-5 h-5"
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedType('Home Visit');
+                setSelectedIcon(require('../../../assets/images/homeIcon.png'));
+                visitBottomSheetRef.current?.dismiss();
+              }}
+              className="flex-row justify-between items-center py-3">
+              <Text
+                className={`text-[16px] ${
+                  selectedType === 'Home Visit' ? 'text-primary' : 'text-black'
+                }`}>
+                Home Visit
+              </Text>
+              <Image
+                source={
+                  selectedType === 'Home Visit'
+                    ? require('../../../assets/images/footPrint.png')
+                    : ''
+                }
+                className="w-5 h-5"
+              />
             </TouchableOpacity>
           </View>
         </BottomSheetView>

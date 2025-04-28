@@ -77,6 +77,21 @@ import GroomerSelectServiceArea from '../../screens/Partner/Grooming/GrommerSele
 import GroomerSelectServices from '../../screens/Partner/Grooming/GroomerSelectServices';
 import MapViewScreenVet from '../../screens/Partner/Register/MapViewScreenVet';
 import MapViewScreenParent from '../../screens/PetParents/HomeVisit/MapViewScreenParent';
+import MapViewScreenGroomer from '../../screens/Partner/Grooming/MapViewScreenGroomer';
+import GrommerCommercialScreen from '../../screens/Partner/Grooming/GrommerCommercialScreen';
+import GroomerBankDetails from '../../screens/Partner/Grooming/GroomerBankDetails';
+import GroomersAggrement from '../../screens/Partner/Grooming/GroomersAggrement';
+import RadiologistDetails from '../../screens/Partner/Radiology/RadiologistDetails';
+import AddRadiologistAddress from '../../screens/Partner/Radiology/AddRadiologistAddress';
+import MapViewScreenRadiologist from '../../screens/Partner/Radiology/MapViewScreenRadiologist';
+import RadiologistAddressDetails from '../../screens/Partner/Radiology/RadiologiatAddressDetails';
+import RadiologistServiceLocation from '../../screens/Partner/Radiology/RadiologistServiceLocation.';
+import RadiologistServiceSelection from '../../screens/Partner/Radiology/RadiologistServiceSelection';
+import RadiologistCommercial from '../../screens/Partner/Radiology/RadiologistCommercial';
+import RadiologistSchedule from '../../screens/Partner/Radiology/RadiologistSchedule';
+import RadiologistBankDetails from '../../screens/Partner/Radiology/RadiologistBankDetails';
+import RadiologistAggrement from '../../screens/Partner/Radiology/RadiologistAggrement';
+// import SelectVeterinarianServices from '../../screens/PetParents/HomeVisit/SelectVaterinarianServices';
 const Stack = createStackNavigator();
 
 const VetNavigation = () => {
@@ -170,7 +185,7 @@ const VetNavigation = () => {
       <Stack.Screen
         name={screens.VetRegisterAgreement}
         component={VetRegisterAgreement}
-        options={{title: ' Registration'}}
+        options={{title: 'Veterinarian Registration'}}
       />
 
       <Stack.Screen
@@ -441,32 +456,102 @@ const VetNavigation = () => {
       <Stack.Screen
         name={screens.GroomerSchedule}
         component={GroomerSchedule}
-        options={{title: 'Register'}}
+        options={{title: 'Groomer Registraction'}}
       />
       <Stack.Screen
         name={screens.AddGrommerAddress}
         component={AddGrommerAddress}
-        options={{title: 'Grommer Registraction'}}
+        options={{title: 'Groomer Registraction'}}
       />
       <Stack.Screen
         name={screens.GroomerAddressDetails}
         component={GroomerAddressDetails}
-        options={{title: 'Grommer Registraction'}}
+        options={{title: 'Groomer Registraction'}}
       />
       <Stack.Screen
         name={screens.GroomerServiceLocation}
         component={GroomerServiceLocation}
-        options={{title: 'Grommer Registraction'}}
+        options={{title: 'Groomer Registraction'}}
       />
       <Stack.Screen
         name={screens.GroomerSelectServiceArea}
         component={GroomerSelectServiceArea}
-        options={{title: 'Grommer Registraction'}}
+        options={{title: 'Groomer Registraction'}}
       />
       <Stack.Screen
         name={screens.GroomerSelectServices}
         component={GroomerSelectServices}
-        options={{title: 'Grommer Registraction'}}
+        options={{title: 'Groomer Registraction'}}
+      />
+      <Stack.Screen
+        name={screens.GrommerCommercialScreen}
+        component={GrommerCommercialScreen}
+        options={{title: 'Groomer Registraction'}}
+      />
+      <Stack.Screen
+        name={screens.GroomerBankDetails}
+        component={GroomerBankDetails}
+        options={{title: 'Groomer Registraction'}}
+      />
+      <Stack.Screen
+        name={screens.GroomersAggrement}
+        component={GroomersAggrement}
+        options={{title: 'Groomer Registraction'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistDetails}
+        component={RadiologistDetails}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.AddRadiologistAddress}
+        component={AddRadiologistAddress}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistAddressDetails}
+        component={RadiologistAddressDetails}
+        options={{title: 'Address'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistServiceLocation}
+        component={RadiologistServiceLocation}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistServiceSelection}
+        component={RadiologistServiceSelection}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistCommercial}
+        component={RadiologistCommercial}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistSchedule}
+        component={RadiologistSchedule}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistBankDetails}
+        component={RadiologistBankDetails}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.RadiologistAggrement}
+        component={RadiologistAggrement}
+        options={{title: 'Radiology Partner Registration'}}
+      />
+      <Stack.Screen
+        name={screens.MapViewScreenRadiologist}
+        component={MapViewScreenRadiologist}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={screens.MapViewScreenGroomer}
+        component={MapViewScreenGroomer}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

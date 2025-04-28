@@ -7,7 +7,7 @@ import screens from '../../../constants/screens';
 import {Keyboard} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import images from '../../../assets/images';
-const VetBankDetails = ({navigation}) => {
+const GroomerBankDetails = ({navigation}) => {
   const [accountHolder, setAccountHolder] = useState('');
   const [bankName, setBankName] = useState('');
   const [accountNo, setAccountNo] = useState('');
@@ -126,7 +126,7 @@ const VetBankDetails = ({navigation}) => {
           <TouchableOpacity
             className="h-[60px] bg-primary items-center justify-center rounded-full"
             onPress={() => {
-              navigation.navigate(screens.ServicesAndPricings);
+              navigation.navigate(screens.GroomersAggrement);
             }}>
             <Text className="text-[20px] text-white font-Nunito-Bold text-center">
               Continue
@@ -138,4 +138,4 @@ const VetBankDetails = ({navigation}) => {
   );
 };
 
-export default VetBankDetails;
+export default GroomerBankDetails;

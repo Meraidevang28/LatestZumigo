@@ -7,7 +7,7 @@ import screens from '../../../constants/screens';
 import {Keyboard} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import images from '../../../assets/images';
-const VetBankDetails = ({navigation}) => {
+const RadiologistBankDetails = ({navigation}) => {
   const [accountHolder, setAccountHolder] = useState('');
   const [bankName, setBankName] = useState('');
   const [accountNo, setAccountNo] = useState('');
@@ -48,7 +48,7 @@ const VetBankDetails = ({navigation}) => {
         <View className="flex-1">
           {/* Progress bar  */}
           <View className="mt-[15px] mb-2">
-            <RegistrationProgressBar screenNo={7} />
+            <RegistrationProgressBar screenNo={6} n={6} />
           </View>
           <Text
             className="text-[24px] mb-[10px] mt-[20px] font-Nunito-Regular"
@@ -126,7 +126,7 @@ const VetBankDetails = ({navigation}) => {
           <TouchableOpacity
             className="h-[60px] bg-primary items-center justify-center rounded-full"
             onPress={() => {
-              navigation.navigate(screens.ServicesAndPricings);
+              navigation.navigate(screens.RadiologistAggrement);
             }}>
             <Text className="text-[20px] text-white font-Nunito-Bold text-center">
               Continue
@@ -138,4 +138,4 @@ const VetBankDetails = ({navigation}) => {
   );
 };
 
-export default VetBankDetails;
+export default RadiologistBankDetails;

@@ -32,7 +32,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import screens from '../../../constants/screens';
 
-const GroomerSchedule = () => {
+const RadiologistSchedule = () => {
   const {height, width} = Dimensions.get('window');
   const [isTimeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(null); // Track which slot
@@ -186,7 +186,7 @@ const GroomerSchedule = () => {
           <View className="flex-1">
             <ScrollView>
               <View className="mt-[15px] mb-2 ">
-                <RegistrationProgressBar screenNo={6} />
+                <RegistrationProgressBar screenNo={5} n={6} />
               </View>
 
               <View></View>
@@ -573,7 +573,7 @@ const GroomerSchedule = () => {
         <TouchableOpacity
           className="h-[60px] bg-primary items-center justify-center rounded-full"
           onPress={() => {
-            navigation.navigate(screens.GroomerBankDetails);
+            navigation.navigate(screens.RadiologistBankDetails);
           }}>
           <Text className="text-[20px] text-white font-Nunito-Bold text-center">
             Continue
@@ -763,7 +763,7 @@ const GroomerSchedule = () => {
   );
 };
 
-export default GroomerSchedule;
+export default RadiologistSchedule;
 
 const styles = StyleSheet.create({
   // container: {flex: 1, justifyContent: 'center', alignItems: 'center'},

@@ -19,8 +19,8 @@ const NavItem = ({icon, active, label, onPress}) => {
         <Image
           source={icon}
           style={{
-            width: 45,
-            height: 45,
+            width: 40,
+            height: 35,
             marginBottom: 4,
             tintColor: active ? '#ffffff' : '#ffffff99',
           }}
