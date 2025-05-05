@@ -23,6 +23,8 @@ const SelectVaterinarian = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('auth_token');
       const consultationUuid = params.consultationTypeUUID;
       const serviceGroupUuid = params.serviceGroupUUID;
+      // const ServiceGroupUuid = '3f930321-a4c7-4768-a018-c95278c0';
+      // const ConsultationTypeUuid = '720dac47-9101-45c3-b0e0-afb7db3e';
       const response = await fetch(
         `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${serviceGroupUuid}/${consultationUuid}`,
         {
@@ -33,7 +35,11 @@ const SelectVaterinarian = ({navigation, route}) => {
           },
         },
       );
+      console.log('consultationUuid', consultationUuid);
+      console.log('serviceGroupUuid', serviceGroupUuid);
+
       const data = await response.json();
+      console.log('Response status:', response.status);
       setResponseData(data);
     } catch (error) {
       console.error('Error fetching service data:', error);
@@ -123,14 +129,37 @@ const SelectVaterinarian = ({navigation, route}) => {
           shadowRadius: 10,
           elevation: 18, // Android shadow
         }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             if (selectedSct?.UUID === responseData?.SCT[0]?.UUID) {
-              navigation.navigate(screens.AddYourPet, {});
+              navigation.navigate(screens.SelectSymptoms, {});
             } else if (selectedSct?.UUID === responseData?.SCT[1]?.UUID) {
-              navigation.navigate(screens.SelectSpecialist, {
+              navigation.navigate(screens.SelectSymptoms, {
                 scData: responseData?.SC,
               });
+            }
+          }}
+          className="h-[60px] bg-primary items-center justify-center rounded-full">
+          <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+            Continue
+          </Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          onPress={() => {
+            const selectedUUID = selectedSct?.UUID;
+            console.log('Selected SCT UUID:', selectedUUID);
+
+            if (selectedUUID === responseData?.SCT[0]?.UUID) {
+              navigation.navigate(screens.SelectTeleSymptoms, {
+                selectedSctUUID: selectedUUID,
+              });
+            } else if (selectedUUID === responseData?.SCT[1]?.UUID) {
+              navigation.navigate(screens.SelectSpecialist, {
+                selectedSctUUID: selectedUUID,
+                scData: responseData?.SC,
+              });
+            } else {
+              console.warn('Selected UUID did not match any SCT entries');
             }
           }}
           className="h-[60px] bg-primary items-center justify-center rounded-full">

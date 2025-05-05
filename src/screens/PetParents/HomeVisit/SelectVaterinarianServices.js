@@ -127,7 +127,7 @@ const SelectVeterinarianServices = ({navigation, route}) => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate(screens.VeterinarianInfo)}>
                   <Text
-                    className="text-primary mt-2 underline text-[14px] font-Nunito-Regular"
+                    className="text-primary mt-1 underline text-[14px] font-Nunito-Regular"
                     style={{fontWeight: '600'}}>
                     {item?.footer}
                   </Text>
@@ -150,7 +150,12 @@ const SelectVeterinarianServices = ({navigation, route}) => {
         )}>
         <BottomSheetView>
           <View className="flex items-center ">
-            <Text className="bg-[#F5F3F0] w-[158px] h-[67px] rounded-2xl mt-2"></Text>
+            <View className=" rounded-2xl mt-2">
+              <Image
+                source={images.Assistant}
+                style={{width: 152, height: 152, resizeMode: 'contain'}}
+              />
+            </View>
           </View>
           <Text
             className="px-3 mt-[30px] text-[19px] text-center"

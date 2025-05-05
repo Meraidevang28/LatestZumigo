@@ -469,13 +469,13 @@ import {Dimensions} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_BASE_URL, SYMPTOM_LIST, UPLOAD} from '@env';
-
+import {useIsFocused} from '@react-navigation/native';
 const SelectSymptoms = ({navigation, route}) => {
   const windowHeight = Dimensions.get('window').height;
   const [SymptomsList, setSymptomsList] = useState([]);
   const isHomeVisit = route?.params?.isHomeVisit;
   const isEdit = route?.params?.isEdit;
-
+  const {selectedSctUUID, scData} = route.params || {};
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [description, setDescription] = useState('');
@@ -493,6 +493,9 @@ const SelectSymptoms = ({navigation, route}) => {
   }, []);
 
   // Store selected symptoms in AsyncStorage
+  console.log('selectedSctUUID', selectedSctUUID);
+  console.log('scData', scData);
+
   const storeSymptomsInStorage = async updatedSymptoms => {
     try {
       await AsyncStorage.setItem(
@@ -689,6 +692,7 @@ const SelectSymptoms = ({navigation, route}) => {
   useEffect(() => {
     fetchSymptoms();
   }, []);
+  const isFocused = useIsFocused();
 
   return (
     <View className="flex-1 bg-white px-6">
@@ -755,17 +759,17 @@ const SelectSymptoms = ({navigation, route}) => {
               </Text>
             </TouchableOpacity>
             {uploadedImages.length > 0 && (
-              <View className="flex-row items-center flex-wrap gap-x-[10px] gap-y-[5px] p-[16px] bg-pastelGrey border border-pastelgreyBorder rounded-2xl mt-4">
+              <View className="flex-row flex-wrap  gap-x-[10px] py-[16px] px-3  bg-[#f7f7f7] border border-pastelgreyBorder rounded-2xl mt-4">
                 {uploadedImages.map((image, index) => (
                   <View
                     key={index}
-                    className="relative"
+                    className="relative mr-[10px] mb-3 self-start"
                     style={{width: 90, height: 90}}>
                     {/* ✕ Close Button */}
                     <TouchableOpacity
                       onPress={() => removeImage(index)}
-                      className="absolute top-[-10px] right-[-8px] bg-[#D75880] w-[24px] h-[24px] items-center justify-center rounded-full shadow-md z-10">
-                      <Text className="text-white text-[16px] font-bold">
+                      className="absolute top-[-12px] right-[-8px] bg-[#D75880] w-[20px] h-[20px] items-center justify-center rounded-full shadow-md z-10">
+                      <Text className="text-white text-[13px] text-center font-bold">
                         ✕
                       </Text>
                     </TouchableOpacity>
@@ -830,7 +834,7 @@ const SelectSymptoms = ({navigation, route}) => {
           </View> */}
         </View>
       </ScrollView>
-      <View
+      {/* <View
         pointerEvents="none"
         style={{
           position: 'absolute',
@@ -854,7 +858,33 @@ const SelectSymptoms = ({navigation, route}) => {
           }}
           resizeMode="contain"
         />
-      </View>
+      </View> */}
+      {isFocused && (
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 90,
+            right: 0,
+            alignItems: 'center',
+          }}>
+          <Image
+            source={images.sleepingcatIcon}
+            style={{
+              width:
+                uploadedImages.length > 0 || attachments.length > 0 ? 160 : 229,
+              height:
+                uploadedImages.length > 0 || attachments.length > 0 ? 160 : 229,
+              left:
+                uploadedImages.length > 0 || attachments.length > 0 ? 50 : 15,
+              bottom:
+                uploadedImages.length > 0 || attachments.length > 0 ? 100 : 60,
+            }}
+            resizeMode="contain"
+          />
+        </View>
+      )}
 
       <FooterBtn
         title="Continue"
@@ -863,11 +893,22 @@ const SelectSymptoms = ({navigation, route}) => {
             navigation.goBack();
             return;
           }
+          const selectedUUID = selectedSctUUID;
+
+          if (selectedUUID === '40ccc9ce-c7a8-43df-a5a6-756556ba') {
+            navigation.navigate(screens.SelectSpecialist, {scData});
+            return;
+          }
+
+          if (selectedUUID === 'a322e392-8faf-439e-b38d-66b2d649') {
+            navigation.navigate(screens.SelectTeleVeterinarianServices);
+            return;
+          }
 
           if (isHomeVisit) {
-            navigation.navigate(screens.AddYourAddress);
+            navigation.navigate(screens.SelectVeterinarianServices);
           } else {
-            navigation.navigate(screens.ParentDetailsTele);
+            navigation.navigate(screens.SelectTeleVeterinarianServices);
           }
         }}
       />
@@ -904,7 +945,7 @@ const SelectSymptoms = ({navigation, route}) => {
                       </Text>
                       {isSelected && (
                         <Image
-                          className="w-[19px] h-4 ml-2"
+                          className="w-[22px] h-[22px] ml-2"
                           style={{tintColor: '#D75880'}}
                           resizeMode="contain"
                           source={images.footPrint}

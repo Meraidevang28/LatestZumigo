@@ -1,178 +1,179 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Switch,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  Dimensions,
-} from 'react-native';
-import RegistrationProgressBar from '../../../components/shared/RegistrationProgressBar';
-import images from '../../../assets/images';
-import FooterBtn from '../../../components/shared/FooterBtn';
-import screens from '../../../constants/screens';
-import {Keyboard} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-const VetAssistantDetails = ({navigation}) => {
-  // const {height, width} = Dimensions.get('window');
-  const [hasAssistant, setHasAssistant] = useState(false);
-  const [assistants, setAssistants] = useState([{name: '', mobile: ''}]);
-  const {width, height} = Dimensions.get('window');
-  const imageHeight = height * 0.34;
-  const toggleSwitch = () => setHasAssistant(prev => !prev);
+// import React, {useState, useEffect} from 'react';
+// import {
+//   View,
+//   Text,
+//   TextInput,
+//   Switch,
+//   TouchableOpacity,
+//   ScrollView,
+//   Image,
+//   Dimensions,
+//   Alert,
+// } from 'react-native';
+// import RegistrationProgressBar from '../../../components/shared/RegistrationProgressBar';
+// import images from '../../../assets/images';
+// import FooterBtn from '../../../components/shared/FooterBtn';
+// import screens from '../../../constants/screens';
+// import {Keyboard} from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {
+//   widthPercentageToDP as wp,
+//   heightPercentageToDP as hp,
+// } from 'react-native-responsive-screen';
+// const VetAssistantDetails = ({navigation}) => {
+//   // const {height, width} = Dimensions.get('window');
+//   const [hasAssistant, setHasAssistant] = useState(false);
+//   const [assistants, setAssistants] = useState([{name: '', mobile: ''}]);
+//   const {width, height} = Dimensions.get('window');
+//   const imageHeight = height * 0.34;
+//   const toggleSwitch = () => setHasAssistant(prev => !prev);
 
-  const addAssistant = () => {
-    const newAssistants = [...assistants, {name: '', mobile: ''}];
-    saveAssistants(newAssistants);
-  };
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setIsKeyboardVisible(true);
-      },
-    );
+//   const addAssistant = () => {
+//     const newAssistants = [...assistants, {name: '', mobile: ''}];
+//     saveAssistants(newAssistants);
+//   };
+//   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+//   useEffect(() => {
+//     const keyboardDidShowListener = Keyboard.addListener(
+//       'keyboardDidShow',
+//       () => {
+//         setIsKeyboardVisible(true);
+//       },
+//     );
 
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setIsKeyboardVisible(false);
-      },
-    );
+//     const keyboardDidHideListener = Keyboard.addListener(
+//       'keyboardDidHide',
+//       () => {
+//         setIsKeyboardVisible(false);
+//       },
+//     );
 
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
-  const saveAssistants = async newAssistants => {
-    try {
-      await AsyncStorage.setItem('assistants', JSON.stringify(newAssistants));
-      setAssistants(newAssistants);
-    } catch (error) {
-      console.error('Error saving assistants:', error);
-    }
-  };
-  const updateAssistant = (index, field, value) => {
-    const newAssistants = [...assistants];
-    newAssistants[index][field] = value;
-    saveAssistants(newAssistants);
-  };
-  const handleContinue = async () => {
-    try {
-      await AsyncStorage.setItem('assistants', JSON.stringify(assistants));
-      navigation.navigate(screens.ScheduleWeek);
-    } catch (error) {
-      console.error('Error saving and navigating:', error);
-    }
-  };
-  return (
-    <>
-      <ScrollView className="bg-white" showsVerticalScrollIndicator={false}>
-        <View className=" bg-white px-6">
-          {/* Progress bar */}
-          <View className="mt-[15px] mb-2">
-            <RegistrationProgressBar screenNo={5} />
-          </View>
-          <Text className="text-gray-900 mb-[10px] text-[24px] font-Nunito-Bold mt-[10px]">
-            Your Assistant Details
-          </Text>
+//     return () => {
+//       keyboardDidShowListener.remove();
+//       keyboardDidHideListener.remove();
+//     };
+//   }, []);
+//   const saveAssistants = async newAssistants => {
+//     try {
+//       await AsyncStorage.setItem('assistants', JSON.stringify(newAssistants));
+//       setAssistants(newAssistants);
+//     } catch (error) {
+//       console.error('Error saving assistants:', error);
+//     }
+//   };
+//   const updateAssistant = (index, field, value) => {
+//     const newAssistants = [...assistants];
+//     newAssistants[index][field] = value;
+//     saveAssistants(newAssistants);
+//   };
+//   const handleContinue = async () => {
+//     try {
+//       await AsyncStorage.setItem('assistants', JSON.stringify(assistants));
+//       navigation.navigate(screens.ScheduleWeek);
+//     } catch (error) {
+//       console.error('Error saving and navigating:', error);
+//     }
+//   };
+//   return (
+//     <>
+//       <ScrollView className="bg-white" showsVerticalScrollIndicator={false}>
+//         <View className=" bg-white px-6">
+//           {/* Progress bar */}
+//           <View className="mt-[15px] mb-2">
+//             <RegistrationProgressBar screenNo={5} />
+//           </View>
+//           <Text className="text-gray-900 mb-[10px] text-[24px] font-Nunito-Bold mt-[10px]">
+//             Your Assistant Details
+//           </Text>
 
-          {/* Toggle Switch */}
-          <View className="flex-row justify-between items-center bg-[#F2F6F733] border border-[#BBBCB733] px-[19px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
-            <Text className="text-[16px] text-darkGunmetal leading-10 font-Nunito-Regular">
-              Do you have an assistant?
-            </Text>
-            <Switch
-              value={hasAssistant}
-              onValueChange={toggleSwitch}
-              trackColor={{false: '#E7ECF7', true: '#d75880'}}
-              thumbColor={'#fff'}
-            />
-          </View>
+//           {/* Toggle Switch */}
+//           <View className="flex-row justify-between items-center bg-[#F2F6F733] border border-[#BBBCB733] px-[19px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
+//             <Text className="text-[16px] text-darkGunmetal leading-10 font-Nunito-Regular">
+//               Do you have an assistant?
+//             </Text>
+//             <Switch
+//               value={hasAssistant}
+//               onValueChange={toggleSwitch}
+//               trackColor={{false: '#E7ECF7', true: '#d75880'}}
+//               thumbColor={'#fff'}
+//             />
+//           </View>
 
-          {/* Assistant Fields */}
-          {hasAssistant && (
-            <View>
-              {assistants.map((assistant, index) => (
-                <View key={index}>
-                  <TextInput
-                    className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
-                    placeholder="Name"
-                    placeholderTextColor="#00000080"
-                    value={assistant.name}
-                    onChangeText={text => updateAssistant(index, 'name', text)}
-                  />
-                  <TextInput
-                    className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
-                    placeholder="Mobile number"
-                    placeholderTextColor="#00000080"
-                    keyboardType="phone-pad"
-                    value={assistant.mobile}
-                    onChangeText={text =>
-                      updateAssistant(index, 'mobile', text)
-                    }
-                  />
-                </View>
-              ))}
-              <TouchableOpacity onPress={addAssistant}>
-                <Text className="text-[16px] text-primary font-Nunito-Regular">
-                  + Add more
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          <View
-            style={{
-              // position: 'absolute',
-              bottom: -190,
-              right: -140,
-              paddingRight: 16,
-              // zIndex: -1,
-              marginBottom: 200,
-            }}>
-            <Image
-              source={images.Assistant}
-              style={{
-                width: width * 0.5,
-                height: height * 0.3,
-                resizeMode: 'contain',
-              }}
-            />
-          </View>
-        </View>
-      </ScrollView>
-      {!isKeyboardVisible && (
-        <View
-          className="bg-white flex px-6 justify-center h-[100px] w-full"
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {width: 50, height: 60}, // Adjust as needed
-            shadowOpacity: 50, // Lower for subtle shadows
-            shadowRadius: 10,
-            elevation: 18, // Android shadow
-          }}>
-          <TouchableOpacity
-            className="h-[60px] bg-primary items-center justify-center rounded-full"
-            onPress={handleContinue}>
-            <Text className="text-[20px] text-white font-Nunito-Bold text-center">
-              Continue
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </>
-  );
-};
+//           {/* Assistant Fields */}
+//           {hasAssistant && (
+//             <View>
+//               {assistants.map((assistant, index) => (
+//                 <View key={index}>
+//                   <TextInput
+//                     className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
+//                     placeholder="Name"
+//                     placeholderTextColor="#00000080"
+//                     value={assistant.name}
+//                     onChangeText={text => updateAssistant(index, 'name', text)}
+//                   />
+//                   <TextInput
+//                     className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
+//                     placeholder="Mobile number"
+//                     placeholderTextColor="#00000080"
+//                     keyboardType="phone-pad"
+//                     value={assistant.mobile}
+//                     onChangeText={text =>
+//                       updateAssistant(index, 'mobile', text)
+//                     }
+//                   />
+//                 </View>
+//               ))}
+//               <TouchableOpacity onPress={addAssistant}>
+//                 <Text className="text-[16px] text-primary font-Nunito-Regular">
+//                   + Add more
+//                 </Text>
+//               </TouchableOpacity>
+//             </View>
+//           )}
+//           <View
+//             style={{
+//               // position: 'absolute',
+//               bottom: -190,
+//               right: -140,
+//               paddingRight: 16,
+//               // zIndex: -1,
+//               marginBottom: 200,
+//             }}>
+//             <Image
+//               source={images.Assistant}
+//               style={{
+//                 width: width * 0.5,
+//                 height: height * 0.3,
+//                 resizeMode: 'contain',
+//               }}
+//             />
+//           </View>
+//         </View>
+//       </ScrollView>
+//       {!isKeyboardVisible && (
+//         <View
+//           className="bg-white flex px-6 justify-center h-[100px] w-full"
+//           style={{
+//             shadowColor: '#000',
+//             shadowOffset: {width: 50, height: 60}, // Adjust as needed
+//             shadowOpacity: 50, // Lower for subtle shadows
+//             shadowRadius: 10,
+//             elevation: 18, // Android shadow
+//           }}>
+//           <TouchableOpacity
+//             className="h-[60px] bg-primary items-center justify-center rounded-full"
+//             onPress={handleContinue}>
+//             <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+//               Continue
+//             </Text>
+//           </TouchableOpacity>
+//         </View>
+//       )}
+//     </>
+//   );
+// };
 
-export default VetAssistantDetails;
+// export default VetAssistantDetails;
 // import React, {useState, useEffect} from 'react';
 // import {
 //   View,
@@ -411,3 +412,282 @@ export default VetAssistantDetails;
 //   );
 // };
 // export default VetAssistantDetails;
+import React, {useRef, useMemo, useState, useCallback, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Switch,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Dimensions,
+} from 'react-native';
+import RegistrationProgressBar from '../../../components/shared/RegistrationProgressBar';
+import images from '../../../assets/images';
+import FooterBtn from '../../../components/shared/FooterBtn';
+import screens from '../../../constants/screens';
+import {Keyboard} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {
+  BottomSheetView,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
+const VetAssistantDetails = ({navigation}) => {
+  // const {height, width} = Dimensions.get('window');
+  const [hasAssistant, setHasAssistant] = useState(false);
+  const [assistants, setAssistants] = useState([{name: '', mobile: ''}]);
+  const {width, height} = Dimensions.get('window');
+  const imageHeight = height * 0.34;
+  const toggleSwitch = () => setHasAssistant(prev => !prev);
+
+  const addAssistant = () => {
+    const newAssistants = [...assistants, {name: '', mobile: ''}];
+    saveAssistants(newAssistants);
+  };
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setIsKeyboardVisible(true);
+      },
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setIsKeyboardVisible(false);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+  // const saveAssistants = async newAssistants => {
+  //   try {
+  //     await AsyncStorage.setItem('assistants', JSON.stringify(newAssistants));
+  //     setAssistants(newAssistants);
+  //   } catch (error) {
+  //     console.error('Error saving assistants:', error);
+  //   }
+  // };
+  const saveAssistants = async newAssistants => {
+    try {
+      await AsyncStorage.setItem('assistants', JSON.stringify(newAssistants));
+      setAssistants(newAssistants);
+      // Log the saved data to console
+      const savedAssistants = await AsyncStorage.getItem('assistants');
+      console.log('Saved Assistants:', JSON.parse(savedAssistants)); // This will log the data that was saved
+    } catch (error) {
+      console.error('Error saving assistants:', error);
+    }
+  };
+
+  // const updateAssistant = (index, field, value) => {
+  //   const newAssistants = [...assistants];
+  //   newAssistants[index][field] = value;
+  //   saveAssistants(newAssistants);
+  // };
+  const updateAssistant = (index, field, value) => {
+    const newAssistants = [...assistants];
+    newAssistants[index][field] = value;
+    setAssistants(newAssistants); // only update local state, no AsyncStorage here
+  };
+
+  // const handleContinue = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('assistants', JSON.stringify(assistants));
+  //     navigation.navigate(screens.ScheduleWeek);
+  //   } catch (error) {
+  //     console.error('Error saving and navigating:', error);
+  //   }
+  // };
+  const handleYes = async () => {
+    try {
+      await AsyncStorage.setItem('assistants', JSON.stringify(assistants));
+      const savedAssistants = await AsyncStorage.getItem('assistants');
+      console.log('Saved Assistants on continue:', JSON.parse(savedAssistants));
+      navigation.navigate(screens.ScheduleWeek);
+    } catch (error) {
+      console.error('Error saving and navigating:', error);
+    }
+    closeModal();
+  };
+  const handleContinue = () => {
+    if (!hasAssistant) {
+      navigation.navigate(screens.ScheduleWeek);
+    } else {
+      openModal();
+    }
+  };
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ['70%'], []);
+  const openModal = useCallback(() => {
+    bottomSheetRef.current?.present();
+  }, []);
+
+  const closeModal = useCallback(() => {
+    bottomSheetRef.current?.dismiss();
+  }, []);
+
+  return (
+    <>
+      <BottomSheetModalProvider>
+        <ScrollView className="bg-white" showsVerticalScrollIndicator={false}>
+          <View className=" bg-white px-6">
+            {/* Progress bar */}
+            <View className="mt-[15px] mb-2">
+              <RegistrationProgressBar screenNo={5} />
+            </View>
+            <Text className="text-gray-900 mb-[10px] text-[24px] font-Nunito-Bold mt-[10px]">
+              Your Assistant Details
+            </Text>
+
+            {/* Toggle Switch */}
+            <View className="flex-row justify-between items-center bg-[#F2F6F733] border border-[#BBBCB733] px-[19px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
+              <Text className="text-[16px] text-darkGunmetal leading-10 font-Nunito-Regular">
+                Do you have an assistant?
+              </Text>
+              <Switch
+                value={hasAssistant}
+                onValueChange={toggleSwitch}
+                trackColor={{false: '#E7ECF7', true: '#d75880'}}
+                thumbColor={'#fff'}
+              />
+            </View>
+
+            {/* Assistant Fields */}
+            {hasAssistant && (
+              <View>
+                {assistants.map((assistant, index) => (
+                  <View key={index}>
+                    <TextInput
+                      className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
+                      placeholder="Name"
+                      placeholderTextColor="#00000080"
+                      value={assistant.name}
+                      onChangeText={text =>
+                        updateAssistant(index, 'name', text)
+                      }
+                    />
+                    <TextInput
+                      className="bg-white text-[#000000] h-[60px] text-[16px] border border-[#BBBCB733] rounded-2xl mb-[15px] p-[19px] font-Nunito-Regular"
+                      placeholder="Mobile number"
+                      placeholderTextColor="#00000080"
+                      keyboardType="phone-pad"
+                      value={assistant.mobile}
+                      onChangeText={text =>
+                        updateAssistant(index, 'mobile', text)
+                      }
+                    />
+                  </View>
+                ))}
+                <TouchableOpacity onPress={addAssistant}>
+                  <Text className="text-[16px] text-primary font-Nunito-Regular">
+                    + Add more
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            <View
+              style={{
+                // position: 'absolute',
+                bottom: -190,
+                right: -140,
+                paddingRight: 16,
+                // zIndex: -1,
+                marginBottom: 200,
+              }}>
+              <Image
+                source={images.Assistant}
+                style={{
+                  width: width * 0.5,
+                  height: height * 0.3,
+                  resizeMode: 'contain',
+                }}
+              />
+            </View>
+          </View>
+        </ScrollView>
+        {!isKeyboardVisible && (
+          <View
+            className="bg-white flex px-6 justify-center h-[100px] w-full"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: {width: 50, height: 60}, // Adjust as needed
+              shadowOpacity: 50, // Lower for subtle shadows
+              shadowRadius: 10,
+              elevation: 18, // Android shadow
+            }}>
+            <TouchableOpacity
+              className="h-[60px] bg-primary items-center justify-center rounded-full"
+              onPress={handleContinue}>
+              <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+                Continue
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </BottomSheetModalProvider>
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        backdropComponent={({style}) => (
+          <View style={[style, {backgroundColor: 'rgba(0,0,0,0.5)'}]} />
+        )}>
+        <BottomSheetView>
+          <View className="p-5">
+            <View className="flex items-center justify-center">
+              <Image
+                source={images.Assistant}
+                style={{
+                  width: 150,
+                  height: 150,
+                  resizeMode: 'contain',
+                }}
+              />
+            </View>
+            <Text
+              className="text-[18px] mt-6 text-center font-Nunito-Regular"
+              style={{fontWeight: 500}}>
+              You agree and confirm that your assistant vet is a qualified and
+              licensed veterinarian.
+            </Text>
+            <View className="flex flex-row items-center px-3 gap-2 mt-10 mb-4">
+              <TouchableOpacity
+                onPress={() => closeModal()}
+                className="border-2 border-primary  h-[60px] items-center justify-center rounded-full"
+                style={{width: '50%'}}>
+                <Text
+                  className="text-center text-[21px] text-primary font-Nunito-Regular"
+                  style={{fontWeight: '700'}}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleYes()}
+                className=" bg-primary border border-primary h-[60px] items-center justify-center  rounded-full"
+                style={{width: '50%'}}>
+                <Text
+                  className="text-center text-[21px] text-white font-Nunito-Regular"
+                  style={{fontWeight: '700'}}>
+                  Yes
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </BottomSheetView>
+      </BottomSheetModal>
+    </>
+  );
+};
+
+export default VetAssistantDetails;

@@ -172,6 +172,15 @@ const AddYourPetHomeVisit = ({navigation, route}) => {
     if (selectedPet) {
       setSelectedPetUUID(selectedPet.UUID);
     }
+    setPetName('');
+    setSelectedBreed(null);
+    setAge('');
+    setMonth('');
+    setWeight('');
+    setMicrochip('');
+    setSelectedDate(null);
+    setGender(null);
+    setSelectedImage(null);
   };
 
   const [petBreeds, setPetBreeds] = useState([]);
@@ -325,7 +334,7 @@ const AddYourPetHomeVisit = ({navigation, route}) => {
           JSON.stringify(responseBody),
         );
 
-        navigation.navigate(screens.SelectSymptoms, {
+        navigation.navigate(screens.ParentDetails, {
           ...(isHomeVisit ? {isHomeVisit: true} : {}),
         });
         return true;
@@ -600,16 +609,16 @@ const AddYourPetHomeVisit = ({navigation, route}) => {
       {/* <FooterBtn title="Save" onClick={addPet} /> */}
       <FooterBtn
         title="Save"
-        onClick={() => {
-          if (goBack) {
-            navigation.goBack();
-          } else {
-            navigation.navigate(screens.SelectSymptoms, {
-              ...(isHomeVisit ? {isHomeVisit: true} : {}),
-            });
-          }
-        }}
-        //         // onClick={addPet}
+        // onClick={() => {
+        //   if (goBack) {
+        //     navigation.goBack();
+        //   } else {
+        //     navigation.navigate(screens.ParentDetails, {
+        //       ...(isHomeVisit ? {isHomeVisit: true} : {}),
+        //     });
+        //   }
+        // }}
+        onClick={addPet}
       />
       <Modal
         isVisible={isModalVisible}

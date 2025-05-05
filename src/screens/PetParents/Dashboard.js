@@ -139,6 +139,8 @@ const Dashboard = ({navigation}) => {
         }
 
         const data = await response.json();
+        console.log('data', data);
+
         const groups = data.ServiceGroup;
         setServiceGroups(groups);
         setConsultationTypes(data.ConsultationType);
@@ -158,15 +160,6 @@ const Dashboard = ({navigation}) => {
         // console.log('Filtered Applicable CT UUIDs:', uuids);
 
         setApplicableCTUUIDs(uuids);
-
-        // const matchedConsultations = allConsultations.filter(ct =>
-        //   uuids.includes(ct.UUID.toLowerCase()),
-        // );
-
-        // console.log('Matched Consultation Names:');
-        // matchedConsultations.forEach(ct => {
-        //   console.log(`- ${ct.Consultation_Name}`);
-        // });
       } catch (error) {
         console.error('Failed to fetch service groups:', error);
       }
@@ -229,6 +222,64 @@ const Dashboard = ({navigation}) => {
   const screenWidth = Dimensions.get('window').width;
   // const uuid = consultation.UUID;
   // const name = consultation.Consultaytion_Name;
+
+  useEffect(() => {
+    const checkStoredPet = async () => {
+      try {
+        const petData = await AsyncStorage.getItem('last_added_pet');
+        if (petData) {
+          const parsedPet = JSON.parse(petData);
+          console.log('Pet found in storage:', parsedPet);
+
+          // Navigate to another screen if data is present
+          // navigation.navigate('ParentDetails', {isHomeVisit: true});
+        }
+      } catch (err) {
+        console.log('Error fetching pet data from storage', err);
+      }
+    };
+
+    checkStoredPet();
+  }, []);
+  useEffect(() => {
+    const checkParentDetails = async () => {
+      const [firstName, lastName, phone, email] = await Promise.all([
+        AsyncStorage.getItem('first_name'),
+        AsyncStorage.getItem('last_name'),
+        AsyncStorage.getItem('mobile_number'),
+        AsyncStorage.getItem('email'),
+      ]);
+
+      if (firstName && lastName && phone && email) {
+        // ✅ All parent details exist, skip this screen
+        navigation.replace(screens.MapViewScreenParent, {
+          isTeleConsult: !Boolean(isHomeVisit),
+        });
+      }
+    };
+
+    checkParentDetails();
+  }, []);
+
+  useEffect(() => {
+    const checkStoredPet = async () => {
+      try {
+        const petData = await AsyncStorage.getItem('last_added_pet_tele');
+        if (petData) {
+          const parsedPet = JSON.parse(petData);
+          console.log('Pet found in storage for Tele:', parsedPet);
+
+          // Navigate to another screen if data is present
+          // navigation.navigate('ParentDetails', {isHomeVisit: true});
+        }
+      } catch (err) {
+        console.log('Error fetching pet data from storage', err);
+      }
+    };
+
+    checkStoredPet();
+  }, []);
+
   return (
     <View className="flex-1 bg-[#f2f6f7]">
       <ScrollView
@@ -284,90 +335,173 @@ const Dashboard = ({navigation}) => {
           />
         </View>
 
-        {/* <View className="px-2 flex-row justify-center items-center gap-2 mb-6">
-          {filteredConsultations.map(consultation => (
-            <TouchableOpacity
-              key={consultation.UUID}
-              className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
-              style={{minWidth: screenWidth / 2.2}}
-              onPress={async () => {
-                console.log('Selected UUID:', consultation.UUID);
-                console.log('Navigation Target:', screens.ServiceSelection);
-                await AsyncStorage.setItem(
-                  'selected_consultation_uuid',
-                  consultation.UUID,
-                );
-
-                if (consultation.Consultaytion_Name === 'Vet Home Visit') {
-                  navigation.navigate(screens.ServiceSelection, {
-                    serviceGroupUUID:
-                      serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-                    consultationTypeUUID:
-                      consultationTypes.find(x => x.IsServiceBased)?.UUID || '',
-                  });
-                } else if (
-                  consultation.Consultaytion_Name === 'Vet Teleconsultation'
-                ) {
-                  navigation.navigate(screens.SelectVaterinarian, {
-                    headerTitle: 'Tele Consultation',
-                    serviceGroupUUID:
-                      serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-                    consultationTypeUUID:
-                      consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
-                      '',
-                  });
-                }
-              }}>
-              <Image
-                source={{
-                  uri: `https://democms.zumigo.pet${consultation.Icon ?? ''}`,
-                }}
-                className="w-7 h-[23px] mr-2"
-                resizeMode="contain"
-              />
-              <Text
-                className="text-base font-Nunito-Bold text-white text-center"
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                {consultation.Consultaytion_Name}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View> */}
         <View className="px-2 flex-row justify-center items-center gap-2 mb-6">
           {filteredConsultations.map(consultation => (
             <TouchableOpacity
               key={consultation.UUID}
               className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
               style={{minWidth: screenWidth / 2.2}}
+              // onPress={async () => {
+              //   console.log('Selected UUID:', consultation.UUID);
+
+              //   // Save selected UUID for future use
+              //   await AsyncStorage.setItem(
+              //     'selected_consultation_uuid',
+              //     consultation.UUID,
+              //   );
+
+              //   // Standardize name to avoid case issues
+              //   const name = consultation.Consultaytion_Name?.toLowerCase();
+
+              //   if (name.includes('home')) {
+              //     // navigation.navigate(screens.ServiceSelection,
+              //     navigation.navigate(
+              //       screens.AddYourPetHomeVisit,
+
+              //       {
+              //         serviceGroupUUID:
+              //           serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+              //         consultationTypeUUID:
+              //           consultationTypes.find(x => x.IsServiceBased)?.UUID ||
+              //           '',
+              //       },
+              //     );
+              //   } else if (name.includes('tele')) {
+              //     navigation.navigate(screens.AddYourPet, {
+              //       headerTitle: 'Tele Consultation',
+              //       serviceGroupUUID:
+              //         serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+              //       consultationTypeUUID:
+              //         consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+              //         '',
+              //     });
+              //   } else {
+              //     console.warn('Unhandled consultation type:', name);
+              //   }
+              // }}
               onPress={async () => {
                 console.log('Selected UUID:', consultation.UUID);
 
-                // Save selected UUID for future use
                 await AsyncStorage.setItem(
                   'selected_consultation_uuid',
                   consultation.UUID,
                 );
 
-                // Standardize name to avoid case issues
                 const name = consultation.Consultaytion_Name?.toLowerCase();
 
+                // Get stored pet data
+                const storedPet = await AsyncStorage.getItem('last_added_pet');
+                const petExists = !!storedPet;
+
+                const serviceGroupUUID =
+                  serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '';
+                const consultationTypeUUID = name.includes('tele')
+                  ? consultationTypes.find(x => !x.IsServiceBased)?.UUID || ''
+                  : consultationTypes.find(x => x.IsServiceBased)?.UUID || '';
+
+                const addressData = await AsyncStorage.getItem(
+                  'saved_user_address',
+                );
+                const isAddressComplete = !!addressData;
+
+                // if (name.includes('home')) {
+                //   if (petExists) {
+                //     // Navigate to ParentDetails directly if pet data is already present
+                //     navigation.navigate(screens.ParentDetails, {
+                //       isHomeVisit: true,
+                //     });
+                //   } else {
+                //     // Navigate to AddYourPetHomeVisit if no data stored
+                //     navigation.navigate(screens.AddYourPetHomeVisit, {
+                //       serviceGroupUUID,
+                //       consultationTypeUUID,
+                //     });
+                //   }
+                // } else if (name.includes('tele')) {
+                //   navigation.navigate(screens.AddYourPet, {
+                //     headerTitle: 'Tele Consultation',
+                //     serviceGroupUUID,
+                //     consultationTypeUUID,
+                //   });
+                // }
                 if (name.includes('home')) {
-                  navigation.navigate(screens.ServiceSelection, {
-                    serviceGroupUUID:
-                      serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-                    consultationTypeUUID:
-                      consultationTypes.find(x => x.IsServiceBased)?.UUID || '',
-                  });
-                } else if (name.includes('tele')) {
-                  navigation.navigate(screens.SelectVaterinarian, {
-                    headerTitle: 'Tele Consultation',
-                    serviceGroupUUID:
-                      serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-                    consultationTypeUUID:
-                      consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
-                      '',
-                  });
+                  if (petExists) {
+                    const [firstName, lastName, phone, email] =
+                      await Promise.all([
+                        AsyncStorage.getItem('first_name'),
+                        AsyncStorage.getItem('last_name'),
+                        AsyncStorage.getItem('mobile_number'),
+                        AsyncStorage.getItem('email'),
+                      ]);
+
+                    const isParentDetailsComplete =
+                      firstName && lastName && phone && email;
+
+                    if (isParentDetailsComplete) {
+                      if (isAddressComplete) {
+                        // If address is complete, navigate to ServiceSelection screen
+                        navigation.navigate(screens.ServiceSelection);
+                      } else {
+                        // If address is not complete, navigate to AddYourAddress screen
+                        navigation.navigate(screens.AddYourAddress, {
+                          isTeleConsult: false,
+                        });
+                      }
+                      // navigation.navigate(screens.AddYourAddress, {
+                      //   isTeleConsult: false,
+                      // });
+                    } else {
+                      navigation.navigate(screens.ParentDetails, {
+                        isHomeVisit: true,
+                      });
+                    }
+                  } else {
+                    navigation.navigate(screens.AddYourPetHomeVisit, {
+                      serviceGroupUUID,
+                      consultationTypeUUID,
+                    });
+                  }
+                }
+                // else if (name.includes('tele')) {
+                //   navigation.navigate(screens.AddYourPet, {
+                //     headerTitle: 'Tele Consultation',
+                //     serviceGroupUUID:
+                //       serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+                //     consultationTypeUUID:
+                //       consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+                //       '',
+                //   });
+                // }
+                else if (name.includes('tele')) {
+                  try {
+                    const petData = await AsyncStorage.getItem(
+                      'last_added_pet_tele',
+                    );
+                    if (petData) {
+                      navigation.navigate(screens.SelectVaterinarian, {
+                        isHomeVisit: false,
+                        headerTitle: 'Tele Consultation',
+                        serviceGroupUUID:
+                          serviceGroups.find(x => x.DisplayAsPrimary)?.UUID ||
+                          '',
+                        consultationTypeUUID:
+                          consultationTypes.find(x => !x.IsServiceBased)
+                            ?.UUID || '',
+                      });
+                    } else {
+                      navigation.navigate(screens.AddYourPet, {
+                        headerTitle: 'Tele Consultation',
+                        serviceGroupUUID:
+                          serviceGroups.find(x => x.DisplayAsPrimary)?.UUID ||
+                          '',
+                        consultationTypeUUID:
+                          consultationTypes.find(x => !x.IsServiceBased)
+                            ?.UUID || '',
+                      });
+                    }
+                  } catch (error) {
+                    console.error('Error checking pet data:', error);
+                  }
                 } else {
                   console.warn('Unhandled consultation type:', name);
                 }
@@ -413,36 +547,34 @@ const Dashboard = ({navigation}) => {
                 {serviceGroups
                   .filter(item => !item.DisplayAsPrimary)
                   .map((item, index) => (
-                    <View
+                    <TouchableOpacity
                       key={index}
                       className="items-center gap-1.5"
-                      style={{width: width * 0.28}}>
-                      {/* Image with bottom shadow */}
-                      {/* <View
-                        style={[
-                          {
-                            width: width * 0.28,
-                            height: width * 0.28,
-                            borderRadius: 20,
-                            backgroundColor: '#f2f6f7',
-                            shadowColor: '#000',
-                            shadowOffset: {width: 0, height: 2},
-                            shadowOpacity: 0.08,
-                            shadowRadius: 6,
-                            elevation: 4, // for Android
-                          },
-                        ]}>
-                        <Image
-                          source={{
-                            uri: `https://democms.zumigo.pet${item.Picture}`,
-                          }}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            resizeMode: 'cover',
-                          }}
-                        />
-                      </View> */}
+                      style={{width: width * 0.28}}
+                      onPress={() => {
+                        console.log('Selected GroupName:', item.GroupName);
+
+                        switch (item.GroupName) {
+                          case 'Grooming':
+                            navigation.navigate(screens.AddYourPetGrooming, {
+                              groupName: item.GroupName,
+                            });
+                            break;
+                          case 'Food':
+                            navigation.navigate('FoodScreen', {
+                              groupName: item.GroupName,
+                            });
+                            break;
+                          case 'Radiology':
+                            navigation.navigate('RadiologyScreen', {
+                              groupName: item.GroupName,
+                            });
+                            break;
+                          default:
+                            console.warn('Unknown GroupName:', item.GroupName);
+                            break;
+                        }
+                      }}>
                       <View
                         style={{
                           width: width * 0.28,
@@ -481,7 +613,7 @@ const Dashboard = ({navigation}) => {
                         style={{fontSize: getFontSize(16)}}>
                         {item.GroupName}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   ))}
               </View>
 

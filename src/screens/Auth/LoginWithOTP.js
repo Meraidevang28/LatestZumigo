@@ -410,7 +410,7 @@
 //     marginBottom: 10,
 //   },
 // });
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -445,12 +445,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import debounce from 'lodash.debounce';
+
 const DEVICE_UUID_KEY = 'device_uuid';
 const AUTH_TOKEN_KEY = 'auth_token';
 
 const LoginScreen = ({navigation}) => {
   const [isPartner, setIsPartner] = useState(false);
   const [mobile, setMobile] = useState('');
+  const [rawMobile, setRawMobile] = useState('');
   const [deviceUUID, setDeviceUUID] = useState('');
   const [authToken, setAuthToken] = useState('');
   const [userTypeUuid, setUserTypeUuid] = useState('');
@@ -629,7 +632,32 @@ const LoginScreen = ({navigation}) => {
     }
   };
   const mobileInputRef = useRef(null);
+  const debouncedSetMobile = useCallback(
+    debounce(text => {
+      setMobile(text);
+    }, 300),
+    [],
+  );
+  const handleMobileChange = text => {
+    setRawMobile(text); // Immediate visual update
+    debouncedSetMobile(text); // Slower state update for background logic
+  };
+  useEffect(() => {
+    if (rawMobile) {
+      AsyncStorage.setItem('rawMobile', rawMobile);
+    }
+  }, [rawMobile]);
+  useEffect(() => {
+    const loadStoredMobile = async () => {
+      const storedMobile = await AsyncStorage.getItem('rawMobile');
+      if (storedMobile) {
+        setRawMobile(storedMobile);
+        debouncedSetMobile(storedMobile); // optional: set main value too
+      }
+    };
 
+    loadStoredMobile();
+  }, []);
   return (
     <ScrollView>
       <View className="bg-white">
@@ -786,10 +814,10 @@ const LoginScreen = ({navigation}) => {
                             // lineHeight: ,
                           }}
                           placeholder="Enter Mobile number"
-                          keyboardType="numeric"
+                          keyboardType="phone-pad"
                           placeholderTextColor="#848A9A"
-                          value={mobile}
-                          onChangeText={text => setMobile(text)}
+                          value={rawMobile}
+                          onChangeText={handleMobileChange}
                           maxLength={10}
                         />
                       </View>

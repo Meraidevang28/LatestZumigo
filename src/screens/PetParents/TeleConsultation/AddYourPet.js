@@ -172,6 +172,15 @@ const AddYourPet = ({navigation, route}) => {
     if (selectedPet) {
       setSelectedPetUUID(selectedPet.UUID);
     }
+    setPetName('');
+    setSelectedBreed(null);
+    setAge('');
+    setMonth('');
+    setWeight('');
+    setMicrochip('');
+    setSelectedDate(null);
+    setGender(null);
+    setSelectedImage(null);
   };
 
   const [petBreeds, setPetBreeds] = useState([]);
@@ -316,13 +325,27 @@ const AddYourPet = ({navigation, route}) => {
       if (response.ok) {
         console.log('Pet added successfully:', responseBody);
 
-        await AsyncStorage.setItem(
-          'last_added_pet',
-          JSON.stringify(responseBody),
+        // await AsyncStorage.setItem(
+        //   'last_added_pet_tele',
+        //   JSON.stringify(responseBody),
+        // );
+        const keyName = 'last_added_pet_tele';
+        await AsyncStorage.setItem(keyName, JSON.stringify(responseBody));
+
+        // 🔍 Log the stored value
+        const savedPetData = await AsyncStorage.getItem(keyName);
+        console.log(
+          'Stored pet data in AsyncStorage:',
+          JSON.parse(savedPetData),
         );
 
-        navigation.navigate(screens.SelectSymptoms, {
+        navigation.navigate(screens.SelectVaterinarian, {
           ...(isHomeVisit ? {isHomeVisit: true} : {}),
+          headerTitle: 'Tele Consultation',
+          serviceGroupUUID:
+            serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+          consultationTypeUUID:
+            consultationTypes.find(x => !x.IsServiceBased)?.UUID || '',
         });
         return true;
       } else {
@@ -344,6 +367,79 @@ const AddYourPet = ({navigation, route}) => {
   console.log(petType);
   const inputRef = useRef(null);
   const weightInputRef = useRef(null);
+  const [selectedCategory, setSelectedCategory] = useState(1);
+  const [primaryServices, setPrimaryServices] = useState([]);
+  const [serviceGroups, setServiceGroups] = useState([]);
+  const [consultationTypes, setConsultationTypes] = useState([]);
+  const [applicableCTUUIDs, setApplicableCTUUIDs] = useState([]);
+  const [firstName, setFirstName] = useState('');
+  const [isProfileComplete, setIsProfileComplete] = useState(false);
+  useEffect(() => {
+    const fetchPrimaryServiceGroups = async () => {
+      try {
+        const token = await AsyncStorage.getItem('auth_token');
+        const name = await AsyncStorage.getItem('first_name');
+        const profileComplete = await AsyncStorage.getItem(
+          'is_profile_complete',
+        );
+        if (name) {
+          setFirstName(name);
+          // console.log('First Name:', name);
+        }
+        if (profileComplete === 'true') {
+          setIsProfileComplete(true);
+        }
+        const response = await fetch(
+          'https://demoapi.zumigo.pet/api/Service/ServiceGroupConsultation',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json',
+            },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('data', data);
+
+        const groups = data.ServiceGroup;
+        setServiceGroups(groups);
+        setConsultationTypes(data.ConsultationType);
+
+        const filteredPrimary = groups.filter(item => item.DisplayAsPrimary);
+        setPrimaryServices(filteredPrimary);
+
+        // Extract ApplicableCTUUIDs where IsCategoryTypeApplicable is true
+        const uuids = groups
+          .filter(item => item.IsCategoryTypeApplicable)
+          .map(item => item.ApplicableCTUUID)
+          .filter(Boolean)
+          .flatMap(uuidStr =>
+            uuidStr.split(',').map(uuid => uuid.trim().toLowerCase()),
+          );
+
+        // console.log('Filtered Applicable CT UUIDs:', uuids);
+
+        setApplicableCTUUIDs(uuids);
+      } catch (error) {
+        console.error('Failed to fetch service groups:', error);
+      }
+    };
+
+    fetchPrimaryServiceGroups();
+  }, []);
+  const filteredConsultations = consultationTypes.filter(ct =>
+    primaryServices.some(group =>
+      group.ApplicableCTUUID?.split(',')
+        .map(uuid => uuid.trim().toLowerCase())
+        .includes(ct.UUID.toLowerCase()),
+    ),
+  );
   return (
     <View className="flex-1 bg-white px-6">
       <ScrollView
@@ -593,7 +689,23 @@ const AddYourPet = ({navigation, route}) => {
           </View>
         </View>
       </ScrollView>
-      <FooterBtn title="Save" onClick={addPet} />
+      <FooterBtn
+        title="Save"
+        // onClick={() => {
+        //   if (goBack) {
+        //     navigation.goBack();
+        //   } else {
+        //     navigation.navigate(screens.SelectVaterinarian, {
+        //       headerTitle: 'Tele Consultation',
+        //       serviceGroupUUID:
+        //         serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+        //       consultationTypeUUID:
+        //         consultationTypes.find(x => !x.IsServiceBased)?.UUID || '',
+        //     });
+        //   }
+        // }}
+        onClick={addPet}
+      />
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={() => setModalVisible(false)}

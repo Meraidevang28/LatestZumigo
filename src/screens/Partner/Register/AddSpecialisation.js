@@ -154,6 +154,216 @@
 // };
 
 // export default AddSpecialisation;
+// import {
+//   View,
+//   Text,
+//   ScrollView,
+//   TouchableOpacity,
+//   Switch,
+//   Image,
+//   Dimensions,
+//   FlatList,
+//   ActivityIndicator,
+// } from 'react-native';
+// import React, {useState, useEffect} from 'react';
+// import FooterBtn from '../../../components/shared/FooterBtn';
+// import screens from '../../../constants/screens';
+// import RegistrationProgressBar from '../../../components/shared/RegistrationProgressBar';
+// import {primary} from '../../../assets/theme/colors';
+// import images from '../../../assets/images';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// const AddSpecialisation = ({navigation}) => {
+//   const [selectedSpecialisation, setselectedSpecialisation] = useState([]);
+//   const [isEnabled, setIsEnabled] = useState(false);
+//   const [services, setServices] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const Specialisation = [
+//     'Ophthalmologist',
+//     'Dermatologist',
+//     'Oncologist',
+//     'Neurologist',
+//     'Cardiologist',
+//     'Orthopedic',
+//     'Soft Tissue Surgeon',
+//     'Chronic Ailments & Pain Medicine',
+//     'Physiotherapist',
+//     'Homeopathy & Alternative Medicine ',
+//   ];
+
+//   const {width, height} = Dimensions.get('window');
+//   const imageHeight = height * 0.3;
+
+//   const toggleSpecialisationSelection = specialisation => {
+//     setselectedSpecialisation([specialisation]); // Only one selection allowed
+//   };
+
+//   const toggleSwitch = () => setIsEnabled(prev => !prev);
+//   const ServiceGroupUuid = '3f930321-a4c7-4768-a018-c95278c0';
+//   const ConsultationTypeUuid = 'a069b6c8-4ee2-41f6-ba3e-30b80d27';
+//   const fetchServices = async () => {
+//     try {
+//       const token = await AsyncStorage.getItem('auth_token');
+//       const response = await fetch(
+//         `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${ServiceGroupUuid}/${ConsultationTypeUuid}`,
+//         {
+//           method: 'GET',
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             Accept: 'application/json',
+//           },
+//         },
+//       );
+
+//       const text = await response.text(); // get raw text safely first
+
+//       if (!text) {
+//         console.error('Empty response from server');
+//         setServices([]); // set empty array
+//         return;
+//       }
+
+//       const json = JSON.parse(text);
+
+//       console.log('Fetched services:', json); // just log it
+//       const filteredServices = json.S.filter(item => item.SCGUUID === null);
+//       setServices(filteredServices); // set full response without any filtering
+//     } catch (error) {
+//       console.error('Error fetching services:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+//   useEffect(() => {
+//     fetchServices();
+//   }, []);
+//   if (loading) {
+//     return (
+//       <View className="flex-1 justify-center items-center">
+//         <ActivityIndicator size="large" color="#0000ff" />
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <>
+//       <View className="flex-1 bg-white px-6">
+//         <ScrollView showsVerticalScrollIndicator={false}>
+//           {/* Progress bar */}
+//           <View className="mt-[15px] mb-2">
+//             <RegistrationProgressBar screenNo={3} />
+//           </View>
+
+//           {/* Title */}
+//           <Text className="mt-[15px] mb-[20px] text-[26px] text-darkGunmetal font-Nunito-Bold">
+//             Specialisation Details
+//           </Text>
+
+//           {/* Switch */}
+//           <View className="flex-row justify-between items-center px-4 py-2 bg-[#f7f7f7] border-[0.5px] border-[#e2e3e1] h-[63px] rounded-[20px] mb-[10px]">
+//             <Text className="text-[16px] text-[#000000] font-Nunito-Regular">
+//               Are you a specialist?
+//             </Text>
+//             <Switch
+//               trackColor={{false: '#ccc', true: primary}}
+//               thumbColor={isEnabled ? '#fff' : '#f4f3f4'}
+//               ios_backgroundColor="#ccc"
+//               onValueChange={toggleSwitch}
+//               value={isEnabled}
+//             />
+//           </View>
+
+//           {/* Specialisation selection */}
+//           {isEnabled && (
+//             <>
+//               <View>
+//                 <Text className="text-[24px] font-Nunito-Bold mb-[10px]">
+//                   Add your Specialisation
+//                 </Text>
+//                 <Text className="text-[18px] font-Nunito-Regular text-[#333333] mb-[15px]">
+//                   You can choose one specialisation
+//                 </Text>
+//                 <View className="flex-row flex-wrap gap-2">
+//                   {Specialisation.map((specialisation, index) => (
+//                     <TouchableOpacity
+//                       key={index}
+//                       className={`rounded-2xl py-[14px] px-[15px] mb-2 border ${
+//                         selectedSpecialisation.includes(specialisation)
+//                           ? 'border-[#e8d5db] bg-[#d75880]'
+//                           : 'bg-[#f3f6f7] border-[#BBBCB7]'
+//                       }`}
+//                       onPress={() =>
+//                         toggleSpecialisationSelection(specialisation)
+//                       }>
+//                       <Text
+//                         className={`text-[16px] leading-6 font-Nunito-Bold ${
+//                           selectedSpecialisation.includes(specialisation)
+//                             ? 'text-white'
+//                             : 'text-[#838999]'
+//                         }`}>
+//                         {specialisation}
+//                       </Text>
+//                     </TouchableOpacity>
+//                   ))}
+//                 </View>
+//               </View>
+//               <FlatList
+//                 data={filteredServices}
+//                 renderItem={renderService}
+//                 keyExtractor={(item, index) => index.toString()}
+//               />
+//             </>
+//           )}
+//         </ScrollView>
+//       </View>
+
+//       {/* 🖼️ Static image at the bottom */}
+//       {!isEnabled && (
+//         <View
+//           style={{
+//             position: 'absolute',
+//             bottom: 100, // above the footer
+//             left: 0,
+//             right: 0,
+//             alignItems: 'center',
+//             backgroundColor: 'white',
+//             paddingHorizontal: 16,
+//           }}>
+//           <Image
+//             source={images.vaterinarianIcon}
+//             style={{
+//               width: width - 32,
+//               height: imageHeight,
+//               resizeMode: 'contain',
+//             }}
+//           />
+//         </View>
+//       )}
+
+//       {/* Continue button */}
+//       <View
+//         className="bg-white flex px-6 justify-center h-[100px] w-full"
+//         style={{
+//           shadowColor: '#000',
+//           shadowOffset: {width: 0, height: 6},
+//           shadowOpacity: 0.1,
+//           shadowRadius: 6,
+//           elevation: 10,
+//         }}>
+//         <TouchableOpacity
+//           className="h-[60px] bg-primary items-center justify-center rounded-full"
+//           onPress={() => {
+//             navigation.navigate(screens.InfraSetup);
+//           }}>
+//           <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+//             Continue
+//           </Text>
+//         </TouchableOpacity>
+//       </View>
+//     </>
+//   );
+// };
+
+// export default AddSpecialisation;
 import {
   View,
   Text,
@@ -162,30 +372,23 @@ import {
   Switch,
   Image,
   Dimensions,
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import FooterBtn from '../../../components/shared/FooterBtn';
 import screens from '../../../constants/screens';
 import RegistrationProgressBar from '../../../components/shared/RegistrationProgressBar';
 import {primary} from '../../../assets/theme/colors';
 import images from '../../../assets/images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddSpecialisation = ({navigation}) => {
   const [selectedSpecialisation, setselectedSpecialisation] = useState([]);
   const [isEnabled, setIsEnabled] = useState(false);
-
-  const Specialisation = [
-    'Ophthalmologist',
-    'Dermatologist',
-    'Oncologist',
-    'Neurologist',
-    'Cardiologist',
-    'Orthopedic',
-    'Soft Tissue Surgeon',
-    'Chronic Ailments & Pain Medicine',
-    'Physiotherapist',
-    'Homeopathy & Alternative Medicine ',
-  ];
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedTitle, setSelectedTitle] = useState(null);
 
   const {width, height} = Dimensions.get('window');
   const imageHeight = height * 0.3;
@@ -195,6 +398,56 @@ const AddSpecialisation = ({navigation}) => {
   };
 
   const toggleSwitch = () => setIsEnabled(prev => !prev);
+
+  const ServiceGroupUuid = '3f930321-a4c7-4768-a018-c95278c0';
+  const ConsultationTypeUuid = 'a069b6c8-4ee2-41f6-ba3e-30b80d27';
+
+  const fetchServices = async () => {
+    try {
+      const token = await AsyncStorage.getItem('auth_token');
+      const response = await fetch(
+        `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${ServiceGroupUuid}/${ConsultationTypeUuid}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+          },
+        },
+      );
+
+      const text = await response.text(); // get raw text safely first
+
+      if (!text) {
+        console.error('Empty response from server');
+        setServices([]); // set empty array
+        return;
+      }
+
+      const json = JSON.parse(text);
+      console.log('Fetched services:', json.SC);
+      const filteredServices = (json.SC || []).filter(
+        item => item.SCGUUID === null,
+      );
+      setServices(filteredServices || []);
+    } catch (error) {
+      console.error('Error fetching services:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <>
@@ -226,37 +479,36 @@ const AddSpecialisation = ({navigation}) => {
 
           {/* Specialisation selection */}
           {isEnabled && (
-            <View>
+            <>
               <Text className="text-[24px] font-Nunito-Bold mb-[10px]">
                 Add your Specialisation
               </Text>
-              <Text className="text-[18px] font-Nunito-Regular text-[#333333] mb-[15px]">
+              <Text className="text-[18px] font-Nunito-Regular text-[#838999] mb-[15px]">
                 You can choose one specialisation
               </Text>
               <View className="flex-row flex-wrap gap-2">
-                {Specialisation.map((specialisation, index) => (
+                {services.map((item, index) => (
                   <TouchableOpacity
                     key={index}
-                    className={`rounded-2xl py-[14px] px-[15px] mb-2 border ${
-                      selectedSpecialisation.includes(specialisation)
+                    className={`rounded-2xl py-[14px] px-[15px] mb-2 border  ${
+                      selectedTitle === item.SCTitle
                         ? 'border-[#e8d5db] bg-[#d75880]'
                         : 'bg-[#f3f6f7] border-[#BBBCB7]'
                     }`}
-                    onPress={() =>
-                      toggleSpecialisationSelection(specialisation)
-                    }>
+                    onPress={() => setSelectedTitle(item.SCTitle)}>
                     <Text
-                      className={`text-[16px] leading-6 font-Nunito-Bold ${
-                        selectedSpecialisation.includes(specialisation)
+                      className={`font-semibold ${
+                        selectedTitle === item.SCTitle
                           ? 'text-white'
                           : 'text-[#838999]'
                       }`}>
-                      {specialisation}
+                      {item.SCTitle}
+                      {/* {item.Applicable_Infra_UUID} */}
                     </Text>
                   </TouchableOpacity>
                 ))}
               </View>
-            </View>
+            </>
           )}
         </ScrollView>
       </View>
@@ -294,10 +546,39 @@ const AddSpecialisation = ({navigation}) => {
           shadowRadius: 6,
           elevation: 10,
         }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="h-[60px] bg-primary items-center justify-center rounded-full"
           onPress={() => {
             navigation.navigate(screens.InfraSetup);
+          }}>
+          <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+            Continue
+          </Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          className="h-[60px] bg-primary items-center justify-center rounded-full"
+          onPress={() => {
+            if (!isEnabled) {
+              // Specialist toggle is off, directly navigate
+              navigation.navigate(screens.VetAssistantDetails);
+            } else {
+              // Specialist toggle is on, check if a title is selected
+              const selectedItem = services.find(
+                item => item.SCTitle === selectedTitle,
+              );
+
+              if (selectedItem) {
+                console.log(
+                  'Passing Applicable_Infra_UUID:',
+                  selectedItem.Applicable_Infra_UUID,
+                );
+                navigation.navigate(screens.InfraSetup, {
+                  infraUuid: selectedItem.UUID,
+                });
+              } else {
+                alert('Please select a specialization first.');
+              }
+            }
           }}>
           <Text className="text-[20px] text-white font-Nunito-Bold text-center">
             Continue

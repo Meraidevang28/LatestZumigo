@@ -23,12 +23,12 @@ const ServiceInfoCard = ({
       <Image source={image} className="h-[90px] w-[90px]  rounded-[10px]" />
       <View>
         <Text
-          className="text-[20px] font-PTSans-Bold  text-darkGunmetal mb-[6.2px] "
+          className="text-[20px] font-PTSans-Bold  text-darkGunmetal mb-[3px] "
           style={{fontWeight: '700'}}>
           {name}
         </Text>
         <Text
-          className=" text-black opacity-50 text-[14px] font-normal mb-[8.8px] font-Nunito-Regular"
+          className=" text-black opacity-50 text-[14px] font-normal mb-[3px] font-Nunito-Regular"
           style={{fontWeight: '500'}}>
           {qualification}
         </Text>

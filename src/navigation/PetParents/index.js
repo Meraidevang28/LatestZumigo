@@ -60,6 +60,26 @@ import AddYourPetHomeVisit from '../../screens/PetParents/HomeVisit/AddYourPetHo
 import SelectDataTimeHomeVisit from '../../screens/PetParents/HomeVisit/SelectDataTimeHomeVisit';
 import SelectVeterinarianServices from '../../screens/PetParents/HomeVisit/SelectVaterinarianServices';
 import PreviewProceedPayment from '../../screens/PetParents/HomeVisit/PreviewProceedPayment';
+import CouponsScreen from '../../screens/PetParents/HomeVisit/CouponsScreen';
+import PaymentScreen from '../../screens/PetParents/HomeVisit/PaymentScreen';
+import SelectTeleVeterinarianServices from '../../screens/PetParents/TeleConsultation/SelectTeleVeterinarianServices';
+import SelectDateTimeTeleConsultation from '../../screens/PetParents/TeleConsultation/SelectDateTimeTeleConsultation';
+import TeleCouponsScreen from '../../screens/PetParents/TeleConsultation/TeleCouponScreen';
+import PreviewTeleProceedPayment from '../../screens/PetParents/TeleConsultation/PreviewTeleProceedPayment';
+import VeterinarianTeleInfo from '../../screens/PetParents/Veterinarian/VeterinarianTeleInfo';
+import SelectHomeVisitSymptoms from '../../screens/PetParents/HomeVisit/SelectHomeVisitSymptoms';
+import AddYourPetGrooming from '../../screens/PetParents/Grooming/AddYourPetGrooming';
+import ChooseGroomingService from '../../screens/PetParents/Grooming/ChooseGroomingService';
+import SelectGroomer from '../../screens/PetParents/Grooming/SelectGroomer';
+import GroomerAddAddress from '../../screens/PetParents/Grooming/GroomerAddAddress';
+import GroomerMapViewScreen from '../../screens/PetParents/Grooming/GroomerMapViewScreen';
+import FillAddressDetailsGroomer from '../../screens/PetParents/Grooming/FillAddressDetailsGroomer';
+import ParentDetailsGroomer from '../../screens/PetParents/Grooming/ParentDetailsGroomer';
+import SelectDateTimeGroomer from '../../screens/PetParents/Grooming/SelectDateTimeGroomer';
+import PreviewProceedPaymentGroomer from '../../screens/PetParents/Grooming/PreviewProceedPaymentGroomer';
+import GroomingAddress from '../../screens/PetParents/Grooming/GroomingAddress';
+import SelectTeleSymptoms from '../../screens/PetParents/TeleConsultation/SelectTeleSymptoms';
+// import ParentDetailsTele from '../../screens/PetParents/TeleConsultation/ParentDetailsTele';
 import {primary} from '../../assets/theme/colors';
 const Stack = createStackNavigator();
 
@@ -352,6 +372,102 @@ const PetParentsNavigation = () => {
         name={screens.SelectGeneralPractitioner}
         component={SelectGeneralPractitioner}
         options={{title: 'Tele Consultation '}}
+      />
+      <Stack.Screen
+        name={screens.CouponsScreen}
+        component={CouponsScreen}
+        options={{title: 'Coupons '}}
+      />
+      <Stack.Screen
+        name={screens.SelectTeleVeterinarianServices}
+        component={SelectTeleVeterinarianServices}
+        options={{title: 'Tele Consultation '}}
+      />
+      <Stack.Screen
+        name={screens.SelectDateTimeTeleConsultation}
+        component={SelectDateTimeTeleConsultation}
+        options={{title: 'Tele Consultation '}}
+      />
+      <Stack.Screen
+        name={screens.PreviewTeleProceedPayment}
+        component={PreviewTeleProceedPayment}
+        options={{title: 'Tele Consultation '}}
+      />
+      <Stack.Screen
+        name={screens.SelectTeleSymptoms}
+        component={SelectTeleSymptoms}
+        options={{title: 'Tele Consultation '}}
+      />
+
+      <Stack.Screen
+        name={screens.TeleCouponsScreen}
+        component={TeleCouponsScreen}
+        options={{title: 'Coupons '}}
+      />
+      <Stack.Screen
+        name={screens.VeterinarianTeleInfo}
+        component={VeterinarianTeleInfo}
+        options={{title: 'Veterinarian'}}
+      />
+      <Stack.Screen
+        name={screens.SelectHomeVisitSymptoms}
+        component={SelectHomeVisitSymptoms}
+        options={{title: 'Home Visit'}}
+      />
+      <Stack.Screen
+        name={screens.AddYourPetGrooming}
+        component={AddYourPetGrooming}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.ChooseGroomingService}
+        component={ChooseGroomingService}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.SelectGroomer}
+        component={SelectGroomer}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.GroomerAddAddress}
+        component={GroomerAddAddress}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.GroomerMapViewScreen}
+        component={GroomerMapViewScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={screens.FillAddressDetailsGroomer}
+        component={FillAddressDetailsGroomer}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.ParentDetailsGroomer}
+        component={ParentDetailsGroomer}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.SelectDateTimeGroomer}
+        component={SelectDateTimeGroomer}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.PreviewProceedPaymentGroomer}
+        component={PreviewProceedPaymentGroomer}
+        options={{title: 'Grooming Service'}}
+      />
+      <Stack.Screen
+        name={screens.GroomingAddress}
+        component={GroomingAddress}
+        options={{title: 'Address'}}
+      />
+      <Stack.Screen
+        name={screens.PaymentScreen}
+        component={PaymentScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

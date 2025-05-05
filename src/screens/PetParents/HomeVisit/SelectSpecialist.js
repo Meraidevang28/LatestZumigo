@@ -1763,8 +1763,9 @@ const ServiceSelection = ({navigation, route}) => {
 
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate(screens.AddYourPet, {
-            isHomeVisit: true,
+          navigation.navigate(screens.SelectTeleSymptoms, {
+            selectedSctUUID: '40ccc9ce-c7a8-43df-a5a6-756556ba',
+            // isHomeVisit: true,
             // title: 'Home Visit',
           })
         }

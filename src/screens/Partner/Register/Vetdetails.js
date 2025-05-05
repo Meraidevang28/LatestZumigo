@@ -754,18 +754,86 @@ const Vetdetails = () => {
     }
   };
 
+  // const uploadDocument = async (image, fileType) => {
+  //   // if (!image?.uri) return null;
+  //   if (!image?.uri) {
+  //     console.log('Image upload cancelled: No URI provided');
+  //     return null;
+  //   }
+  //   try {
+  //     const token = await AsyncStorage.getItem('auth_token');
+  //     const formData = new FormData();
+
+  //     formData.append('files', {
+  //       uri: image.uri,
+  //       name: image.name || image.fileName || 'document.jpg',
+  //       type: image.type || 'image/jpeg/pdf/docx',
+  //     });
+  //     console.log(
+  //       'File data being appended:',
+  //       JSON.stringify(fileData, null, 2),
+  //     );
+
+  //     const folderMap = {
+  //       aadhaar: '/Usr/aadhar/',
+  //       panId: '/Usr/pan/',
+  //       photo: '/usr/photo/',
+  //       vetLicense: '/Usr/licence/',
+  //       companyLogo: '/Usr/logo/',
+  //       degreeCertificate: '/Usr/degree/',
+  //     };
+
+  //     const folderPath = folderMap[fileType] || '/Usr/other/';
+  //     console.log('Using file type:', fileType);
+  //     console.log('Selected folder path:', folderPath);
+
+  //     const uploadUrl = `${API_BASE_URL}${UPLOAD}?filepath=${folderPath}`;
+  //     console.log('Full upload URL:', uploadUrl);
+
+  //     console.log('Sending FormData with file:', {
+  //       fileName: fileData.name,
+  //       fileType: fileData.type,
+  //       fileUriPreview: fileData.uri.substring(0, 30) + '...',
+  //     });
+  //     const response = await fetch(uploadUrl, {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: formData,
+  //     });
+
+  //     const responseJson = await response.json();
+  //     console.log('Upload response:', JSON.stringify(responseJson, null, 2));
+  //     return responseJson;
+  //   } catch (error) {
+  //     console.error(`Upload failed for ${fileType}:, error`);
+  //     return null;
+  //   }
+  // };
   const uploadDocument = async (image, fileType) => {
-    if (!image?.uri) return null;
+    if (!image?.uri) {
+      console.log('Image upload cancelled: No URI provided for ' + fileType);
+      return null;
+    }
 
     try {
       const token = await AsyncStorage.getItem('auth_token');
+      console.log(
+        `Uploading ${fileType} with token:`,
+        token ? 'Token exists' : 'No token found',
+      );
+
       const formData = new FormData();
 
-      formData.append('files', {
+      const fileData = {
         uri: image.uri,
         name: image.name || image.fileName || 'document.jpg',
-        type: image.type || 'image/jpeg/pdf/docx',
-      });
+        type: image.type || 'image/jpeg',
+      };
+
+      console.log(`${fileType} file data:`, JSON.stringify(fileData));
+      formData.append('files', fileData);
 
       const folderMap = {
         aadhaar: '/Usr/aadhar/',
@@ -778,7 +846,9 @@ const Vetdetails = () => {
 
       const folderPath = folderMap[fileType] || '/Usr/other/';
       const uploadUrl = `${API_BASE_URL}${UPLOAD}?filepath=${folderPath}`;
+      console.log(`Upload URL for ${fileType}:`, uploadUrl);
 
+      console.log(`Starting fetch request for ${fileType}...`);
       const response = await fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -787,11 +857,44 @@ const Vetdetails = () => {
         body: formData,
       });
 
-      const responseJson = await response.json();
-      console.log('Upload response:', responseJson);
+      console.log(`Response status for ${fileType}:`, response.status);
+
+      const responseText = await response.text();
+      console.log(`Raw response for ${fileType}:`, responseText);
+
+      let responseJson;
+      try {
+        // Attempt to parse the response as JSON
+        responseJson = JSON.parse(responseText);
+        console.log(`Parsed JSON response for ${fileType}:`, responseJson);
+      } catch (parseError) {
+        console.error(
+          `Failed to parse ${fileType} response as JSON:`,
+          parseError,
+        );
+        console.log('Non-JSON response received:', responseText);
+        return null;
+      }
+
       return responseJson;
     } catch (error) {
-      console.error(`Upload failed for ${fileType}:, error`);
+      // Properly log the full error details
+      console.error(`Upload failed for ${fileType}:`, error);
+      console.error('Error message:', error.message);
+      console.error('Error name:', error.name);
+      console.error('Error stack:', error.stack);
+
+      // Additional network error debugging
+      if (
+        error.name === 'TypeError' &&
+        error.message.includes('Network request failed')
+      ) {
+        console.error(
+          'Network error details: Check API_BASE_URL, internet connection, CORS settings',
+        );
+        console.error('Using API URL:', `${API_BASE_URL}${UPLOAD}`);
+      }
+
       return null;
     }
   };
@@ -868,7 +971,7 @@ const Vetdetails = () => {
                 <View key={index} className="relative">
                   <Image
                     source={{uri: file.uri}}
-                    className="w-[100px] h-[100px] rounded-lg"
+                    className="w-[100px] h-[100px] rounded-lg mb-2"
                     resizeMode="contain"
                   />
                   <TouchableOpacity
@@ -882,7 +985,7 @@ const Vetdetails = () => {
               <View className="relative ">
                 <Image
                   source={{uri: selectedFiles[fileType].uri}}
-                  className="w-[100px] h-[100px] rounded-lg"
+                  className="w-[100px] h-[100px] rounded-lg mb-2"
                   resizeMode="contain"
                 />
                 <TouchableOpacity

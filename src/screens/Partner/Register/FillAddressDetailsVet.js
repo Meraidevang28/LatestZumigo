@@ -236,7 +236,11 @@ const FillAddressDetailsVet = ({navigation}) => {
           ))}
         </View>
       </ScrollView>
-      <FooterBtn title="Continue" onClick={handleSubmit} />
+      <FooterBtn
+        title="Continue"
+        onClick={() => navigation.navigate(screens.VetServiceLocation)}
+        // onClick={handleSubmit}
+      />
     </View>
   );
 };
