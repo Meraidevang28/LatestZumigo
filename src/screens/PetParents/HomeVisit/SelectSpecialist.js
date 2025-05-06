@@ -1396,6 +1396,7 @@ import images from '../../../assets/images';
 import screens from '../../../constants/screens';
 import BottomSheet from '../../../components/shared/BottomSheet';
 import {ScrollView} from 'react-native-gesture-handler';
+import {primary} from '../../../assets/theme/colors';
 
 const generalServices = [
   {
@@ -1556,10 +1557,6 @@ const ServiceSelection = ({navigation, route}) => {
   const priceBottomSheetRef = useRef(null);
 
   // const [selectedTab, setSelectedTab] = useState('General');
-  const [selectedVaccines, setSelectedVaccines] = useState([]);
-  const [selectedGeneralServices, setSelectedGeneralServices] = useState({});
-  const [selectedSpecialistService, setSelectedSpecialistService] =
-    useState(null);
 
   useEffect(() => {
     // handleOpenPress();
@@ -1616,29 +1613,71 @@ const ServiceSelection = ({navigation, route}) => {
         : [...prevSelected, item]; // Add if not selected
     });
   };
-
+  const [selectedGeneralServices, setSelectedGeneralServices] = useState([]); // Keep this as an array
+  const [selectedSpecialistService, setSelectedSpecialistService] =
+    useState(null);
+  const [selectedVaccines, setSelectedVaccines] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
+  // const toggleService = item => {
+  //   if (isGeneral) {
+  //     if (item.name === 'Vaccination') {
+  //       handleVaccineOpenPress();
+  //       return;
+  //     }
+  //     setSelectedSpecialistService(null);
+  //     setSelectedGeneralServices(prev => {
+  //       const newServices = {...prev};
+  //       if (newServices[item.id]) {
+  //         delete newServices[item.id];
+  //       } else {
+  //         newServices[item.id] = item;
+  //       }
+  //       return newServices;
+  //     });
+  //   } else {
+  //     setSelectedGeneralServices({});
+  //     setSelectedVaccines([]);
+  //     setSelectedSpecialistService(prev =>
+  //       prev === item?.id ? null : item?.id,
+  //     );
+  //   }
+  // };
   const toggleService = item => {
+    // Use item.Id (capital I) instead of item.id
+    if (!item || item.Id === undefined) {
+      console.warn('Attempted to toggle an item with no ID:', item);
+      return;
+    }
+
     if (isGeneral) {
       if (item.name === 'Vaccination') {
-        handleVaccineOpenPress();
+        handleVaccineOpenPress(); // Trigger the vaccination modal or action
         return;
       }
+
+      // Reset specialist service selection
       setSelectedSpecialistService(null);
+
+      // Toggle the selection of general services
       setSelectedGeneralServices(prev => {
-        const newServices = {...prev};
-        if (newServices[item.id]) {
-          delete newServices[item.id];
+        // Check if item.Id exists in the array
+        const isAlreadySelected = prev.some(serviceId => serviceId === item.Id);
+
+        if (isAlreadySelected) {
+          // Remove the item if already selected
+          return prev.filter(serviceId => serviceId !== item.Id);
         } else {
-          newServices[item.id] = item;
+          // Add the item if not selected
+          return [...prev, item.Id];
         }
-        return newServices;
       });
     } else {
-      setSelectedGeneralServices({});
+      // Reset general service and vaccine selections
+      setSelectedGeneralServices([]);
       setSelectedVaccines([]);
-      setSelectedSpecialistService(prev =>
-        prev === item?.id ? null : item?.id,
-      );
+
+      // Toggle specialist service selection using Id (capital I)
+      setSelectedSpecialistService(prev => (prev === item.Id ? null : item.Id));
     }
   };
 
@@ -1664,7 +1703,7 @@ const ServiceSelection = ({navigation, route}) => {
         Select a Specialist
       </Text>
 
-      <FlatList
+      {/* <FlatList
         data={params.scData}
         renderItem={({index, item}) => (
           <>
@@ -1692,8 +1731,106 @@ const ServiceSelection = ({navigation, route}) => {
           </>
         )}
         numColumns={3}
-      />
+      /> */}
+      {/* <FlatList
+        data={params.scData}
+        renderItem={({index, item}) => {
+          // Check if this item is selected based on general or specialist service selection
+          const isSelected = isGeneral
+            ? selectedGeneralServices.includes(item.id) // Check if the item is selected in general services
+            : selectedSpecialistService === item.id; // Check if the specialist service is selected
 
+          return (
+            <View
+              key={item.id}
+              style={{width: (windowWidth - 78) / 3}}
+              className={`${(index - 1) % 3 == 0 ? 'mx-[15px]' : ''}`}>
+              <TouchableOpacity
+                onPress={() => toggleService(item)}
+                className={`
+            py-[14px] h-[100px] w-[100px] rounded-xl border items-center 
+            ${isSelected ? 'bg-[#DCFCE7]' : 'bg-white'} 
+            border-[#BBBCB7]
+          `}>
+                <Image
+                  source={{
+                    uri: `https://democms.zumigo.pet${item?.SCIcon ?? ''}`,
+                  }}
+                  className="h-[70px] w-[70px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <Text className="mt-[6px] mb-[18px] font-Nunito-Bold text-center text-[11px] text-[#838999]">
+                {item.SCTitle}
+              </Text>
+            </View>
+          );
+        }}
+        numColumns={3}
+      /> */}
+      <FlatList
+        data={params.scData}
+        keyExtractor={(item, index) => item.Id?.toString() || `item-${index}`}
+        renderItem={({index, item}) => {
+          console.log('Item ID:', item.Id);
+          console.log('Selected General Services:', selectedGeneralServices);
+          console.log(
+            'Selected Specialist Service:',
+            selectedSpecialistService,
+          );
+
+          // Check if this specific item is selected (with debug)
+          const isSelected = isGeneral
+            ? selectedGeneralServices &&
+              selectedGeneralServices.includes(item.Id)
+            : selectedSpecialistService === item.Id;
+
+          console.log(`Item ${item.Id} isSelected:`, isSelected);
+
+          return (
+            <View
+              style={{width: (windowWidth - 78) / 3}}
+              className={`${(index - 1) % 3 == 0 ? 'mx-[15px]' : ''}`}>
+              <TouchableOpacity
+                onPress={() => toggleService(item)}
+                style={{
+                  padding: 14,
+                  height: 100,
+                  width: 100,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  alignItems: 'center',
+                  backgroundColor: isSelected ? '#FFEDF9' : '#FFFFFF',
+                  borderColor: isSelected ? '#D7588033' : '#BBBCB7',
+                }}>
+                <Image
+                  source={{
+                    uri: `https://democms.zumigo.pet${item?.SCIcon ?? ''}`,
+                  }}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    tintColor: isSelected ? primary : '#838999',
+                  }}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  marginTop: 6,
+                  marginBottom: 18,
+                  fontFamily: 'Nunito-Bold',
+                  textAlign: 'center',
+                  fontSize: 11,
+                  color: isSelected ? '#333333' : '#838999',
+                }}>
+                {item.SCTitle}
+              </Text>
+            </View>
+          );
+        }}
+        numColumns={3}
+      />
       {/* Section List with Grid Layout */}
       {false && (
         <SectionList

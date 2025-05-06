@@ -88,19 +88,94 @@ const ParentDetailsGroomer = ({navigation, route}) => {
     setForm({...form, [name]: value});
   };
 
+  // const handleSubmit = async () => {
+  //   if (!authToken || !userUuid || !userTypeUuid) {
+  //     console.warn('Missing required authentication or UUID data');
+  //     return;
+  //   }
+
+  //   const payload = {
+  //     UUID: userUuid,
+  //     UserTypeUUID: userTypeUuid,
+  //     FName: form.firstName,
+  //     LName: form.lastName,
+  //     Email: form.email,
+  //     Mobile: form.phone,
+  //     IsDefault: true,
+  //     Is_Display: true,
+  //     IsActive: true,
+  //   };
+
+  //   try {
+  //     const response = await fetch(`${API_BASE_URL}${UPDATE_USER}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${authToken}`,
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (response.ok) {
+  //       console.log('User updated:', data);
+
+  //       // 📝 Save first name to AsyncStorage
+  //       await AsyncStorage.setItem('first_name', form.firstName);
+  //       console.log('First name saved to AsyncStorage:', form.firstName);
+  //       await AsyncStorage.setItem('is_profile_complete', 'true');
+
+  //       navigation.navigate(screens.GroomerAddAddress, {
+  //         isTeleConsult: !Boolean(isHomeVisit),
+  //       });
+  //     } else {
+  //       console.error('Failed to update user:', data);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error posting data:', error);
+  //   }
+  // };
   const handleSubmit = async () => {
     if (!authToken || !userUuid || !userTypeUuid) {
       console.warn('Missing required authentication or UUID data');
       return;
     }
 
+    const {firstName, lastName, phone, email} = form;
+
+    // ✅ Check if any field is empty
+    if (
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !phone.trim() ||
+      !email.trim()
+    ) {
+      Toast.show({
+        type: 'error',
+        text1: 'Incomplete Details',
+        text2: 'Please fill all the details',
+      });
+      return;
+    }
+
+    // ✅ Validate that email contains both "@" and ".com"
+    if (!(email.includes('@') && email.includes('.com'))) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Email',
+        text2: 'Please enter a valid email',
+      });
+      return;
+    }
+
     const payload = {
       UUID: userUuid,
       UserTypeUUID: userTypeUuid,
-      FName: form.firstName,
-      LName: form.lastName,
-      Email: form.email,
-      Mobile: form.phone,
+      FName: firstName,
+      LName: lastName,
+      Email: email.trim(),
+      Mobile: phone,
       IsDefault: true,
       Is_Display: true,
       IsActive: true,
@@ -120,14 +195,21 @@ const ParentDetailsGroomer = ({navigation, route}) => {
 
       if (response.ok) {
         console.log('User updated:', data);
-
-        // 📝 Save first name to AsyncStorage
-        await AsyncStorage.setItem('first_name', form.firstName);
-        console.log('First name saved to AsyncStorage:', form.firstName);
-        await AsyncStorage.setItem('is_profile_complete', 'true');
-
-        navigation.navigate(screens.SelectGroomer, {
+        // await AsyncStorage.setItem('first_name', firstName);
+        // await AsyncStorage.setItem('is_profile_complete', 'true');
+        await AsyncStorage.multiSet([
+          ['first_name', firstName],
+          ['last_name', lastName],
+          ['email', email],
+          ['mobile_number', phone],
+          ['is_profile_complete', 'true'],
+        ]);
+        await AsyncStorage.setItem('parentDetails', JSON.stringify(payload));
+        navigation.navigate(screens.SelectVaterinarian, {
           isTeleConsult: !Boolean(isHomeVisit),
+          headerTitle: 'Tele Consultation',
+          serviceGroupUUID: '3f930321-a4c7-4768-a018-c95278c0',
+          consultationTypeUUID: '720dac47-9101-45c3-b0e0-afb7db3e',
         });
       } else {
         console.error('Failed to update user:', data);

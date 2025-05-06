@@ -173,7 +173,7 @@ const ChooseGroomingService = ({navigation}) => {
 
           <FooterBtn
             title="Continue"
-            onClick={() => navigation.navigate(screens.GroomerAddAddress)}
+            onClick={() => navigation.navigate(screens.SelectGroomer)}
           />
         </View>
       </BottomSheetModalProvider>

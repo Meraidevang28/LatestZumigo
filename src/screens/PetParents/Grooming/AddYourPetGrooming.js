@@ -330,11 +330,11 @@ const AddYourPetGrooming = ({navigation, route}) => {
         console.log('Pet added successfully:', responseBody);
 
         await AsyncStorage.setItem(
-          'last_added_pet',
+          'last_added_pet_groomer',
           JSON.stringify(responseBody),
         );
 
-        navigation.navigate(screens.ParentDetails, {
+        navigation.navigate(screens.ParentDetailsGroomer, {
           ...(isHomeVisit ? {isHomeVisit: true} : {}),
         });
         return true;
@@ -609,16 +609,16 @@ const AddYourPetGrooming = ({navigation, route}) => {
       {/* <FooterBtn title="Save" onClick={addPet} /> */}
       <FooterBtn
         title="Save"
-        onClick={() => {
-          if (goBack) {
-            navigation.goBack();
-          } else {
-            navigation.navigate(screens.ChooseGroomingService, {
-              ...(isHomeVisit ? {isHomeVisit: true} : {}),
-            });
-          }
-        }}
-        //         // onClick={addPet}
+        // onClick={() => {
+        //   if (goBack) {
+        //     navigation.goBack();
+        //   } else {
+        //     navigation.navigate(screens.ParentDetailsGroomer, {
+        //       ...(isHomeVisit ? {isHomeVisit: true} : {}),
+        //     });
+        //   }
+        // }}
+        onClick={addPet}
       />
       <Modal
         isVisible={isModalVisible}

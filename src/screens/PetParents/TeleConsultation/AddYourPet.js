@@ -339,7 +339,7 @@ const AddYourPet = ({navigation, route}) => {
           JSON.parse(savedPetData),
         );
 
-        navigation.navigate(screens.SelectVaterinarian, {
+        navigation.navigate(screens.ParentDetailsTele, {
           ...(isHomeVisit ? {isHomeVisit: true} : {}),
           headerTitle: 'Tele Consultation',
           serviceGroupUUID:

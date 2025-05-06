@@ -444,12 +444,14 @@ const SelectTeleSymptoms = ({navigation, route}) => {
           const selectedUUID = selectedSctUUID;
 
           if (selectedUUID === '40ccc9ce-c7a8-43df-a5a6-756556ba') {
-            navigation.navigate(screens.ParentDetailsTele, {scData});
+            navigation.navigate(screens.SelectTeleVeterinarianServices, {
+              scData,
+            });
             return;
           }
 
           if (selectedUUID === 'a322e392-8faf-439e-b38d-66b2d649') {
-            navigation.navigate(screens.ParentDetailsTele);
+            navigation.navigate(screens.SelectTeleVeterinarianServices);
             return;
           }
 

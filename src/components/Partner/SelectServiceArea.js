@@ -423,7 +423,7 @@ const SelectServiceArea = () => {
       </Text>
 
       <Text className="text-[#838999] mb-[15px] font-[Nunito-Regular]">
-        Below are your selected areas
+        Deselect areas to exclude from service locations
       </Text>
 
       {loadingNearby ? (

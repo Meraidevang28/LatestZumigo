@@ -424,8 +424,17 @@ const AddSpecialisation = ({navigation}) => {
         return;
       }
 
+      // Log the raw response text to see what we are getting
+      console.log('Raw response text:', text);
+
       const json = JSON.parse(text);
-      console.log('Fetched services:', json.SC);
+
+      // Log the entire parsed JSON to inspect the structure
+      console.log('Fetched services JSON:', json);
+
+      // Log the specific field you're interested in (like SC)
+      console.log('Fetched services SC:', json.SC);
+
       const filteredServices = (json.SC || []).filter(
         item => item.SCGUUID === null,
       );
@@ -549,7 +558,50 @@ const AddSpecialisation = ({navigation}) => {
         {/* <TouchableOpacity
           className="h-[60px] bg-primary items-center justify-center rounded-full"
           onPress={() => {
-            navigation.navigate(screens.InfraSetup);
+            if (!isEnabled) {
+              // Specialist toggle is off, directly navigate
+              navigation.navigate(screens.VetAssistantDetails);
+            } else {
+              // Ensure services and selectedTitle exist before proceeding
+              if (!services || services.length === 0) {
+                console.error('Services array is not available.');
+                return;
+              }
+
+              if (!selectedTitle) {
+                console.error('Selected title is not defined.');
+                return;
+              }
+
+              // Find the selected item from services based on SCTitle
+              const selectedItem = services.find(
+                item => item.SCTitle === selectedTitle,
+              );
+
+              if (selectedItem) {
+                // Log the full selected item for debugging
+                console.log('Selected Item:', selectedItem);
+
+                // Log the UUIDs being passed to the next screen for debugging
+                console.log(
+                  'Passing Applicable_Infra_UUIDs:',
+                  selectedItem.Applicable_Infra_UUID,
+                  'and ServiceGroupUUID:',
+                  selectedItem.ServiceGroupUUID,
+                  'and ServiceCategoryType_UUID:',
+                  selectedItem.ServiceCategoryType_UUID,
+                );
+
+                // Pass the UUIDs to the next screen
+                navigation.navigate(screens.InfraSetup, {
+                  infraUuid: selectedItem.Applicable_Infra_UUID.split(','), // Split if it's a comma-separated list
+                  serviceGroupUuid: selectedItem.ServiceGroupUUID, // Use the correct property name
+                  serviceCategoryUuid: selectedItem.ServiceCategoryType_UUID, // Use the correct property name
+                });
+              } else {
+                alert('Please select a specialization first.');
+              }
+            }
           }}>
           <Text className="text-[20px] text-white font-Nunito-Bold text-center">
             Continue
@@ -557,23 +609,52 @@ const AddSpecialisation = ({navigation}) => {
         </TouchableOpacity> */}
         <TouchableOpacity
           className="h-[60px] bg-primary items-center justify-center rounded-full"
-          onPress={() => {
+          onPress={async () => {
+            const baseServiceGroupUuid = '3f930321-a4c7-4768-a018-c95278c0';
             if (!isEnabled) {
-              // Specialist toggle is off, directly navigate
-              navigation.navigate(screens.VetAssistantDetails);
+              navigation.navigate(screens.InfraSetup, {
+                serviceGroupUuid: baseServiceGroupUuid,
+              });
             } else {
-              // Specialist toggle is on, check if a title is selected
+              if (!services || services.length === 0) {
+                console.error('Services array is not available.');
+                return;
+              }
+
+              if (!selectedTitle) {
+                console.error('Selected title is not defined.');
+                return;
+              }
+
               const selectedItem = services.find(
                 item => item.SCTitle === selectedTitle,
               );
 
               if (selectedItem) {
+                console.log('Selected Item:', selectedItem);
+
                 console.log(
-                  'Passing Applicable_Infra_UUID:',
+                  'Passing Applicable_Infra_UUIDs:',
                   selectedItem.Applicable_Infra_UUID,
+                  'ServiceGroupUUID:',
+                  selectedItem.ServiceGroupUUID,
+                  'UUID:',
+                  selectedItem.UUID,
                 );
+                try {
+                  await AsyncStorage.setItem(
+                    'selected_specialist',
+                    JSON.stringify(selectedItem),
+                  );
+                  console.log('Specialist saved to local storage');
+                } catch (e) {
+                  console.error('Failed to save specialist:', e);
+                }
+
                 navigation.navigate(screens.InfraSetup, {
-                  infraUuid: selectedItem.UUID,
+                  infraUuid: selectedItem.Applicable_Infra_UUID.split(','),
+                  serviceGroupUuid: selectedItem.ServiceGroupUUID,
+                  serviceCategoryUuid: selectedItem.UUID, // Updated: now sending UUID
                 });
               } else {
                 alert('Please select a specialization first.');

@@ -742,6 +742,7 @@ const Vetdetails = () => {
       vetLicense,
       gstin,
       selectedFiles,
+      companyName,
     };
 
     console.log('Saving vet details:', data);

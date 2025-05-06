@@ -147,7 +147,7 @@ const FillAddressDetailsGroomer = ({navigation}) => {
 
       if (response.ok) {
         // Alert.alert('Success', 'Address saved successfully!');
-        navigation.navigate(screens.ParentDetails, {
+        navigation.navigate(screens.ChooseGroomingService, {
           isHomeVisit: true,
         });
       } else {
@@ -376,7 +376,7 @@ const FillAddressDetailsGroomer = ({navigation}) => {
             return;
           }
 
-          navigation.navigate(screens.ParentDetailsGroomer);
+          navigation.navigate(screens.ChooseGroomingService);
         }}
       />
     </View>

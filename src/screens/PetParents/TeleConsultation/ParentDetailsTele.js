@@ -189,7 +189,7 @@
 // };
 
 // export default ParentDetailsTele;
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -210,11 +210,14 @@ import Toast from 'react-native-toast-message';
 
 const ParentDetailsTele = ({navigation, route}) => {
   const isHomeVisit = route?.params?.isHomeVisit;
-
+  const [serviceGroups, setServiceGroups] = useState([]);
   const [authToken, setAuthToken] = useState(null);
   const [userUuid, setUserUuid] = useState(null);
   const [userTypeUuid, setUserTypeUuid] = useState(null);
-
+  const [primaryServices, setPrimaryServices] = useState([]);
+  const [applicableCTUUIDs, setApplicableCTUUIDs] = useState([]);
+  const [isProfileComplete, setIsProfileComplete] = useState(false);
+  const [consultationTypes, setConsultationTypes] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -275,6 +278,65 @@ const ParentDetailsTele = ({navigation, route}) => {
     phone: '',
     email: '',
   });
+  useEffect(() => {
+    const fetchPrimaryServiceGroups = async () => {
+      try {
+        const token = await AsyncStorage.getItem('auth_token');
+        const name = await AsyncStorage.getItem('first_name');
+        const profileComplete = await AsyncStorage.getItem(
+          'is_profile_complete',
+        );
+        if (name) {
+          setFirstName(name);
+          // console.log('First Name:', name);
+        }
+        if (profileComplete === 'true') {
+          setIsProfileComplete(true);
+        }
+        const response = await fetch(
+          'https://demoapi.zumigo.pet/api/Service/ServiceGroupConsultation',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json',
+            },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('data', data);
+
+        const groups = data.ServiceGroup;
+        setServiceGroups(groups);
+        setConsultationTypes(data.ConsultationType);
+
+        const filteredPrimary = groups.filter(item => item.DisplayAsPrimary);
+        setPrimaryServices(filteredPrimary);
+
+        // Extract ApplicableCTUUIDs where IsCategoryTypeApplicable is true
+        const uuids = groups
+          .filter(item => item.IsCategoryTypeApplicable)
+          .map(item => item.ApplicableCTUUID)
+          .filter(Boolean)
+          .flatMap(uuidStr =>
+            uuidStr.split(',').map(uuid => uuid.trim().toLowerCase()),
+          );
+
+        // console.log('Filtered Applicable CT UUIDs:', uuids);
+
+        setApplicableCTUUIDs(uuids);
+      } catch (error) {
+        console.error('Failed to fetch service groups:', error);
+      }
+    };
+
+    fetchPrimaryServiceGroups();
+  }, []);
 
   const handleChange = (name, value) => {
     setForm({...form, [name]: value});
@@ -347,9 +409,12 @@ const ParentDetailsTele = ({navigation, route}) => {
           ['mobile_number', phone],
           ['is_profile_complete', 'true'],
         ]);
-
-        navigation.navigate(screens.SelectTeleVeterinarianServices, {
+        await AsyncStorage.setItem('parentDetails', JSON.stringify(payload));
+        navigation.navigate(screens.SelectVaterinarian, {
           isTeleConsult: !Boolean(isHomeVisit),
+          headerTitle: 'Tele Consultation',
+          serviceGroupUUID: '3f930321-a4c7-4768-a018-c95278c0',
+          consultationTypeUUID: '720dac47-9101-45c3-b0e0-afb7db3e',
         });
       } else {
         console.error('Failed to update user:', data);

@@ -29,6 +29,7 @@ import {API_BASE_URL, PET_TYPE, PET_BREED_GENDER, ADD_PET, UPLOAD} from '@env';
 import Toast from 'react-native-toast-message';
 import moment from 'moment';
 import RNFS from 'react-native-fs';
+import {NetworkInfo} from 'react-native-network-info';
 const AddYourPetHomeVisit = ({navigation, route}) => {
   const isHomeVisit = route?.params?.isHomeVisit;
   const tilte = route?.params?.title || null;
@@ -66,6 +67,12 @@ const AddYourPetHomeVisit = ({navigation, route}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const toggleKciSwitch = () => setKci(previousState => !previousState);
+  const [ipAddress, setIpAddress] = useState('');
+  useEffect(() => {
+    NetworkInfo.getIPV4Address().then(ipv4 => {
+      setIpAddress(ipv4);
+    });
+  }, []);
   const requestCameraPermission = async () => {
     if (Platform.OS === 'android') {
       const granted = await PermissionsAndroid.request(
@@ -310,7 +317,7 @@ const AddYourPetHomeVisit = ({navigation, route}) => {
           DateofMicrochipping: selectedDate,
           GenderUUID: gender, // ✅ Correct key
           PetTypeUUID: selectedPetUUID, // ✅ Needs to be added
-          AddedIP: '127.0.0.1', // ✅ Mocked IP for now
+          AddedIP: ipAddress, // ✅ Mocked IP for now
           IsAddedBy: useruuid, // ✅ Assuming userUUID is the one who added
           KCI_Status: kci,
           IsDefault: true,

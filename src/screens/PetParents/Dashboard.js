@@ -18,6 +18,7 @@ import {Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {primary} from '../../assets/theme/colors';
 import {getFontSize} from '../../../font';
+import {NetworkInfo} from 'react-native-network-info';
 const doctors = [
   {
     id: '1',
@@ -241,6 +242,25 @@ const Dashboard = ({navigation}) => {
 
     checkStoredPet();
   }, []);
+  // useEffect(() => {
+  //   const checkParentDetails = async () => {
+  //     const [firstName, lastName, phone, email] = await Promise.all([
+  //       AsyncStorage.getItem('first_name'),
+  //       AsyncStorage.getItem('last_name'),
+  //       AsyncStorage.getItem('mobile_number'),
+  //       AsyncStorage.getItem('email'),
+  //     ]);
+
+  //     if (firstName && lastName && phone && email) {
+  //       // ✅ All parent details exist, skip this screen
+  //       navigation.replace(screens.MapViewScreenParent, {
+  //         isTeleConsult: !Boolean(isHomeVisit),
+  //       });
+  //     }
+  //   };
+
+  //   checkParentDetails();
+  // }, []);
   useEffect(() => {
     const checkParentDetails = async () => {
       const [firstName, lastName, phone, email] = await Promise.all([
@@ -250,10 +270,25 @@ const Dashboard = ({navigation}) => {
         AsyncStorage.getItem('email'),
       ]);
 
-      if (firstName && lastName && phone && email) {
-        // ✅ All parent details exist, skip this screen
-        navigation.replace(screens.MapViewScreenParent, {
-          isTeleConsult: !Boolean(isHomeVisit),
+      const isParentDetailsComplete = firstName && lastName && phone && email;
+
+      // If parent details are complete, navigate based on consultation type
+      if (isParentDetailsComplete) {
+        if (isHomeVisit) {
+          // For Home Visit consultation, navigate to MapViewScreenParent
+          navigation.replace(screens.MapViewScreenParent, {
+            isTeleConsult: false,
+          });
+        } else {
+          // For Teleconsult consultation, navigate to Veterinarian Screen
+          navigation.replace(screens.VaterinarianScreen, {
+            isTeleConsult: true,
+          });
+        }
+      } else {
+        // If parent details are not complete, navigate to ParentDetails screen
+        navigation.navigate(screens.ParentDetails, {
+          isHomeVisit,
         });
       }
     };
@@ -279,6 +314,19 @@ const Dashboard = ({navigation}) => {
 
     checkStoredPet();
   }, []);
+  NetworkInfo.getIPV4Address().then(ipv4Address => {
+    console.log('IPv4 Address:', ipv4Address); // e.g., 192.168.20.25
+  });
+  const checkIsParentDetailsComplete = async () => {
+    const [firstName, lastName, phone, email] = await Promise.all([
+      AsyncStorage.getItem('first_name'),
+      AsyncStorage.getItem('last_name'),
+      AsyncStorage.getItem('mobile_number'),
+      AsyncStorage.getItem('email'),
+    ]);
+
+    return !!(firstName && lastName && phone && email);
+  };
 
   return (
     <View className="flex-1 bg-[#f2f6f7]">
@@ -337,48 +385,379 @@ const Dashboard = ({navigation}) => {
 
         <View className="px-2 flex-row justify-center items-center gap-2 mb-6">
           {filteredConsultations.map(consultation => (
+            // <TouchableOpacity
+            //   key={consultation.UUID}
+            //   className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
+            //   style={{minWidth: screenWidth / 2.2}}
+
+            //   onPress={async () => {
+            //     console.log('Selected UUID:', consultation.UUID);
+
+            //     await AsyncStorage.setItem(
+            //       'selected_consultation_uuid',
+            //       consultation.UUID,
+            //     );
+
+            //     const name = consultation.Consultaytion_Name?.toLowerCase();
+
+            //     // Get stored pet data
+            //     const storedPet = await AsyncStorage.getItem('last_added_pet');
+            //     const petExists = !!storedPet;
+
+            //     const serviceGroupUUID =
+            //       serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '';
+            //     const consultationTypeUUID = name.includes('tele')
+            //       ? consultationTypes.find(x => !x.IsServiceBased)?.UUID || ''
+            //       : consultationTypes.find(x => x.IsServiceBased)?.UUID || '';
+
+            //     const addressData = await AsyncStorage.getItem(
+            //       'saved_user_address',
+            //     );
+            //     const isAddressComplete = !!addressData;
+
+            //     if (name.includes('home')) {
+            //       if (petExists) {
+            //         const [firstName, lastName, phone, email] =
+            //           await Promise.all([
+            //             AsyncStorage.getItem('first_name'),
+            //             AsyncStorage.getItem('last_name'),
+            //             AsyncStorage.getItem('mobile_number'),
+            //             AsyncStorage.getItem('email'),
+            //           ]);
+
+            //         const isParentDetailsComplete =
+            //           firstName && lastName && phone && email;
+
+            //         if (isParentDetailsComplete) {
+            //           if (isAddressComplete) {
+            //             // If address is complete, navigate to ServiceSelection screen
+            //             navigation.navigate(screens.ServiceSelection);
+            //           } else {
+            //             // If address is not complete, navigate to AddYourAddress screen
+            //             navigation.navigate(screens.AddYourAddress, {
+            //               isTeleConsult: false,
+            //             });
+            //           }
+            //           // navigation.navigate(screens.AddYourAddress, {
+            //           //   isTeleConsult: false,
+            //           // });
+            //         } else {
+            //           navigation.navigate(screens.ParentDetails, {
+            //             isHomeVisit: true,
+            //           });
+            //         }
+            //       } else {
+            //         navigation.navigate(screens.AddYourPetHomeVisit, {
+            //           serviceGroupUUID,
+            //           consultationTypeUUID,
+            //         });
+            //       }
+            //     }
+
+            //     else if (name.includes('tele')) {
+            //       try {
+            //         const petData = await AsyncStorage.getItem(
+            //           'last_added_pet',
+            //         );
+            //         const parsedPetData = petData ? JSON.parse(petData) : null;
+            //         const petsArray = parsedPetData?.pets;
+
+            //         const parentDetails = await AsyncStorage.getItem(
+            //           'parentDetails',
+            //         );
+            //         const hasParentDetails = Boolean(parentDetails);
+
+            //         const serviceGroupUUID =
+            //           serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '';
+            //         const consultationTypeUUID =
+            //           consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+            //           '';
+
+            //         if (Array.isArray(petsArray) && petsArray.length > 0) {
+            //           if (hasParentDetails) {
+            //             // ✅ Skip ParentDetailsTele if data exists
+            //             navigation.navigate(screens.SelectVaterinarian, {
+            //               isTeleConsult: true,
+            //               headerTitle: 'Tele Consultation',
+            //               serviceGroupUUID,
+            //               consultationTypeUUID,
+            //             });
+            //           } else {
+            //             // 🔁 Show ParentDetailsTele if parent data missing
+            //             navigation.navigate(screens.ParentDetailsTele, {
+            //               isHomeVisit: false,
+            //               headerTitle: 'Tele Consultation',
+            //               serviceGroupUUID,
+            //               consultationTypeUUID,
+            //             });
+            //           }
+            //         } else {
+            //           // Navigate to AddYourPet if pets array is missing or empty
+            //           navigation.navigate(screens.AddYourPet, {
+            //             headerTitle: 'Tele Consultation',
+            //             serviceGroupUUID,
+            //             consultationTypeUUID,
+            //           });
+            //         }
+            //       } catch (error) {
+            //         console.error('Error checking pet or parent data:', error);
+            //         navigation.navigate(screens.AddYourPet, {
+            //           headerTitle: 'Tele Consultation',
+            //           serviceGroupUUID:
+            //             serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+            //           consultationTypeUUID:
+            //             consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+            //             '',
+            //         });
+            //       }
+            //     } else {
+            //       console.warn('Unhandled consultation type:', name);
+            //     }
+            //   }}>
+            // <TouchableOpacity
+            //   key={consultation.UUID}
+            //   className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
+            //   style={{minWidth: screenWidth / 2.2}}
+            //   onPress={async () => {
+            //     console.log('Selected UUID:', consultation.UUID);
+
+            //     await AsyncStorage.setItem(
+            //       'selected_consultation_uuid',
+            //       consultation.UUID,
+            //     );
+
+            //     const name = consultation.Consultaytion_Name?.toLowerCase();
+
+            //     // Get stored pet and address data
+            //     const storedPet = await AsyncStorage.getItem('last_added_pet');
+            //     const petExists = !!storedPet;
+            //     const addressData = await AsyncStorage.getItem(
+            //       'saved_user_address',
+            //     );
+            //     const isAddressComplete = !!addressData;
+
+            //     // Get Parent Details (Common for both home and tele consultations)
+            //     const [firstName, lastName, phone, email] = await Promise.all([
+            //       AsyncStorage.getItem('first_name'),
+            //       AsyncStorage.getItem('last_name'),
+            //       AsyncStorage.getItem('mobile_number'),
+            //       AsyncStorage.getItem('email'),
+            //     ]);
+
+            //     const isParentDetailsComplete =
+            //       firstName && lastName && phone && email;
+
+            //     // Determine the service UUIDs
+            //     const serviceGroupUUID =
+            //       serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '';
+            //     const consultationTypeUUID = name.includes('tele')
+            //       ? consultationTypes.find(x => !x.IsServiceBased)?.UUID || ''
+            //       : consultationTypes.find(x => x.IsServiceBased)?.UUID || '';
+
+            //     if (name.includes('home')) {
+            //       if (petExists) {
+            //         if (isParentDetailsComplete) {
+            //           if (isAddressComplete) {
+            //             // Navigate to ServiceSelection if address is complete
+            //             navigation.navigate(screens.ServiceSelection);
+            //           } else {
+            //             // Navigate to AddYourAddress if address is not complete
+            //             navigation.navigate(screens.AddYourAddress, {
+            //               isTeleConsult: false,
+            //             });
+            //           }
+            //         } else {
+            //           // If parent details are not complete, navigate to ParentDetails screen
+            //           navigation.navigate(screens.ParentDetails, {
+            //             isHomeVisit: true,
+            //           });
+            //         }
+            //       } else {
+            //         // Navigate to AddYourPetHomeVisit if no pet exists
+            //         navigation.navigate(screens.AddYourPetHomeVisit, {
+            //           serviceGroupUUID,
+            //           consultationTypeUUID,
+            //         });
+            //       }
+            //     } else if (name.includes('tele')) {
+            //       try {
+            //         const petData = await AsyncStorage.getItem(
+            //           'last_added_pet',
+            //         );
+            //         const parsedPetData = petData ? JSON.parse(petData) : null;
+            //         const petsArray = parsedPetData?.pets;
+
+            //         const parentDetails = await AsyncStorage.getItem(
+            //           'parentDetails',
+            //         );
+            //         const hasParentDetails = Boolean(parentDetails);
+
+            //         if (Array.isArray(petsArray) && petsArray.length > 0) {
+            //           if (hasParentDetails) {
+            //             // If parent details exist, navigate to SelectVaterinarian
+            //             navigation.navigate(screens.SelectVaterinarian, {
+            //               isTeleConsult: true,
+            //               headerTitle: 'Tele Consultation',
+            //               serviceGroupUUID,
+            //               consultationTypeUUID,
+            //             });
+            //           } else {
+            //             // If parent details do not exist, navigate to ParentDetailsTele
+            //             navigation.navigate(screens.ParentDetailsTele, {
+            //               isHomeVisit: false,
+            //               headerTitle: 'Tele Consultation',
+            //               serviceGroupUUID,
+            //               consultationTypeUUID,
+            //             });
+            //           }
+            //         } else {
+            //           // If no pets, navigate to AddYourPet screen
+            //           navigation.navigate(screens.AddYourPet, {
+            //             headerTitle: 'Tele Consultation',
+            //             serviceGroupUUID,
+            //             consultationTypeUUID,
+            //           });
+            //         }
+            //       } catch (error) {
+            //         console.error('Error checking pet or parent data:', error);
+            //         navigation.navigate(screens.AddYourPet, {
+            //           headerTitle: 'Tele Consultation',
+            //           serviceGroupUUID:
+            //             serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+            //           consultationTypeUUID:
+            //             consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+            //             '',
+            //         });
+            //       }
+            //     } else {
+            //       console.warn('Unhandled consultation type:', name);
+            //     }
+            //   }}>
+
+            // <TouchableOpacity
+            //   key={consultation.UUID}
+            //   className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
+            //   style={{minWidth: screenWidth / 2.2}}
+            //   onPress={async () => {
+            //     console.log('Selected UUID:', consultation.UUID);
+
+            //     await AsyncStorage.setItem(
+            //       'selected_consultation_uuid',
+            //       consultation.UUID,
+            //     );
+
+            //     const name = consultation.Consultaytion_Name?.toLowerCase();
+
+            //     // Get stored pet and address data
+            //     const storedPet = await AsyncStorage.getItem('last_added_pet');
+            //     const petExists = !!storedPet;
+            //     const addressData = await AsyncStorage.getItem(
+            //       'saved_user_address',
+            //     );
+            //     const isAddressComplete = !!addressData;
+
+            //     // Get Parent Details (Common for both home and tele consultations)
+            //     const [firstName, lastName, phone, email] = await Promise.all([
+            //       AsyncStorage.getItem('first_name'),
+            //       AsyncStorage.getItem('last_name'),
+            //       AsyncStorage.getItem('mobile_number'),
+            //       AsyncStorage.getItem('email'),
+            //     ]);
+
+            //     const isParentDetailsComplete =
+            //       firstName && lastName && phone && email;
+
+            //     // Determine the service UUIDs
+            //     const serviceGroupUUID =
+            //       serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '';
+            //     const consultationTypeUUID = name.includes('tele')
+            //       ? consultationTypes.find(x => !x.IsServiceBased)?.UUID || ''
+            //       : consultationTypes.find(x => x.IsServiceBased)?.UUID || '';
+
+            //     if (name.includes('home')) {
+            //       if (petExists) {
+            //         if (isParentDetailsComplete) {
+            //           if (isAddressComplete) {
+            //             // Navigate to ServiceSelection if address is complete
+            //             navigation.navigate(screens.ServiceSelection);
+            //           } else {
+            //             // Navigate to AddYourAddress if address is not complete
+            //             navigation.navigate(screens.AddYourAddress, {
+            //               isTeleConsult: false,
+            //             });
+            //           }
+            //         } else {
+            //           // If parent details are not complete, navigate to ParentDetails screen
+            //           navigation.navigate(screens.ParentDetails, {
+            //             isHomeVisit: true,
+            //           });
+            //         }
+            //       } else {
+            //         // Navigate to AddYourPetHomeVisit if no pet exists
+            //         navigation.navigate(screens.AddYourPetHomeVisit, {
+            //           serviceGroupUUID,
+            //           consultationTypeUUID,
+            //         });
+            //       }
+            //     } else if (name.includes('tele')) {
+            //       try {
+            //         const petData = await AsyncStorage.getItem(
+            //           'last_added_pet',
+            //         );
+            //         const parsedPetData = petData ? JSON.parse(petData) : null;
+            //         const petsArray = parsedPetData?.pets;
+
+            //         const parentDetails = await AsyncStorage.getItem(
+            //           'parentDetails',
+            //         );
+            //         const hasParentDetails = Boolean(parentDetails);
+
+            //         if (Array.isArray(petsArray) && petsArray.length > 0) {
+            //           if (hasParentDetails) {
+            //             // If parent details exist, navigate to SelectVaterinarian
+            //             navigation.navigate(screens.SelectVaterinarian, {
+            //               isTeleConsult: true,
+            //               headerTitle: 'Tele Consultation',
+            //               serviceGroupUUID,
+            //               consultationTypeUUID,
+            //             });
+            //           } else {
+            //             // If parent details do not exist, navigate to ParentDetailsTele
+            //             navigation.navigate(screens.ParentDetailsTele, {
+            //               isHomeVisit: false,
+            //               isTeleConsult: true,
+            //               headerTitle: 'Tele Consultation',
+            //               serviceGroupUUID,
+            //               consultationTypeUUID,
+            //             });
+            //           }
+            //         } else {
+            //           // If no pets, navigate to AddYourPet screen
+            //           navigation.navigate(screens.AddYourPet, {
+            //             headerTitle: 'Tele Consultation',
+            //             serviceGroupUUID,
+            //             consultationTypeUUID,
+            //           });
+            //         }
+            //       } catch (error) {
+            //         console.error('Error checking pet or parent data:', error);
+            //         navigation.navigate(screens.AddYourPet, {
+            //           headerTitle: 'Tele Consultation',
+            //           serviceGroupUUID:
+            //             serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
+            //           consultationTypeUUID:
+            //             consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
+            //             '',
+            //         });
+            //       }
+            //     } else {
+            //       console.warn('Unhandled consultation type:', name);
+            //     }
+            //   }}>
             <TouchableOpacity
               key={consultation.UUID}
               className="bg-primary h-16 px-3 rounded-full flex-row items-center justify-center"
               style={{minWidth: screenWidth / 2.2}}
-              // onPress={async () => {
-              //   console.log('Selected UUID:', consultation.UUID);
-
-              //   // Save selected UUID for future use
-              //   await AsyncStorage.setItem(
-              //     'selected_consultation_uuid',
-              //     consultation.UUID,
-              //   );
-
-              //   // Standardize name to avoid case issues
-              //   const name = consultation.Consultaytion_Name?.toLowerCase();
-
-              //   if (name.includes('home')) {
-              //     // navigation.navigate(screens.ServiceSelection,
-              //     navigation.navigate(
-              //       screens.AddYourPetHomeVisit,
-
-              //       {
-              //         serviceGroupUUID:
-              //           serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-              //         consultationTypeUUID:
-              //           consultationTypes.find(x => x.IsServiceBased)?.UUID ||
-              //           '',
-              //       },
-              //     );
-              //   } else if (name.includes('tele')) {
-              //     navigation.navigate(screens.AddYourPet, {
-              //       headerTitle: 'Tele Consultation',
-              //       serviceGroupUUID:
-              //         serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-              //       consultationTypeUUID:
-              //         consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
-              //         '',
-              //     });
-              //   } else {
-              //     console.warn('Unhandled consultation type:', name);
-              //   }
-              // }}
               onPress={async () => {
                 console.log('Selected UUID:', consultation.UUID);
 
@@ -389,67 +768,42 @@ const Dashboard = ({navigation}) => {
 
                 const name = consultation.Consultaytion_Name?.toLowerCase();
 
-                // Get stored pet data
+                // Get stored pet and address data
                 const storedPet = await AsyncStorage.getItem('last_added_pet');
-                const petExists = !!storedPet;
+                const storedPetTele = await AsyncStorage.getItem(
+                  'last_added_pet_tele',
+                );
+                const storedPetGroomering = await AsyncStorage.getItem(
+                  'last_added_pet_groomer',
+                );
+                const petExists =
+                  !!storedPet || !!storedPetTele || !!storedPetGroomering;
+                const addressData = await AsyncStorage.getItem(
+                  'saved_user_address',
+                );
+                const isAddressComplete = !!addressData;
 
+                // Check if parent details are complete
+                const isParentDetailsComplete =
+                  await checkIsParentDetailsComplete();
+
+                // Determine the service UUIDs
                 const serviceGroupUUID =
                   serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '';
                 const consultationTypeUUID = name.includes('tele')
                   ? consultationTypes.find(x => !x.IsServiceBased)?.UUID || ''
                   : consultationTypes.find(x => x.IsServiceBased)?.UUID || '';
 
-                const addressData = await AsyncStorage.getItem(
-                  'saved_user_address',
-                );
-                const isAddressComplete = !!addressData;
-
-                // if (name.includes('home')) {
-                //   if (petExists) {
-                //     // Navigate to ParentDetails directly if pet data is already present
-                //     navigation.navigate(screens.ParentDetails, {
-                //       isHomeVisit: true,
-                //     });
-                //   } else {
-                //     // Navigate to AddYourPetHomeVisit if no data stored
-                //     navigation.navigate(screens.AddYourPetHomeVisit, {
-                //       serviceGroupUUID,
-                //       consultationTypeUUID,
-                //     });
-                //   }
-                // } else if (name.includes('tele')) {
-                //   navigation.navigate(screens.AddYourPet, {
-                //     headerTitle: 'Tele Consultation',
-                //     serviceGroupUUID,
-                //     consultationTypeUUID,
-                //   });
-                // }
                 if (name.includes('home')) {
                   if (petExists) {
-                    const [firstName, lastName, phone, email] =
-                      await Promise.all([
-                        AsyncStorage.getItem('first_name'),
-                        AsyncStorage.getItem('last_name'),
-                        AsyncStorage.getItem('mobile_number'),
-                        AsyncStorage.getItem('email'),
-                      ]);
-
-                    const isParentDetailsComplete =
-                      firstName && lastName && phone && email;
-
                     if (isParentDetailsComplete) {
                       if (isAddressComplete) {
-                        // If address is complete, navigate to ServiceSelection screen
                         navigation.navigate(screens.ServiceSelection);
                       } else {
-                        // If address is not complete, navigate to AddYourAddress screen
                         navigation.navigate(screens.AddYourAddress, {
                           isTeleConsult: false,
                         });
                       }
-                      // navigation.navigate(screens.AddYourAddress, {
-                      //   isTeleConsult: false,
-                      // });
                     } else {
                       navigation.navigate(screens.ParentDetails, {
                         isHomeVisit: true,
@@ -461,48 +815,179 @@ const Dashboard = ({navigation}) => {
                       consultationTypeUUID,
                     });
                   }
-                }
-                // else if (name.includes('tele')) {
-                //   navigation.navigate(screens.AddYourPet, {
-                //     headerTitle: 'Tele Consultation',
-                //     serviceGroupUUID:
-                //       serviceGroups.find(x => x.DisplayAsPrimary)?.UUID || '',
-                //     consultationTypeUUID:
-                //       consultationTypes.find(x => !x.IsServiceBased)?.UUID ||
-                //       '',
-                //   });
-                // }
-                else if (name.includes('tele')) {
+                } else if (name.includes('tele')) {
                   try {
-                    const petData = await AsyncStorage.getItem(
+                    const storedPet = await AsyncStorage.getItem(
+                      'last_added_pet',
+                    );
+                    const storedPetTele = await AsyncStorage.getItem(
                       'last_added_pet_tele',
                     );
-                    if (petData) {
-                      navigation.navigate(screens.SelectVaterinarian, {
-                        isHomeVisit: false,
-                        headerTitle: 'Tele Consultation',
-                        serviceGroupUUID:
-                          serviceGroups.find(x => x.DisplayAsPrimary)?.UUID ||
-                          '',
-                        consultationTypeUUID:
-                          consultationTypes.find(x => !x.IsServiceBased)
-                            ?.UUID || '',
-                      });
+                    const storedPetGroomer = await AsyncStorage.getItem(
+                      'last_added_pet_groomer',
+                    );
+
+                    const parsedPet = storedPet ? JSON.parse(storedPet) : null;
+                    const parsedPetTele = storedPetTele
+                      ? JSON.parse(storedPetTele)
+                      : null;
+                    const parsedPetGroomer = storedPetGroomer
+                      ? JSON.parse(storedPetGroomer)
+                      : null;
+
+                    const petsArray = parsedPet?.pets || [];
+                    const petsArrayTele = parsedPetTele?.pets || [];
+                    const petsArrayGroomer = parsedPetGroomer?.pets || [];
+
+                    const petExists =
+                      (Array.isArray(petsArray) && petsArray.length > 0) ||
+                      (Array.isArray(petsArrayTele) &&
+                        petsArrayTele.length > 0) ||
+                      (Array.isArray(petsArrayGroomer) &&
+                        petsArrayGroomer.length > 0);
+
+                    const hasParentDetails =
+                      await checkIsParentDetailsComplete();
+
+                    if (petExists) {
+                      if (hasParentDetails) {
+                        navigation.navigate(screens.SelectVaterinarian, {
+                          isTeleConsult: true,
+                          headerTitle: 'Tele Consultation',
+                          serviceGroupUUID,
+                          consultationTypeUUID,
+                        });
+                      } else {
+                        navigation.navigate(screens.ParentDetailsTele, {
+                          isHomeVisit: false,
+                          isTeleConsult: true,
+                          headerTitle: 'Tele Consultation',
+                          serviceGroupUUID,
+                          consultationTypeUUID,
+                        });
+                      }
                     } else {
                       navigation.navigate(screens.AddYourPet, {
                         headerTitle: 'Tele Consultation',
-                        serviceGroupUUID:
-                          serviceGroups.find(x => x.DisplayAsPrimary)?.UUID ||
-                          '',
-                        consultationTypeUUID:
-                          consultationTypes.find(x => !x.IsServiceBased)
-                            ?.UUID || '',
+                        serviceGroupUUID,
+                        consultationTypeUUID,
                       });
                     }
                   } catch (error) {
-                    console.error('Error checking pet data:', error);
+                    console.error('Error checking pet or parent data:', error);
+                    navigation.navigate(screens.AddYourPet, {
+                      headerTitle: 'Tele Consultation',
+                      serviceGroupUUID,
+                      consultationTypeUUID,
+                    });
                   }
-                } else {
+                }
+                // else if (name.includes('tele')) {
+                //   try {
+                //     const storedPet = await AsyncStorage.getItem(
+                //       'last_added_pet',
+                //     );
+                //     const storedPetTele = await AsyncStorage.getItem(
+                //       'last_added_pet_tele',
+                //     );
+                //     const storedPetGroomering = await AsyncStorage.getItem(
+                //       'last_added_pet_groomer',
+                //     );
+                //     const parsedPet = storedPet ? JSON.parse(storedPet) : null;
+                //     const parsedPetTele = storedPetTele
+                //       ? JSON.parse(storedPetTele)
+                //       : null;
+
+                //     const petsArray = parsedPet?.pets || [];
+                //     const petsArrayTele = parsedPetTele?.pets || [];
+
+                //     const petExists =
+                //       (Array.isArray(petsArray) && petsArray.length > 0) ||
+                //       (Array.isArray(petsArrayTele) &&
+                //         petsArrayTele.length > 0);
+
+                //     const hasParentDetails =
+                //       await checkIsParentDetailsComplete();
+
+                //     if (petExists) {
+                //       if (hasParentDetails) {
+                //         navigation.navigate(screens.SelectVaterinarian, {
+                //           isTeleConsult: true,
+                //           headerTitle: 'Tele Consultation',
+                //           serviceGroupUUID,
+                //           consultationTypeUUID,
+                //         });
+                //       } else {
+                //         navigation.navigate(screens.ParentDetailsTele, {
+                //           isHomeVisit: false,
+                //           isTeleConsult: true,
+                //           headerTitle: 'Tele Consultation',
+                //           serviceGroupUUID,
+                //           consultationTypeUUID,
+                //         });
+                //       }
+                //     } else {
+                //       navigation.navigate(screens.AddYourPet, {
+                //         headerTitle: 'Tele Consultation',
+                //         serviceGroupUUID,
+                //         consultationTypeUUID,
+                //       });
+                //     }
+                //   } catch (error) {
+                //     console.error('Error checking pet or parent data:', error);
+                //     navigation.navigate(screens.AddYourPet, {
+                //       headerTitle: 'Tele Consultation',
+                //       serviceGroupUUID,
+                //       consultationTypeUUID,
+                //     });
+                //   }
+                // }
+
+                // else if (name.includes('tele')) {
+                //   try {
+                //     const petData = await AsyncStorage.getItem(
+                //       'last_added_pet',
+                //     );
+                //     const parsedPetData = petData ? JSON.parse(petData) : null;
+                //     const petsArray = parsedPetData?.pets;
+
+                //     const hasParentDetails =
+                //       await checkIsParentDetailsComplete();
+
+                //     if (Array.isArray(petsArray) && petsArray.length > 0) {
+                //       if (hasParentDetails) {
+                //         navigation.navigate(screens.SelectVaterinarian, {
+                //           isTeleConsult: true,
+                //           headerTitle: 'Tele Consultation',
+                //           serviceGroupUUID,
+                //           consultationTypeUUID,
+                //         });
+                //       } else {
+                //         navigation.navigate(screens.ParentDetailsTele, {
+                //           isHomeVisit: false,
+                //           isTeleConsult: true,
+                //           headerTitle: 'Tele Consultation',
+                //           serviceGroupUUID,
+                //           consultationTypeUUID,
+                //         });
+                //       }
+                //     } else {
+                //       navigation.navigate(screens.AddYourPet, {
+                //         headerTitle: 'Tele Consultation',
+                //         serviceGroupUUID,
+                //         consultationTypeUUID,
+                //       });
+                //     }
+                //   } catch (error) {
+                //     console.error('Error checking pet or parent data:', error);
+                //     navigation.navigate(screens.AddYourPet, {
+                //       headerTitle: 'Tele Consultation',
+                //       serviceGroupUUID,
+                //       consultationTypeUUID,
+                //     });
+                //   }
+                // }
+                else {
                   console.warn('Unhandled consultation type:', name);
                 }
               }}>
@@ -551,15 +1036,178 @@ const Dashboard = ({navigation}) => {
                       key={index}
                       className="items-center gap-1.5"
                       style={{width: width * 0.28}}
-                      onPress={() => {
+                      onPress={async () => {
                         console.log('Selected GroupName:', item.GroupName);
 
                         switch (item.GroupName) {
+                          //   case 'Grooming':
+                          //     navigation.navigate(screens.AddYourPetGrooming, {
+                          //       groupName: item.GroupName,
+                          //     });
+                          //     break;
+                          // case 'Grooming':
+                          //   try {
+                          //     const storedPet = await AsyncStorage.getItem(
+                          //       'last_added_pet',
+                          //     );
+                          //     const storedPetTele = await AsyncStorage.getItem(
+                          //       'last_added_pet_tele',
+                          //     );
+                          //     const storedPetGroomering =
+                          //       await AsyncStorage.getItem(
+                          //         'last_added_pet_groomer',
+                          //       );
+
+                          //     const petExists =
+                          //       !!storedPet ||
+                          //       !!storedPetTele ||
+                          //       !!storedPetGroomering;
+
+                          //     const isParentDetailsComplete =
+                          //       await checkIsParentDetailsComplete();
+
+                          //     const serviceGroupUUID = item.UUID; // Assuming Group object has UUID
+                          //     const consultationTypeUUID =
+                          //       consultationTypes.find(x => x.IsServiceBased)
+                          //         ?.UUID || '';
+
+                          //     if (petExists) {
+                          //       if (isParentDetailsComplete) {
+                          //         navigation.navigate(
+                          //           screens.ChooseGroomingService,
+                          //           {
+                          //             isGrooming: true,
+                          //             groupName: item.GroupName,
+                          //             serviceGroupUUID,
+                          //             consultationTypeUUID,
+                          //           },
+                          //         );
+                          //       } else {
+                          //         navigation.navigate(
+                          //           screens.ParentDetailsGroomer,
+                          //           {
+                          //             isGrooming: true,
+                          //             groupName: item.GroupName,
+                          //           },
+                          //         );
+                          //       }
+                          //     } else {
+                          //       navigation.navigate(
+                          //         screens.AddYourPetGrooming,
+                          //         {
+                          //           isGrooming: true,
+                          //           headerTitle: 'Grooming',
+                          //           groupName: item.GroupName,
+                          //           serviceGroupUUID,
+                          //           consultationTypeUUID,
+                          //         },
+                          //       );
+                          //     }
+                          //   } catch (error) {
+                          //     console.error(
+                          //       'Error checking grooming prerequisites:',
+                          //       error,
+                          //     );
+                          //     navigation.navigate(screens.AddYourPetGrooming, {
+                          //       isGrooming: true,
+                          //       headerTitle: 'Grooming',
+                          //       groupName: item.GroupName,
+                          //     });
+                          //   }
+                          //   break;
                           case 'Grooming':
-                            navigation.navigate(screens.AddYourPetGrooming, {
-                              groupName: item.GroupName,
-                            });
+                            try {
+                              // Step 1: Check if any pet exists
+                              const storedPet = await AsyncStorage.getItem(
+                                'last_added_pet',
+                              );
+                              const storedPetTele = await AsyncStorage.getItem(
+                                'last_added_pet_tele',
+                              );
+                              const storedPetGrooming =
+                                await AsyncStorage.getItem(
+                                  'last_added_pet_groomer',
+                                );
+
+                              const petExists =
+                                !!storedPet ||
+                                !!storedPetTele ||
+                                !!storedPetGrooming;
+
+                              const serviceGroupUUID = item.UUID;
+                              const consultationTypeUUID =
+                                consultationTypes.find(x => x.IsServiceBased)
+                                  ?.UUID || '';
+
+                              if (!petExists) {
+                                // No pet found → go to AddYourPetGrooming
+                                navigation.navigate(
+                                  screens.AddYourPetGrooming,
+                                  {
+                                    isGrooming: true,
+                                    headerTitle: 'Grooming',
+                                    groupName: item.GroupName,
+                                    serviceGroupUUID,
+                                    consultationTypeUUID,
+                                  },
+                                );
+                                break;
+                              }
+
+                              // Step 2: Check if parent details are complete
+                              const isParentDetailsComplete =
+                                await checkIsParentDetailsComplete();
+
+                              if (!isParentDetailsComplete) {
+                                // Parent details not found → go to ParentDetailsGroomer
+                                navigation.navigate(
+                                  screens.ParentDetailsGroomer,
+                                  {
+                                    isGrooming: true,
+                                    groupName: item.GroupName,
+                                  },
+                                );
+                                break;
+                              }
+
+                              // Step 3: Check if address exists
+                              const addressData = await AsyncStorage.getItem(
+                                'saved_user_address',
+                              );
+                              const isAddressComplete = !!addressData;
+
+                              if (!isAddressComplete) {
+                                // Address not found → go to AddYourAddressGroomer
+                                navigation.navigate(screens.GroomerAddAddress, {
+                                  isGrooming: true,
+                                  groupName: item.GroupName,
+                                });
+                                break;
+                              }
+
+                              // All details available → go to ChooseGroomingService
+                              navigation.navigate(
+                                screens.ChooseGroomingService,
+                                {
+                                  isGrooming: true,
+                                  groupName: item.GroupName,
+                                  serviceGroupUUID,
+                                  consultationTypeUUID,
+                                },
+                              );
+                            } catch (error) {
+                              console.error(
+                                'Error checking grooming prerequisites:',
+                                error,
+                              );
+                              navigation.navigate(screens.AddYourPetGrooming, {
+                                isGrooming: true,
+                                headerTitle: 'Grooming',
+                                groupName: item.GroupName,
+                              });
+                            }
                             break;
+
                           case 'Food':
                             navigation.navigate('FoodScreen', {
                               groupName: item.GroupName,

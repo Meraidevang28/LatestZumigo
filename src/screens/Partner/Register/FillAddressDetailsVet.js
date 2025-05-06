@@ -115,6 +115,22 @@ const FillAddressDetailsVet = ({navigation}) => {
     loadAddressData();
   }, []);
 
+  const logStoredAddress = async () => {
+    try {
+      const storedAddress = await AsyncStorage.getItem('vetAddressDetails');
+      if (storedAddress) {
+        const parsedAddress = JSON.parse(storedAddress);
+        console.log('Stored vet address:', parsedAddress);
+      } else {
+        console.log('No vet address found in local storage.');
+      }
+    } catch (error) {
+      console.error('Error retrieving vet address:', error);
+    }
+  };
+  useEffect(() => {
+    logStoredAddress();
+  }, []);
   const handleSubmit = async () => {
     try {
       const payload = {
@@ -146,7 +162,13 @@ const FillAddressDetailsVet = ({navigation}) => {
       const resData = await response.json();
 
       if (response.ok) {
-        // Alert.alert('Success', 'Address saved successfully!');
+        // Store locally
+        await AsyncStorage.setItem(
+          'vetAddressDetails',
+          JSON.stringify(formData),
+        );
+        console.log('Vet address saved to local storage.');
+
         navigation.navigate(screens.VetServiceLocation, {
           isHomeVisit: true,
         });
@@ -238,7 +260,7 @@ const FillAddressDetailsVet = ({navigation}) => {
       </ScrollView>
       <FooterBtn
         title="Continue"
-        onClick={() => navigation.navigate(screens.VetServiceLocation)}
+        onClick={() => handleSubmit()}
         // onClick={handleSubmit}
       />
     </View>

@@ -60,6 +60,7 @@ const ScheduleWeek = () => {
       setSelectedDays([...selectedDays, day]); // Select
     }
   };
+
   const [isEnabled, setIsEnabled] = useState(true);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const navigation = useNavigation();
@@ -291,6 +292,23 @@ const ScheduleWeek = () => {
                         <View className="flex-row items-center gap-3 flex-1">
                           <TouchableOpacity
                             onPress={() => {
+                              setSelectedDayIndex(0);
+                              setSelectedSlotIndex(index); // Store the index of the selected slot
+                              visitOpenModal();
+                            }}
+                            className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
+                            <Text
+                              className={`text-black font-Nunito-Regular text-center ${
+                                selectedSlotIndex === index
+                                  ? 'text-black'
+                                  : 'text-gray-400'
+                              }`}
+                              style={{fontWeight: '500'}}>
+                              {slot.type || 'Service Mode'}
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
                               setSelectedSlotIndex(index);
                               setIsSelectingStartTime(true); // <- This tells the modal it's for start time
                               setTimeModalVisible(true);
@@ -318,24 +336,6 @@ const ScheduleWeek = () => {
                               }`}
                               style={{fontWeight: 500}}>
                               {slot.endTime || 'End Time'}
-                            </Text>
-                          </TouchableOpacity>
-
-                          <TouchableOpacity
-                            onPress={() => {
-                              setSelectedDayIndex(0);
-                              setSelectedSlotIndex(index); // Store the index of the selected slot
-                              visitOpenModal();
-                            }}
-                            className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
-                            <Text
-                              className={`text-black font-Nunito-Regular text-center ${
-                                selectedSlotIndex === index
-                                  ? 'text-black'
-                                  : 'text-gray-400'
-                              }`}
-                              style={{fontWeight: '500'}}>
-                              {slot.type || 'Service Mode'}
                             </Text>
                           </TouchableOpacity>
                         </View>
@@ -464,6 +464,21 @@ const ScheduleWeek = () => {
                             <View className="flex-row items-center gap-3 flex-1">
                               <TouchableOpacity
                                 onPress={() => {
+                                  setSelectedDayIndex(dayIndex); // ✅ Track selected day
+                                  setSelectedSlotIndex(slotIndex); // ✅ Track selected slot
+                                  visitOpenModal(); // Open bottom sheet
+                                }}
+                                className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
+                                <Text
+                                  className={`font-Nunito-Regular text-center ${
+                                    slot.type ? 'text-black' : 'text-gray-400'
+                                  }`}
+                                  style={{fontWeight: '500'}}>
+                                  {slot.type || 'Service Mode'}
+                                </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                onPress={() => {
                                   setSelectedDayIndex(dayIndex); // Set the selected day index
                                   setSelectedSlotIndex(slotIndex); // Set the selected slot index
                                   setIsSelectingStartTime(true); // Ensure you are selecting the start time
@@ -497,20 +512,6 @@ const ScheduleWeek = () => {
                                   }`}
                                   style={{fontWeight: 500}}>
                                   {slot.endTime || 'End Time'}
-                                </Text>
-                              </TouchableOpacity>
-
-                              <TouchableOpacity
-                                onPress={() => {
-                                  setSelectedDayIndex(dayIndex); // ✅ Track selected day
-                                  setSelectedSlotIndex(slotIndex); // ✅ Track selected slot
-                                  visitOpenModal(); // Open bottom sheet
-                                }}
-                                className="bg-white border border-gray-300 rounded-full px-4 py-2 min-w-[110px]">
-                                <Text
-                                  className="text-black font-Nunito-Regular text-center"
-                                  style={{fontWeight: '500'}}>
-                                  {slot.type || 'Service Mode'}
                                 </Text>
                               </TouchableOpacity>
                             </View>

@@ -548,13 +548,13 @@ const VetAssistantDetails = ({navigation}) => {
               <RegistrationProgressBar screenNo={5} />
             </View>
             <Text className="text-gray-900 mb-[10px] text-[24px] font-Nunito-Bold mt-[10px]">
-              Your Assistant Details
+              Your Assistant Veterinarian Details
             </Text>
 
             {/* Toggle Switch */}
-            <View className="flex-row justify-between items-center bg-[#F2F6F733] border border-[#BBBCB733] px-[19px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
-              <Text className="text-[16px] text-darkGunmetal leading-10 font-Nunito-Regular">
-                Do you have an assistant?
+            <View className="flex-row justify-between items-center bg-[#F2F6F733] border border-[#BBBCB733] px-[10px] py-[5px] mt-[20px] rounded-2xl mb-[15px] h-[58px]">
+              <Text className="text-[14px] text-darkGunmetal leading-10 font-Nunito-Regular">
+                Do you have an assistant veterinarian?
               </Text>
               <Switch
                 value={hasAssistant}
@@ -600,7 +600,7 @@ const VetAssistantDetails = ({navigation}) => {
             <View
               style={{
                 // position: 'absolute',
-                bottom: -190,
+                bottom: -165,
                 right: -140,
                 paddingRight: 16,
                 // zIndex: -1,

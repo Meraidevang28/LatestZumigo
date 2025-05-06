@@ -468,6 +468,8 @@ const FillAddressDetails = ({navigation}) => {
               IsDefault: true,
               IsDisplay: true,
               IsActive: true,
+              IsAddedBy: userMasterUuid, // or use appropriate identifier
+              AddedIP: '127.0.0.1', // or fetch real IP if required
             };
 
             const response = await fetch(`${API_BASE_URL}${ADD_USER_ADDRESS}`, {

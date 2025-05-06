@@ -163,62 +163,277 @@ import images from '../../../assets/images';
 import screens from '../../../constants/screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// const InfraSetup = ({navigation, route}) => {
+//   const {infraUuid} = route.params || {};
+//   const [selectedInfrastructure, setSelectedInfrastructure] = useState([]);
+//   const [infrastructureData, setInfrastructureData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const {width, height} = Dimensions.get('window');
+//   const imageHeight = height * 0.4;
+
+//   const toggleInfraSelection = infrastructure => {
+//     setSelectedInfrastructure(prev =>
+//       prev.includes(infrastructure)
+//         ? prev.filter(a => a !== infrastructure)
+//         : [...prev, infrastructure],
+//     );
+//   };
+
+//   const fetchInfrastructureData = async () => {
+//     try {
+//       const token = await AsyncStorage.getItem('auth_token');
+//       const response = await fetch(
+//         `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure/${infraUuid}`,
+//         {
+//           method: 'GET',
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             Accept: 'application/json',
+//           },
+//         },
+//       );
+
+//       const text = await response.text();
+
+//       if (!text) {
+//         console.error('Empty response from server');
+//         setInfrastructureData([]);
+//         return;
+//       }
+
+//       const json = JSON.parse(text);
+//       console.log('Fetched Infrastructure Data:', json);
+
+//       // Set the infrastructure data
+//       setInfrastructureData(json);
+//     } catch (error) {
+//       console.error('Error fetching infrastructure data:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (infraUuid) {
+//       console.log('Received infraUuid:', infraUuid); // Add this line
+//       fetchInfrastructureData();
+//     } else {
+//       console.error('infraUuid is not received');
+//     }
+//   }, [infraUuid]);
+
+//   if (loading) {
+//     return (
+//       <View className="flex-1 justify-center items-center">
+//         <Text>Loading...</Text>
+//       </View>
+//     );
+//   }
 const InfraSetup = ({navigation, route}) => {
-  const {infraUuid} = route.params || {};
+  // const {infraUuid, serviceGroupUuid, serviceCategoryUuid} = route.params || {};
+  const {
+    infraUuid = [],
+    serviceGroupUuid,
+    serviceCategoryUuid, // may be undefined if toggle was off
+  } = route.params;
+  console.log('Received route params:', route.params);
   const [selectedInfrastructure, setSelectedInfrastructure] = useState([]);
   const [infrastructureData, setInfrastructureData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log('Received infraUuid:', infraUuid);
+  console.log('Received serviceGroupUuid:', serviceGroupUuid);
+  console.log('Received serviceCategoryUuid:', serviceCategoryUuid);
+
+  // Example: Accessing both UUIDs
+  const [firstInfraUuid, secondInfraUuid] = infraUuid || [];
+  console.log('First Infra UUID:', firstInfraUuid);
+  console.log('Second Infra UUID:', secondInfraUuid);
   const {width, height} = Dimensions.get('window');
   const imageHeight = height * 0.4;
 
-  const toggleInfraSelection = infrastructure => {
-    setSelectedInfrastructure(prev =>
-      prev.includes(infrastructure)
-        ? prev.filter(a => a !== infrastructure)
-        : [...prev, infrastructure],
-    );
-  };
+  // const fetchInfrastructureData = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('auth_token');
+  //     const response = await fetch(
+  //       `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure/${serviceGroupUuid}&${serviceCategoryUuid}`, // Using the first UUID
+  //       {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           Accept: 'application/json',
+  //         },
+  //       },
+  //     );
 
+  //     const text = await response.text();
+
+  //     if (!text) {
+  //       console.error('Empty response from server');
+  //       setInfrastructureData([]);
+  //       return;
+  //     }
+
+  //     const json = JSON.parse(text);
+  //     console.log('Fetched Infrastructure Data:', json);
+
+  //     setInfrastructureData(json);
+  //   } catch (error) {
+  //     console.error('Error fetching infrastructure data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // const fetchInfrastructureData = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('auth_token');
+
+  //     // Make sure `selectedItem` exists before calling fetch
+  //     const selectedItem = services.find(
+  //       item => item.SCTitle === selectedTitle,
+  //     );
+
+  //     if (!selectedItem) {
+  //       console.error('No selected item found');
+  //       return;
+  //     }
+
+  //     const serviceGroupUuid = selectedItem.ServiceGroupUUID;
+  //     const serviceCategoryUuid = selectedItem.ServiceCategoryType_UUID;
+
+  //     const url = `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure?ServiceGroupUuid=${serviceGroupUuid}&ServiceCategoryUuid=${serviceCategoryUuid}`;
+
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         Accept: 'application/json',
+  //       },
+  //     });
+
+  //     const text = await response.text();
+
+  //     if (!text) {
+  //       console.error('Empty response from server');
+  //       setInfrastructureData([]);
+  //       return;
+  //     }
+
+  //     const json = JSON.parse(text);
+  //     console.log('Fetched Infrastructure Data:', json);
+
+  //     setInfrastructureData(json);
+  //   } catch (error) {
+  //     console.error('Error fetching infrastructure data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // const fetchInfrastructureData = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('auth_token');
+
+  //     const url = `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure?ServiceGroupUuid=${serviceGroupUuid}&ServiceCategoryUuid=${serviceCategoryUuid}`;
+
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         Accept: 'application/json',
+  //       },
+  //     });
+
+  //     const text = await response.text();
+
+  //     if (!text) {
+  //       console.error('Empty response from server');
+  //       setInfrastructureData([]);
+  //       return;
+  //     }
+
+  //     const json = JSON.parse(text);
+  //     console.log('Fetched Infrastructure Data:', json);
+
+  //     setInfrastructureData(json);
+  //   } catch (error) {
+  //     console.error('Error fetching infrastructure data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // const fetchInfrastructureData = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('auth_token');
+
+  //     let url = `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure?ServiceGroupUuid=${serviceGroupUuid}`;
+
+  //     if (serviceCategoryUuid) {
+  //       url += `&ServiceCategoryUuid=${serviceCategoryUuid}`;
+  //     }
+
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         Accept: 'application/json',
+  //       },
+  //     });
+
+  //     const text = await response.text();
+
+  //     if (!text) {
+  //       console.error('Empty response from server');
+  //       setInfrastructureData([]);
+  //       return;
+  //     }
+
+  //     const json = JSON.parse(text);
+  //     console.log('Fetched Infrastructure Data:', json);
+  //     setInfrastructureData(json);
+  //   } catch (error) {
+  //     console.error('Error fetching infrastructure data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchInfrastructureData = async () => {
+    const token = await AsyncStorage.getItem('auth_token');
+
+    let url = `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure?ServiceGroupUuid=${serviceGroupUuid}`;
+    if (serviceCategoryUuid) {
+      url += `&ServiceCategoryUuid=${serviceCategoryUuid}`;
+    }
+
     try {
-      const token = await AsyncStorage.getItem('auth_token');
-      const response = await fetch(
-        `https://demoapi.zumigo.pet/api/Service/GetServiceInfraStructure/${infraUuid}`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-          },
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
         },
-      );
+      });
 
       const text = await response.text();
-
       if (!text) {
-        console.error('Empty response from server');
-        setInfrastructureData([]);
+        console.warn('Empty response');
         return;
       }
 
       const json = JSON.parse(text);
-      console.log('Fetched Infrastructure Data:', json);
-
-      // Set the infrastructure data
-      setInfrastructureData(json);
-    } catch (error) {
-      console.error('Error fetching infrastructure data:', error);
-    } finally {
+      console.log('Infra response:', json);
+      setInfrastructureData(json); // <-- ✅ Save the data
       setLoading(false);
+    } catch (error) {
+      console.error('Infra fetch error:', error);
     }
   };
 
   useEffect(() => {
-    if (infraUuid) {
+    if (serviceGroupUuid) {
       fetchInfrastructureData();
     }
-  }, [infraUuid]);
+  }, [serviceGroupUuid]);
 
   if (loading) {
     return (
@@ -227,6 +442,15 @@ const InfraSetup = ({navigation, route}) => {
       </View>
     );
   }
+  const toggleInfraSelection = title => {
+    setSelectedInfrastructure(prev =>
+      prev.includes(title)
+        ? prev.filter(item => item !== title)
+        : [...prev, title],
+    );
+  };
+
+  // ... rest of your component code
 
   return (
     <View className="flex-1 bg-white">
@@ -297,10 +521,34 @@ const InfraSetup = ({navigation, route}) => {
           shadowRadius: 10,
           elevation: 18,
         }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="h-[60px] bg-primary items-center justify-center rounded-full"
           onPress={() => {
             navigation.navigate(screens.VetAssistantDetails);
+          }}>
+          <Text className="text-[20px] text-white font-Nunito-Bold text-center">
+            Continue
+          </Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          className="h-[60px] bg-primary items-center justify-center rounded-full"
+          onPress={async () => {
+            try {
+              // Save selected infrastructure to AsyncStorage
+              await AsyncStorage.setItem(
+                'selected_infrastructure',
+                JSON.stringify(selectedInfrastructure),
+              );
+              console.log(
+                'Selected infrastructure saved:',
+                selectedInfrastructure,
+              );
+
+              // Navigate to the next screen
+              navigation.navigate(screens.VetAssistantDetails);
+            } catch (error) {
+              console.error('Error saving selected infrastructure:', error);
+            }
           }}>
           <Text className="text-[20px] text-white font-Nunito-Bold text-center">
             Continue

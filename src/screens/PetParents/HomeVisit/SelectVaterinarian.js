@@ -6,27 +6,55 @@ import screens from '../../../constants/screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SelectVaterinarian = ({navigation, route}) => {
-  const {params} = route;
+  // const {params} = route;
+  const {serviceGroupUUID, consultationTypeUUID, isTeleConsult, headerTitle} =
+    route.params || {};
+
   const [responseData, setResponseData] = useState(null);
   const [selectedSct, setSelectedSct] = useState(null);
 
   const [selected, setSelected] = useState('');
 
   useEffect(() => {
-    if (params) {
+    if (serviceGroupUUID && consultationTypeUUID) {
       fetchServiceData();
     }
-  }, [params]);
+  }, [serviceGroupUUID, consultationTypeUUID]);
+  console.log('serviceGroupUUID', serviceGroupUUID);
+  console.log('consultationTypeUUID', consultationTypeUUID);
 
+  // const fetchServiceData = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('auth_token');
+  //     const consultationUuid = params.consultationTypeUUID;
+  //     const serviceGroupUuid = params.serviceGroupUUID;
+  //     // const ServiceGroupUuid = '3f930321-a4c7-4768-a018-c95278c0';
+  //     // const ConsultationTypeUuid = '720dac47-9101-45c3-b0e0-afb7db3e';
+  //     const response = await fetch(
+  //       `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${serviceGroupUuid}/${consultationUuid}`,
+  //       {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           Accept: 'application/json',
+  //         },
+  //       },
+  //     );
+  //     console.log('consultationUuid', consultationUuid);
+  //     console.log('serviceGroupUuid', serviceGroupUuid);
+
+  //     const data = await response.json();
+  //     console.log('Response status:', response.status);
+  //     setResponseData(data);
+  //   } catch (error) {
+  //     console.error('Error fetching service data:', error);
+  //   }
+  // };
   const fetchServiceData = async () => {
     try {
       const token = await AsyncStorage.getItem('auth_token');
-      const consultationUuid = params.consultationTypeUUID;
-      const serviceGroupUuid = params.serviceGroupUUID;
-      // const ServiceGroupUuid = '3f930321-a4c7-4768-a018-c95278c0';
-      // const ConsultationTypeUuid = '720dac47-9101-45c3-b0e0-afb7db3e';
       const response = await fetch(
-        `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${serviceGroupUuid}/${consultationUuid}`,
+        `https://demoapi.zumigo.pet/api/Service/GetServiceMdl/${serviceGroupUUID}/${consultationTypeUUID}`,
         {
           method: 'GET',
           headers: {
@@ -35,8 +63,8 @@ const SelectVaterinarian = ({navigation, route}) => {
           },
         },
       );
-      console.log('consultationUuid', consultationUuid);
-      console.log('serviceGroupUuid', serviceGroupUuid);
+      console.log('consultationTypeUUID', consultationTypeUUID);
+      console.log('serviceGroupUUID', serviceGroupUUID);
 
       const data = await response.json();
       console.log('Response status:', response.status);

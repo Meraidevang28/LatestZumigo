@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,15 +8,15 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import screens from '../../../constants/screens';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import { darkGrey } from '../../../assets/theme/colors';
+import {darkGrey} from '../../../assets/theme/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const MapViewScreenParent = ({ navigation }) => {
+const MapViewScreenParent = ({navigation}) => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState('');
@@ -24,7 +24,8 @@ const MapViewScreenParent = ({ navigation }) => {
   const [addressDetails, setAddressDetails] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null);
-
+  const [serviceGroups, setServiceGroups] = useState([]);
+  const [consultationTypes, setConsultationTypes] = useState([]);
   const defaultLocation = {
     latitude: 37.78825,
     longitude: -122.4324,
@@ -36,7 +37,7 @@ const MapViewScreenParent = ({ navigation }) => {
     try {
       const apiKey = 'AIzaSyAzaFHvZmHZxgM3uIhNKC0XuageLFjIooI'; // Replace with your real API key
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`,
       );
 
       if (!response.ok) {
@@ -56,11 +57,43 @@ const MapViewScreenParent = ({ navigation }) => {
         const components = data.results[0].address_components;
         const details = [];
 
-        const getComponent = (types) =>
-          components.find((c) => types.every((type) => c.types.includes(type)))?.long_name;
+        const getComponent = types =>
+          components.find(c => types.every(type => c.types.includes(type)))
+            ?.long_name;
 
-        const area = getComponent(['sublocality']) || getComponent(['route']) || getComponent(['neighborhood']);
-        const city = getComponent(['locality']) || getComponent(['administrative_area_level_2']);
+        const area =
+          getComponent(['sublocality']) ||
+          getComponent(['route']) ||
+          getComponent(['neighborhood']);
+        const city =
+          getComponent(['locality']) ||
+          getComponent(['administrative_area_level_2']);
+        const allowedCities = ['Ahmedabad', 'Mumbai', 'Vadodara'];
+        if (city && !allowedCities.includes(city)) {
+          Alert.alert(
+            'Service Unavailable',
+            `Sorry, our services are currently not available in ${city}. Do you want to try TeleConsultation?`,
+            [
+              {
+                text: 'Cancel',
+                onPress: () => navigation.navigate(screens.Dashboard),
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: () =>
+                  navigation.navigate(screens.SelectVaterinarian, {
+                    // isTeleConsult: !Boolean(isHomeVisit),
+                    // isTeleConsult: !Boolean(isHomeVisit),
+                    // headerTitle: 'Tele Consultation',
+                    serviceGroupUUID: '3f930321-a4c7-4768-a018-c95278c0',
+                    consultationTypeUUID: '720dac47-9101-45c3-b0e0-afb7db3e',
+                  }),
+              },
+            ],
+            {cancelable: true},
+          );
+        }
         const state = getComponent(['administrative_area_level_1']);
         const pincode = getComponent(['postal_code']);
         const country = getComponent(['country']);
@@ -72,23 +105,24 @@ const MapViewScreenParent = ({ navigation }) => {
         if (data.results[0]?.formatted_address) {
           const parts = data.results[0].formatted_address.split(',');
           if (parts.length >= 2) {
-            flatNumber = parts[0].trim();        // First line often contains flat number
-            apartmentName = parts[1].trim();     // Second line might contain society name
+            flatNumber = parts[0].trim(); // First line often contains flat number
+            apartmentName = parts[1].trim(); // Second line might contain society name
           }
         }
 
         // const details = [];
 
-        if (flatNumber) details.push({ name: 'flatNumber', value: flatNumber });
-        if (apartmentName) details.push({ name: 'apartmentName', value: apartmentName });
-        if (area) details.push({ name: 'area', value: area });
-        if (city) details.push({ name: 'city', value: city });
-        if (state) details.push({ name: 'state', value: state });
-        if (pincode) details.push({ name: 'pincode', value: pincode });
-        if (country) details.push({ name: 'country', value: country });
+        if (flatNumber) details.push({name: 'flatNumber', value: flatNumber});
+        if (apartmentName)
+          details.push({name: 'apartmentName', value: apartmentName});
+        if (area) details.push({name: 'area', value: area});
+        if (city) details.push({name: 'city', value: city});
+        if (state) details.push({name: 'state', value: state});
+        if (pincode) details.push({name: 'pincode', value: pincode});
+        if (country) details.push({name: 'country', value: country});
 
-        details.push({ name: 'latitude', value: latitude });
-        details.push({ name: 'longitude', value: longitude });
+        details.push({name: 'latitude', value: latitude});
+        details.push({name: 'longitude', value: longitude});
 
         setAddressDetails(details);
         await AsyncStorage.setItem('addressDetails', JSON.stringify(details));
@@ -106,11 +140,10 @@ const MapViewScreenParent = ({ navigation }) => {
     }
   };
 
-
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
-        const { latitude, longitude } = position.coords;
+        const {latitude, longitude} = position.coords;
         const coords = {
           latitude,
           longitude,
@@ -125,11 +158,11 @@ const MapViewScreenParent = ({ navigation }) => {
         Alert.alert(
           'Error',
           `Failed to get your location: ${error.message}` +
-          ' Make sure your location is enabled.'
+            ' Make sure your location is enabled.',
         );
         setLocation(defaultLocation);
         setLoading(false);
-      }
+      },
     );
   };
 
@@ -138,14 +171,14 @@ const MapViewScreenParent = ({ navigation }) => {
       if (Platform.OS === 'android') {
         try {
           const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             getCurrentLocation();
           } else {
             Alert.alert(
               'Permission Denied',
-              'Location permission is required to show your current location on the map.'
+              'Location permission is required to show your current location on the map.',
             );
             setLocation(defaultLocation);
             setLoading(false);
@@ -163,14 +196,16 @@ const MapViewScreenParent = ({ navigation }) => {
     requestLocationPermission();
   }, []);
 
-  const fetchAddressSuggestions = async (input) => {
+  const fetchAddressSuggestions = async input => {
     if (!input) {
       setSuggestions([]);
       return;
     }
 
     const apiKey = 'AIzaSyAzaFHvZmHZxgM3uIhNKC0XuageLFjIooI';
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(
+      input,
+    )}&key=${apiKey}`;
 
     try {
       const res = await fetch(url);
@@ -186,7 +221,7 @@ const MapViewScreenParent = ({ navigation }) => {
     }
   };
 
-  const handleSuggestionPress = async (placeId) => {
+  const handleSuggestionPress = async placeId => {
     const apiKey = 'AIzaSyAzaFHvZmHZxgM3uIhNKC0XuageLFjIooI';
     const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}`;
 
@@ -194,7 +229,7 @@ const MapViewScreenParent = ({ navigation }) => {
       const res = await fetch(url);
       const json = await res.json();
       if (json.status === 'OK') {
-        const { lat, lng } = json.result.geometry.location;
+        const {lat, lng} = json.result.geometry.location;
         const coords = {
           latitude: lat,
           longitude: lng,
@@ -219,7 +254,65 @@ const MapViewScreenParent = ({ navigation }) => {
       console.error('Place details error:', error);
     }
   };
+  useEffect(() => {
+    const fetchPrimaryServiceGroups = async () => {
+      try {
+        const token = await AsyncStorage.getItem('auth_token');
+        const name = await AsyncStorage.getItem('first_name');
+        const profileComplete = await AsyncStorage.getItem(
+          'is_profile_complete',
+        );
+        if (name) {
+          setFirstName(name);
+          // console.log('First Name:', name);
+        }
+        if (profileComplete === 'true') {
+          setIsProfileComplete(true);
+        }
+        const response = await fetch(
+          'https://demoapi.zumigo.pet/api/Service/ServiceGroupConsultation',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json',
+            },
+          },
+        );
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('data', data);
+
+        const groups = data.ServiceGroup;
+        setServiceGroups(groups);
+        setConsultationTypes(data.ConsultationType);
+
+        const filteredPrimary = groups.filter(item => item.DisplayAsPrimary);
+        setPrimaryServices(filteredPrimary);
+
+        // Extract ApplicableCTUUIDs where IsCategoryTypeApplicable is true
+        const uuids = groups
+          .filter(item => item.IsCategoryTypeApplicable)
+          .map(item => item.ApplicableCTUUID)
+          .filter(Boolean)
+          .flatMap(uuidStr =>
+            uuidStr.split(',').map(uuid => uuid.trim().toLowerCase()),
+          );
+
+        // console.log('Filtered Applicable CT UUIDs:', uuids);
+
+        setApplicableCTUUIDs(uuids);
+      } catch (error) {
+        console.error('Failed to fetch service groups:', error);
+      }
+    };
+
+    fetchPrimaryServiceGroups();
+  }, []);
   return (
     <View style={styles.container}>
       <MapView
@@ -227,8 +320,8 @@ const MapViewScreenParent = ({ navigation }) => {
         style={styles.map}
         showsUserLocation={true}
         region={location}
-        onPress={(e) => {
-          const { latitude, longitude } = e.nativeEvent.coordinate;
+        onPress={e => {
+          const {latitude, longitude} = e.nativeEvent.coordinate;
           const coords = {
             latitude,
             longitude,
@@ -238,8 +331,7 @@ const MapViewScreenParent = ({ navigation }) => {
           setLocation(coords);
           getFormattedAddress(latitude, longitude);
           mapRef.current?.animateToRegion(coords, 1000);
-        }}
-      >
+        }}>
         {location && <Marker coordinate={location} />}
       </MapView>
 
@@ -249,7 +341,7 @@ const MapViewScreenParent = ({ navigation }) => {
           placeholder="🔍︎ Find a place"
           placeholderTextColor={darkGrey}
           value={search}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setSearch(text);
             fetchAddressSuggestions(text);
           }}
@@ -259,12 +351,11 @@ const MapViewScreenParent = ({ navigation }) => {
 
         {suggestions.length > 0 && (
           <ScrollView style={styles.suggestionsContainer}>
-            {suggestions.map((item) => (
+            {suggestions.map(item => (
               <TouchableOpacity
                 key={item.place_id}
                 onPress={() => handleSuggestionPress(item.place_id)}
-                style={styles.suggestionItem}
-              >
+                style={styles.suggestionItem}>
                 <Text>{item.description}</Text>
               </TouchableOpacity>
             ))}
@@ -273,14 +364,12 @@ const MapViewScreenParent = ({ navigation }) => {
       </View>
 
       <View style={styles.box}>
+        <Text style={styles.boxText}>{address || 'Fetching address...'}</Text>
 
-        <Text style={styles.boxText}>
-          {address || 'Fetching address...'}
-        </Text>
-
-        <TouchableOpacity style={styles.bt}
+        <TouchableOpacity
+          style={styles.bt}
           onPress={() => navigation.navigate(screens.FillAddressDetails)}>
-          <Text style={styles.btText}>✓  Select place</Text>
+          <Text style={styles.btText}>✓ Select place</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -308,7 +397,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 3,
@@ -324,7 +413,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -333,14 +422,14 @@ const styles = StyleSheet.create({
   },
   boxText: {
     fontWeight: 'bold',
-    textAlign: "left",
+    textAlign: 'left',
     fontSize: 14,
     color: '#333',
     paddingVertical: 2,
   },
   bt: {
     top: 10,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   btText: {
     color: 'green',
@@ -353,7 +442,7 @@ const styles = StyleSheet.create({
     maxHeight: 200,
     elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },
